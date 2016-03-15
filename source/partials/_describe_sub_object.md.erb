@@ -1,0 +1,24 @@
+<% unless object.__options[:html_id].blank? %>
+<a id='<%= object.__options[:html_id]%>'></a>
+<% else raise object.__name %>
+<% end -%>
+
+<% unless object.__name.blank? -%>
+### <%= object.__name %>
+
+> Here's an example of <%= object.__name.downcase %>
+<% end -%>
+
+<% if !object.__options[:json].nil? %>
+```json
+<%= JSON.pretty_generate(object.__options[:json]) %>
+```
+<% end %>
+
+<p class='attributes-table-follows'></p>
+
+|Attribute             |Type                   |Description                  |
+|----------------------|-----------------------|-----------------------------|
+<% object.__properties.each do |property| -%>
+| `<%= property.name %>` | <%= describe_property_type(property) %> | <%= describe_property(property) %>  |
+<% end -%>

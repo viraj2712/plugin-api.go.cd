@@ -1,0 +1,20 @@
+# Request/Response JSON Objects
+
+<%
+agent = {
+  agent_id: "i-283432d4",
+  agent_state: "Idle",
+  build_state: "Idle",
+  config_state: "Enabled"
+}
+%>
+
+<%=
+describe_sub_object 'The Elastic Agent Object', json: agent, html_id: 'elastic-agent-object' do
+  agent_id    'String', 'The elastic agent ID. This is the value of the `elasticAgentId` attribute of the `<agent/>` element in the config XML'
+  agent_state 'String', 'The state that an agent is in.', one_of: %w(Idle Building LostContact Missing Cancelled Unknown)
+  build_state 'String', 'The state the build is in.', one_of: %w(Idle Building Cancelled Unknown)
+end
+%>
+
+<%= partial 'includes/shared/plugin-settings-request-response-json-objects.md.erb' %>
