@@ -1,0 +1,944 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>GoCD Elastic Agent Plugin API Reference</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="../stylesheets/print.css" rel="stylesheet" media="print" />
+
+      <script src="../javascripts/all.js"></script>
+
+
+      <script>
+        $(function() {
+          setupLanguages([]);
+        });
+      </script>
+  </head>
+
+  <body class="elastic-agents elastic-agents_index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="../images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="../images/logo.png" />
+        <div class="lang-selector">
+        </div>
+      <div class="version-switcher">
+        <span>Switch version:</span> <select></select>
+      </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/gocd/plugin-api.go.cd'>Edit this guide on GitHub</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="elastic-agents">Elastic Agents</h1>
+
+<p>Elastic Agent extension endpoint allows GoCD to interface with various cloud computing services to create agents on demand.</p>
+
+<p>If you&rsquo;re looking to start away with a basic template for elastic agents, we recommend forking this <a href="https://github.com/gocd-contrib/elastic-agent-skeleton-plugin">github repository</a>.</p>
+
+<h1 id="requests-from-the-gocd-server">Requests from the GoCD server</h1>
+
+<p>In order to implement an elastic agent extension point the following messages must be implemented by the plugin.</p>
+
+<ul>
+<li><a href="#create-agent">Create Agent</a></li>
+<li><a href="#should-assign-work">Should Assign Work</a></li>
+<li><a href="#server-ping">Server Ping</a></li>
+</ul>
+
+<p>These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.</p>
+
+<ul>
+<li><a href="#get-settings-view">Get Settings View</a></li>
+<li><a href="#get-plugin-configuration">Get Plugin Configuration</a></li>
+<li><a href="#validate-plugin-configuration">Validate Plugin Configuration</a></li>
+</ul>
+
+<h2 id="create-agent">Create Agent</h2>
+
+<p>This message is a request to the plugin to create an agent for a job that is about to be scheduled. A plugin may, at its discretion, choose to not actually launch an agent.</p>
+
+<aside class="warning">
+  <strong>Important:</strong> Since this call may potentially make network requests to spin up new agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
+</aside>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.create-agent</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>Given the following config XML snippet —</p>
+</blockquote>
+
+<pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;pipelines&gt;</span>
+  <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">'build'</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">'...'</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;tasks/&gt;</span>
+      <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">'...'</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>ami-id<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>ami-c79d704a<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>region<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+      <span class="nt">&lt;/agentConfig&gt;</span>
+    <span class="nt">&lt;/job&gt;</span>
+  <span class="nt">&lt;/pipeline&gt;</span>
+<span class="nt">&lt;/pipelines&gt;</span>
+<span class="nt">&lt;environments&gt;</span>
+  <span class="nt">&lt;environment</span> <span class="na">name=</span><span class="s">"gocd"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;pipelines&gt;</span>
+      <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"build"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/pipelines&gt;</span>
+  <span class="nt">&lt;/environment&gt;</span>
+<span class="nt">&lt;/environment&gt;</span>
+</code></pre>
+
+<blockquote>
+<p>The plugin will receive the following JSON body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"auto_register_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"production"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"ami-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ami-c79d704a"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"us-east-1"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">auto_register_key</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate <code class="prettyprint">autoregister.properties</code> file on the agent instance, before it starts the agent process. See the <a href="https://docs.go.cd/current/advanced_usage/agent_auto_register.html">auto-register documentation</a> for more information.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">environment</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The <code class="prettyprint">environment</code> that this job belongs to. See the <a href="https://docs.go.cd/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">properties</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>Jobs that require elastic agents, will have an <code class="prettyprint">&lt;agentConfig/&gt;</code> element on it. This object represents the key value pairs that form this configuration.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>Can be left blank, the server does not parse any response body returned.</p>
+
+<h2 id="should-assign-work">Should Assign Work</h2>
+
+<p>When there are multiple agents available to run a job, the server will ask the plugin if jobs should be assigned to a particular agent. The request will contain information about the agent, the job configuration and the environment that the agent belongs to.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.should-assign-work</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>Given the following config XML snippet —</p>
+</blockquote>
+
+<pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;pipelines&gt;</span>
+  <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">'build'</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">'...'</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;tasks/&gt;</span>
+      <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">'com.example.go.testplugin'</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>ami-id<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>ami-c79d704a<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>region<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+      <span class="nt">&lt;/agentConfig&gt;</span>
+    <span class="nt">&lt;/job&gt;</span>
+  <span class="nt">&lt;/pipeline&gt;</span>
+<span class="nt">&lt;/pipelines&gt;</span>
+<span class="nt">&lt;environments&gt;</span>
+  <span class="nt">&lt;environment</span> <span class="na">name=</span><span class="s">"staging"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;pipelines&gt;</span>
+      <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"build"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/pipelines&gt;</span>
+  <span class="nt">&lt;/environment&gt;</span>
+<span class="nt">&lt;/environment&gt;</span>
+<span class="nt">&lt;agents&gt;</span>
+  <span class="nt">&lt;agent</span> <span class="na">elasticAgentId=</span><span class="s">'i-283432d4'</span> <span class="na">elasticPluginId=</span><span class="s">'com.example.go.testplugin'</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/agents&gt;</span>
+</code></pre>
+
+<blockquote>
+<p>The plugin will receive the following JSON body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"staging"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"agent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"agent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"i-283432d4"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"agent_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"build_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"property_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"property_value"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">environment</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The <code class="prettyprint">environment</code> that this job belongs to. See the <a href="https://docs.go.cd/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">agent</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>An object describing the <a href="#elastic-agent-object">elastic agent</a>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">properties</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>Jobs that require elastic agents, will have an <code class="prettyprint">&lt;agentConfig/&gt;</code> element on it. This object represents the key value pairs that form this configuration.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The server must return a JSON string response with a boolean — <code class="prettyprint">true</code> or <code class="prettyprint">false</code> to indicate whether the agent should be assigned work.</p>
+
+<h2 id="server-ping">Server Ping</h2>
+
+<p>Each elastic agent plugin will receive a periodic signal at regular intervals for it to perform any cleanup operations. Plugins may use this message to disable and/or terminate agents at their discretion.</p>
+
+<aside class="warning">
+  <strong>Important:</strong> Since this call may potentially make network requests to terminate agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
+</aside>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.server-ping</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>Can be left blank, the server does not parse any response body returned.</p>
+
+<h2 id="get-settings-view">Get Settings View</h2>
+
+<p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.plugin-settings.get-view</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
+
+<h2 id="get-plugin-configuration">Get Plugin Configuration</h2>
+
+<p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page. This message allows the server to query a plugin about what properties are supported by this plugin.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.plugin-settings.get-configuration</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>A JSON <a href="#the-plugin-settings-configuration-object">plugin settings configuration object</a></p>
+
+<h2 id="validate-plugin-configuration">Validate Plugin Configuration</h2>
+
+<p>If a plugin requires any configuration, this message must be implemented in order to validate the configuration.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.plugin-settings.validate-configuration</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>An example validation request body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"plugin-settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost.com"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain a JSON with an attribute <code class="prettyprint">plugin-settings</code>, which contains an object with the configuration keys and values that the plugin is expected to validate.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if could understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+   </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_url"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL cannot be localhost"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
+
+<h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
+
+<p>The plugin may make the following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
+
+<ul>
+<li><a href="#list-agents">List Agents</a></li>
+<li><a href="#disable-agents">Disable Agents</a></li>
+<li><a href="#delete-agents">Delete Agents</a></li>
+</ul>
+
+<h2 id="list-agents">List Agents</h2>
+
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="nd">@Extension</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DockerPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">DockerPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"elastic-agent"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="n">List</span> <span class="n">listAgents</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// create a request</span>
+    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+      <span class="s">"go.processor.elastic-agents.list-agents"</span><span class="o">,</span>
+      <span class="s">"1.0"</span><span class="o">,</span>
+      <span class="n">pluginIdentifier</span><span class="o">()</span>
+    <span class="o">);</span>
+
+    <span class="c1">// submit the request</span>
+    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+    <span class="c1">// check status</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="c1">// parse the response, using a json parser of your choice</span>
+    <span class="n">List</span> <span class="n">agents</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">fromJson</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">(),</span> <span class="n">ArrayList</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">agents</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>This messages allows a plugin to query the server for a list of elastic agents that belong to a particular plugin.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.elasticagent.list-agents</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Can be left blank, the server does not parse the request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The server will send a list of <a href="#elastic-agent-object">agents</a>.</p>
+
+<h2 id="disable-agents">Disable Agents</h2>
+
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="nd">@Extension</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DockerPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">DockerPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"elastic-agent"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="n">disableAgents</span><span class="o">(</span><span class="n">List</span> <span class="n">agents</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// create a request</span>
+    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+      <span class="s">"go.processor.elastic-agents.disable-agents"</span><span class="o">,</span>
+      <span class="s">"1.0"</span><span class="o">,</span>
+      <span class="n">pluginIdentifier</span><span class="o">()</span>
+    <span class="o">);</span>
+
+    <span class="c1">// set the request body</span>
+    <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">agents</span><span class="o">));</span>
+
+    <span class="c1">// submit the request</span>
+    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+    <span class="c1">// check status</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>Before a plugin terminates an agent instance, it must first disable it in order to prevent jobs from being assigned to it. This call is the equivalent of setting <code class="prettyprint">isDisabled</code> on an <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.go.cd/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
+
+<p>Agents in any state can be disabled, this will prevent jobs from being assigned to it. Any jobs the agent is running will eventually complete.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.elasticagent.disable-agents</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The body must contain a list of <a href="#elastic-agent-object">agents</a>.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The server will not send a response body.</p>
+
+<h2 id="delete-agents">Delete Agents</h2>
+
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="nd">@Extension</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DockerPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">DockerPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"elastic-agent"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="n">deleteAgents</span><span class="o">(</span><span class="n">List</span> <span class="n">agents</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// first terminate the instance from AWS, or a cloud provider of your choice</span>
+    <span class="n">aws</span><span class="o">.</span><span class="na">terminateInstances</span><span class="o">(</span><span class="n">agents</span><span class="o">);</span>
+    <span class="c1">// ensure that they are really terminated,</span>
+    <span class="c1">// to prevent stray agents from re-registering</span>
+    <span class="n">aws</span><span class="o">.</span><span class="na">waitForTermination</span><span class="o">(</span><span class="n">agents</span><span class="o">);</span>
+
+    <span class="c1">// create a request</span>
+    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+      <span class="s">"go.processor.elastic-agents.disable-agents"</span><span class="o">,</span>
+      <span class="s">"1.0"</span><span class="o">,</span>
+      <span class="n">pluginIdentifier</span><span class="o">()</span>
+    <span class="o">);</span>
+
+    <span class="c1">// set the request body</span>
+    <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">agents</span><span class="o">));</span>
+
+    <span class="c1">// submit the request</span>
+    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+    <span class="c1">// check status</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>Before the delete-agent message is sent to the server, the plugin MUST ensure that the agent is terminated. This call is the equivalent of removing the <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.go.cd/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
+
+<aside class="notice">
+  <strong>Important:</strong> Before an agent is terminated, it is recommended to ensure that it is first <a href='#disable-agents'>disabled</a> and that the <code>agent_state</code> is <code>Idle</code>. This will ensure that any jobs that an agent is running are completed.
+  <br/>
+  <br/>
+  Not doing so will cause jobs to be rescheduled on another instance after a timeout interval.
+</aside>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.elasticagent.delete-agents</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The body must contain a list of <a href="#elastic-agent-object">agents</a> that should be removed from the config XML.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The server will not send a response body.</p>
+
+<h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
+
+<p><a id='elastic-agent-object'></a></p>
+
+<h3 id="the-elastic-agent-object">The Elastic Agent Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the elastic agent object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"agent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"i-283432d4"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"agent_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"build_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">agent_id</code></td>
+<td>String</td>
+<td>The elastic agent ID. This is the value of the <code class="prettyprint">elasticAgentId</code> attribute of the <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">agent_state</code></td>
+<td>String</td>
+<td>The state that an agent is in. Can be one of <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">LostContact</code>, <code class="prettyprint">Missing</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">build_state</code></td>
+<td>String</td>
+<td>The state the build is in. Can be one of <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code>.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-get-settings-view-object'></a></p>
+
+<h3 id="the-settings-view-object">The Settings View Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the settings view object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=\"form_item_block\"&gt;...&lt;/div&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">template</code></td>
+<td>String</td>
+<td>A string containing an HTML AngularJS based view.</td>
+</tr>
+</tbody></table>
+
+<p>This template is an <a href="https://angularjs.org">AngularJS</a> based template.</p>
+
+<p>GoCD uses Angular JS as its template engine for the plugin UI. This allows plugin authors to use a limited set of AngularJS features to specify how the UI of their plugins looks.</p>
+
+<aside class='notice'>
+  <strong>Note:</strong> Some plugin endpoints, like the Package Repository plugin, do not use this for their view.
+</aside>
+
+<div style='clear: both;'></div>
+
+<h4 id="getting-started-with-angularjs-based-templates">Getting started with AngularJS based templates</h4>
+
+<blockquote>
+<p>Given a configuration —</p>
+</blockquote>
+
+<pre class="highlight xml"><code><span class="nt">&lt;configuration&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>username<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>alice<span class="nt">&lt;/username&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre>
+
+<blockquote>
+<p>This gets converted into the following JSON representation in the browser —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>The AngularJS template is expected to bind to the JSON object shown above —</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'asterix'</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">ng-model=</span><span class="s">"username"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+
+<p>When an Angular template is used in a Go plugin, to define the configuration UI, the configuration key which is stored in the configuration XML is used everywhere and is expected to be consistent. Since Angular works off of JSON, GoCD will make sure that the key in the JSON provided to the Angular template is the same as the key in the configuration XML.</p>
+
+<p>Suppose the key of the configuration property stored in the XML is &ldquo;username&rdquo;, with value, &ldquo;alice&rdquo;, then Go will make sure that the value is available to the template as &ldquo;username&rdquo; when used in an Angular-specific HTML attribute like &ldquo;ng-model&rdquo;.</p>
+
+<div style='clear: both;'></div>
+
+<h4 id="showing-validation-errors-in-the-ui">Showing validation errors in the UI</h4>
+
+<blockquote>
+<p>We use some simple string replacement<br/>
+to substitute <code class="prettyprint">GOINPUTNAME</code> with a unique identifier<br/>
+for your plugin in order to render<br/>
+any server side errors</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'asterix'</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">ng-model=</span><span class="s">"username"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"form_error"</span> <span class="na">ng-show=</span><span class="s">"GOINPUTNAME[username].$error.server"</span><span class="nt">&gt;</span>
+    {{ GOINPUTNAME[username].$error.server}}
+  <span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+
+<p>In case of validation errors returned by <code class="prettyprint">go.plugin-settings.validate-configuration</code>, the error messages needs to be populated on the UI, use the snippet here to show the validation errors.</p>
+
+<p><a id='the-plugin-settings-configuration-object'></a></p>
+
+<h3 id="the-plugin-settings-configuration-object">The Plugin Settings Configuration Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the plugin settings configuration object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">display-name</code></td>
+<td>String</td>
+<td>The name of the property.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">default-value</code></td>
+<td>String</td>
+<td>The default value of the property.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">display-order</code></td>
+<td>String</td>
+<td>A string containing a numerical value.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">required</code></td>
+<td>Boolean</td>
+<td>If the field is mandatory.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure</code></td>
+<td>Boolean</td>
+<td>If the data in the field should be stored encrypted.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-plugin-settings-configuration-object'></a></p>
+
+<h3 id="the-validation-error-object">The Validation Error Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the validation error object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">display-name</code></td>
+<td>String</td>
+<td>The name of the property.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">default-value</code></td>
+<td>String</td>
+<td>The default value of the property.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">display-order</code></td>
+<td>String</td>
+<td>A string containing a numerical value.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">required</code></td>
+<td>Boolean</td>
+<td>If the field is mandatory.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure</code></td>
+<td>Boolean</td>
+<td>If the data in the field should be stored encrypted.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
