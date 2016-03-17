@@ -1,3 +1,8 @@
+require File.expand_path('../lib/helpers', __FILE__)
+helpers RenderAllSubTopics
+helpers DescribeObjectHelper
+helpers AvailableSinceHelper
+
 # Markdown
 set :markdown_engine, :redcarpet
 set :markdown,
@@ -18,6 +23,8 @@ set :fonts_dir, 'fonts'
 # Activate the syntax highlighter
 activate :syntax
 
+# Livereload in dev mode
+activate :livereload
 activate :autoprefixer do |config|
   config.browsers = ['last 2 version', 'Firefox ESR']
   config.cascade  = false
@@ -30,8 +37,8 @@ set :relative_links, true
 
 # Build Configuration
 configure :build do
-  # If you're having trouble with Middleman hanging, commenting
-  # out the following two lines has been known to help
+  set :build_dir, "build/16.3.0"
+
   activate :minify_css
   activate :minify_javascript
   # activate :relative_assets

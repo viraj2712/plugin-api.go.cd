@@ -1,0 +1,75 @@
+.highlight + .highlight {
+  padding-top: 0;
+}
+
+.highlight + blockquote {
+  padding-top: 0;
+}
+
+blockquote + .highlight {
+  padding-top: 0;
+}
+
+.tocify-wrapper > img {
+    margin: 10px;
+}
+
+[data-popover]{
+  padding-left: 10px;
+  &:before {
+    @extend %icon-info-sign;
+  }
+}
+
+
+.version-switcher {
+  padding: 0 15px 0 15px;
+  width: 100%;
+  span {
+    color: #fff;
+  }
+}
+
+.attributes-table-follows {
+  + table tbody tr {
+    code {
+      word-break: normal;
+    }
+  }
+}
+
+.tocify-subheader {
+  .tocify-subheader {
+    .tocify-item > a {
+      // we don't display the 3rd level item, but the scrolling generates the links via `history.pushState`. See `_toc.js` for this
+      // display: none;
+      padding-left: $nav-padding + $nav-indent * 2;
+      font-size: 12px;
+    }
+  }
+}
+
+%heading-like {
+  @extend %header-font;
+  font-size: 14px;
+  margin-top: 2.5em;
+  margin-bottom: 0.8em;
+
+  margin-right: $examples-width;
+  padding: 0 $main-padding;
+  box-sizing: border-box;
+  display: block;
+  text-shadow: $main-embossed-text-shadow;
+
+  @extend %left-col;
+}
+
+.available-since, .request-name-heading, .request-body-heading, .response-code-heading, .response-body-heading {
+  @extend %heading-like;
+}
+
+.content {
+  &>h3 {
+    clear: both;
+  }
+}

@@ -1,0 +1,158 @@
+# Getting started
+
+Plugins in GoCD are implemented in Java and packaged as a JAR file.
+
+## Structure of a GoCD Plugin
+
+> A plugin for GoCD is a JAR file with the following structure
+
+```
+plugin.jar
+|
+|-- plugin.xml
+|-- com
+|   \-- example
+|       \-- go
+|           \-- testplugin
+|               \-- <%= plugin_class %>.class
+|               \-- x.class
+|               \-- y.class
+\-- lib
+    \-- dependency-1.jar
+    \-- dependency-2.jar
+```
+
+The plugin jar is a self contained-jar, it is expected to contain the following inside it —
+
+* `plugin.xml` — the [metadata](#the-plugin-metadata) of your plugin
+* the [plugin extension class](#the-plugin-extension-class) `<%= plugin_class %>.class`, and any other classes that form your plugin.
+* any optional [dependencies](#the-plugin-dependencies) your plugin may requires (inside the `lib`)
+
+<a id='the-plugin-metadata'></a>
+
+### The plugin metadata `plugin.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Your plugin id and version
+     of this XML document, the
+     version must be set to "1" -->
+<go-plugin
+  id="com.example.rocket.launcher"
+  version="1">
+  <about>
+    <!-- The name of your plugin -->
+    <name>Launches rockets</name>
+    <!--  The version of your plugin -->
+    <version>0.0.1</version>
+    <!-- The minimum version of GoCD that this plugin requires -->
+    <target-go-version>16.3</target-go-version>
+    <!-- A longer description of your plugin  -->
+    <description>Launches rockets, spaceships and other things to a destination of your choice.</description>
+
+    <!-- Tell us who you are -->
+    <vendor>
+      <name>ACME Corp</name>
+      <url>https://www.example.com</url>
+    </vendor>
+
+    <!-- If this plugin only supports certain OSes -->
+    <target-os>
+      <value>Linux</value>
+      <value>Windows</value>
+    </target-os>
+  </about>
+</go-plugin>
+```
+
+This is an XML file that should be present in the plugin jar file at the top level.
+
+You can find the XML Schema for the plugins in the  [main repository](https://github.com/gocd/gocd/blob/master/plugin-infra/go-plugin-api/resources/plugin-descriptor.xsd).
+
+<a name='the-plugin-extension-class'></a>
+
+### The plugin extension class
+
+```xml
+<dependency>
+	<groupId>cd.go.plugin</groupId>
+	<artifactId>go-plugin-api</artifactId>
+	<version>16.2.0</version>
+</dependency>
+```
+
+In order to use the plugin extension class, you must use add the following to your maven dependencies. If you're using [gradle](https://gradle.org), then use `cd.go.plugin:go-plugin-api:16.2.0`. You can find the latest version of the plugin in [maven central](http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api).
+
+<div style='clear: both;'></div>
+
+```java
+// The plugin class
+package com.example.go.testplugin;
+
+import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
+import com.thoughtworks.go.plugin.api.GoPlugin;
+import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
+import com.thoughtworks.go.plugin.api.annotation.Extension;
+import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
+import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
+import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
+import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import com.google.gson.Gson;
+import java.util.*;
+
+@Extension
+public class <%= plugin_class %> implements GoPlugin {
+  private GoApplicationAccessor accessor;
+
+  // this method is executed once at startup
+  public void initializeGoApplicationAccessor(GoApplicationAccessor accessor) {
+    this.accessor = accessor;
+  }
+
+  // a GoPluginIdentifier tells GoCD what kind of a plugin this is
+  // and what version(s) of the request/response API it supports
+  public GoPluginIdentifier pluginIdentifier() {
+    return new GoPluginIdentifier("<%= plugin_type %>", Arrays.asList("1.0"))
+  }
+
+  // handle the request and return a response
+  // the response is very much like a HTTP response —
+  // it has a status code, a response body and optional headers
+  public GoPluginApiResponse handle(GoPluginApiRequest request) throws UnhandledRequestTypeException {
+    if (request.requestName().equals("go.plugin-settings.get-view")) {
+      String viewHtml = read(getClass().getResourceAsStream("/plugin-settings.template.html"));
+      return new DefaultGoPluginApiResponse(200, viewHtml);
+    if (request.requestName().equals("go.plugin-settings.validate-configuration")) {
+      List errors = validate(request);
+      return new DefaultGoPluginApiResponse(200, new Gson().toJson(errors));
+    } else {
+      throw new UnhandledRequestTypeException(request.requestName());
+    }
+  }
+}
+```
+
+The plugin extension class is a Java class that implements the `GoPlugin` interface.
+
+The other types in the example are —
+
+<p class='attributes-table-follows'></p>
+
+| Type                    | Description |
+| ----------------------- | ----------- |
+| [`GoApplicationAccessor`](#requests-to-the-gocd-server) | So that the plugin can make requests to the GoCD application to get additional information that is not provided by each request. For example, the plugin can ask for settings, credentials etc. |
+| `GoPluginIdentifier`    | Provides information about the type of plugin and the version of the request/response it supports. |
+| `GoPluginApiRequest`    | Represents the request message sent from GoCD to a plugin. The message will have a name and an optional JSON request body and the version of the extension. |
+| `GoPluginApiResponse`   | Represents the response message as a result of processing the `GoPluginApiRequest`. Similar to `GoPluginApiRequest`, the response will have a status code and an optional JSON response body. |
+
+If you're familiar with http request/responses handled by a web application, you will find this very familiar.
+
+<aside class="notice">
+  GoCD has built in support for allowing plugins to enhance their capabilities in the future without having to break compatibility. This is achieved by ensuring that each extension-point and messages that are sent to the plugin are versioned.
+</aside>
+
+<a id='the-plugin-dependencies'></a>
+
+### The plugin dependencies
+
+Any dependencies that your plugin requires, should go into the `lib` directory inside the plugin JAR.

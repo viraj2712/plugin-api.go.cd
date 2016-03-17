@@ -1,0 +1,67 @@
+<%
+get_settings_view = {
+  template: '<div class="form_item_block">...</div>'
+}
+%>
+
+<%=
+describe_sub_object 'The Settings View Object', json: get_settings_view, html_id: 'the-get-settings-view-object' do
+  template    'String', 'A string containing an HTML AngularJS based view.'
+end
+%>
+
+This template is an [AngularJS](https://angularjs.org) based template.
+
+<%= partial 'includes/shared/angular-templates.md' %>
+
+<%
+plugin_settings_config_object = {
+  'server_url' => {
+    'display-name' => 'Server URL',
+    'display-order' => '0'
+  },
+  'username' => {
+    'required' => false,
+    'display-name' => 'Username',
+    'display-order' => '1'
+  },
+  'password' => {
+    'secure' => true,
+    'required' => false,
+    'display-name' => 'Password',
+    'display-order' => '2'
+  }
+}
+%>
+
+<%=
+describe_sub_object 'The Plugin Settings Configuration Object', json: plugin_settings_config_object, html_id: 'the-plugin-settings-configuration-object' do
+  send :'display-name',  'String',  'The name of the property.'
+  send :'default-value', 'String',  'The default value of the property.'
+  send :'display-order', 'String',  'A string containing a numerical value.'
+  send :'required',      'Boolean', 'If the field is mandatory.'
+  send :'secure',        'Boolean', 'If the data in the field should be stored encrypted.'
+end
+%>
+
+<%
+validation_error_object = [
+  {
+    key: 'email_address',
+    message: 'Email address is invalid'
+  },
+  {
+    key: 'password',
+    message: 'Password must be provided'
+  }
+]
+%>
+<%=
+describe_sub_object 'The Validation Error Object', json: validation_error_object, html_id: 'the-plugin-settings-configuration-object' do
+  send :'display-name',  'String',  'The name of the property.'
+  send :'default-value', 'String',  'The default value of the property.'
+  send :'display-order', 'String',  'A string containing a numerical value.'
+  send :'required',      'Boolean', 'If the field is mandatory.'
+  send :'secure',        'Boolean', 'If the data in the field should be stored encrypted.'
+end
+%>
