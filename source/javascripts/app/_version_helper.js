@@ -5,7 +5,7 @@ $(function() {
 
   // this URL is not available at development time, but it's available on production.
   // If you change this JS, make sure it does not break switching on old pages.
-  var xhr = $.ajax('../versions.json');
+  var xhr = $.ajax('/versions.json');
   xhr.done(function(data, textStatus, jqXHR) {
     var versionSwitcher = $('.version-switcher select');
     $(data).each(function(index, elem) {
