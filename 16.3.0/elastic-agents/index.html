@@ -708,12 +708,17 @@
 <tr>
 <td><code class="prettyprint">agent_state</code></td>
 <td>String</td>
-<td>The state that an agent is in. Can be one of <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">LostContact</code>, <code class="prettyprint">Missing</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code>.</td>
+<td>The state that an agent is in. Can be one of <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">LostContact</code>, <code class="prettyprint">Missing</code>, <code class="prettyprint">Unknown</code>.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">build_state</code></td>
 <td>String</td>
 <td>The state the build is in. Can be one of <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">config_state</code></td>
+<td>String</td>
+<td>The state of the agent in the config file. This is the value of the <code class="prettyprint">isDisabled</code> attribute of the <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. Can be one of <code class="prettyprint">Pending</code>, <code class="prettyprint">Enabled</code>, <code class="prettyprint">Disabled</code>.</td>
 </tr>
 </tbody></table>
 
