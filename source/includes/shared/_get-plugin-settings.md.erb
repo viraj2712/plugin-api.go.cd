@@ -74,4 +74,14 @@ The server is expected to return status `200` if it could process the request.
 
 <p class='response-body-heading'>Response Body</p>
 
-The server will send a map of [settings](#the-plugin-settings-object).
+> An example response body
+
+```json
+{
+  "server_url": "https://build.go.cd",
+  "username": "view",
+  "password": "password"
+}
+```
+
+The server will send a map of settings.
