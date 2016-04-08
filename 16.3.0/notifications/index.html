@@ -566,9 +566,9 @@
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DockerElasticAgentPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleLogNotificationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
   <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">DockerElasticAgentPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">ConsoleLogNotificationPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
   <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
