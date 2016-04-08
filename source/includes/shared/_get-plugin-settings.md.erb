@@ -1,0 +1,77 @@
+## Get Plugin Settings
+
+```java
+import com.thoughtworks.go.plugin.api.*;
+import com.thoughtworks.go.plugin.api.annotation.Extension;
+import com.thoughtworks.go.plugin.api.logging.Logger;
+import com.thoughtworks.go.plugin.api.request.*;
+import com.thoughtworks.go.plugin.api.response.*;
+import com.google.gson.Gson;
+import java.util.*;
+
+@Extension
+public class <%= plugin_class %> implements GoPlugin {
+  private GoApplicationAccessor accessor;
+  public static final Logger LOG = Logger.getLoggerFor(<%= plugin_class %>.class);
+
+  public void initializeGoApplicationAccessor(GoApplicationAccessor accessor) {
+    this.accessor = accessor;
+  }
+
+  public GoPluginIdentifier pluginIdentifier() {
+    return new GoPluginIdentifier("<%= plugin_type %>", Arrays.asList("1.0"))
+  }
+
+  private PluginSettings getSettings() {
+    Gson gson = new Gson();
+    // create a request
+    DefaultGoApiRequest request = new DefaultGoApiRequest(
+      "go.processor.plugin-settings.get",
+      "1.0",
+      pluginIdentifier()
+    );
+
+    // set the request body
+    Map<String, String> map = new HashMap<>();
+    map.put("plugin-id", "com.example.rocket.launcher");
+    request.setRequestBody(gson.toJson(map));
+
+    // submit the request
+    GoApiResponse response = accessor.submit(request);
+
+    // check status
+    if (response.responseCode() != 200) {
+      LOG.error("The server sent an unexpected status code " + response.responseCode() + " with the response body " + response.responseBody());
+    }
+
+    // parse the response, using a json parser of your choice
+    return gson.fromJson(response.responseBody(), PluginSettings.class);
+  }
+}
+```
+
+This messages allows a plugin to query the server to get the user configured settings for this plugin.
+
+<p class='request-name-heading'>Request name</p>
+
+`go.processor.plugin-settings.get`
+
+<p class='request-body-heading'>Request body</p>
+
+> An example request body
+
+```json
+{
+  "plugin-id": "sample-plugin-id"
+}
+```
+
+Must be a JSON object with a key `plugin-id` with the value being the ID of your plugin.
+
+<p class='response-code-heading'>Response code</p>
+
+The server is expected to return status `200` if it could process the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+The server will send a map of [settings](#the-plugin-settings-object).

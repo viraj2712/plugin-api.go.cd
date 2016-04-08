@@ -5,3 +5,4 @@ The plugin may make the following requests to the server using `GoApplicationAcc
 * [List Agents](#list-agents)
 * [Disable Agents](#disable-agents)
 * [Delete Agents](#delete-agents)
+* [Get Plugin Settings](#get-plugin-settings)
