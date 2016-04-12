@@ -32,6 +32,8 @@ The plugin jar is a self contained-jar, it is expected to contain the following 
 
 ### The plugin metadata `plugin.xml`
 
+> Here is an example `plugin.xml`
+
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Your plugin id and version
@@ -73,6 +75,8 @@ You can find the XML Schema for the plugins in the  [main repository](https://gi
 
 ### The plugin extension class
 
+> Add this to your maven `pom.xml`
+
 ```xml
 <dependency>
 	<groupId>cd.go.plugin</groupId>
@@ -85,18 +89,16 @@ In order to use the plugin extension class, you must use add the following to yo
 
 <div style='clear: both;'></div>
 
+> An example plugin class implementation
+
 ```java
-// The plugin class
 package com.example.go.testplugin;
 
-import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
-import com.thoughtworks.go.plugin.api.GoPlugin;
-import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
-import com.thoughtworks.go.plugin.api.annotation.Extension;
-import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
-import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
-import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
-import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import com.thoughtworks.go.plugin.api.*;
+import com.thoughtworks.go.plugin.api.annotation.*;
+import com.thoughtworks.go.plugin.api.exceptions.*;
+import com.thoughtworks.go.plugin.api.request.*;
+import com.thoughtworks.go.plugin.api.response.*;
 import com.google.gson.Gson;
 import java.util.*;
 
