@@ -169,6 +169,10 @@
 
 <h3 id="the-plugin-metadata-plugin-xml">The plugin metadata <code class="prettyprint">plugin.xml</code></h3>
 
+<blockquote>
+<p>Here is an example <code class="prettyprint">plugin.xml</code></p>
+</blockquote>
+
 <pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <span class="c">&lt;!-- Your plugin id and version
      of this XML document, the
@@ -209,6 +213,10 @@
 
 <h3 id="the-plugin-extension-class">The plugin extension class</h3>
 
+<blockquote>
+<p>Add this to your maven <code class="prettyprint">pom.xml</code></p>
+</blockquote>
+
 <pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>cd.go.plugin<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>go-plugin-api<span class="nt">&lt;/artifactId&gt;</span>
@@ -220,17 +228,17 @@
 
 <div style='clear: both;'></div>
 
-<pre class="highlight java"><code><span class="c1">// The plugin class</span>
-<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
+<blockquote>
+<p>An example plugin class implementation</p>
+</blockquote>
 
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.GoApplicationAccessor</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.GoPlugin</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.GoPluginIdentifier</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.GoPluginApiRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.GoPluginApiResponse</span><span class="o">;</span>
+<pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.exceptions.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
