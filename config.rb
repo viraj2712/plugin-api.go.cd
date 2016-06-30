@@ -25,6 +25,9 @@ set :fonts_dir, 'fonts'
 # Activate the syntax highlighter
 activate :syntax
 
+# Activate the sprocket pipeline
+activate :sprockets
+
 # Livereload in dev mode
 activate :livereload
 activate :autoprefixer do |config|
