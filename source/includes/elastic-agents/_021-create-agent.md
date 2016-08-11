@@ -1,6 +1,6 @@
 ## Create Agent
 
-This message is a request to the plugin to create an agent for a job that is about to be scheduled. A plugin may, at its discretion, choose to not actually launch an agent.
+This message is a request to the plugin to create an agent for a job that has been scheduled. A plugin may, at its discretion, choose to not actually launch an agent.
 
 <aside class="warning">
   <strong>Important:</strong> Since this call may potentially make network requests to spin up new agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
@@ -62,12 +62,12 @@ The request body will contain the following JSON elements:
 | Key                 | Type     | Description |
 | ------------------- | -------- | ----------- |
 | `auto_register_key` | `String` | The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate `autoregister.properties` file on the agent instance, before it starts the agent process. See the [auto-register documentation](https://docs.go.cd/current/advanced_usage/agent_auto_register.html) for more information. |
-| `environment`       | `String` | The `environment` that this job belongs to. See the [environments section](https://docs.go.cd/current/introduction/concepts_in_go.html#environment) to know more about environments. |
+| `environment`       | `String` | The `environment` that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the [environments section](https://docs.go.cd/current/introduction/concepts_in_go.html#environment) to know more about environments. |
 | `properties`        | `Object` | Jobs that require elastic agents, will have an `<agentConfig/>` element on it. This object represents the key value pairs that form this configuration. |
 
 <p class='response-code-heading'>Response code</p>
 
-The plugin is expected to return status `200` if it could understand the request.
+The plugin is expected to return status `200` if it can understand the request.
 
 <p class='response-body-heading'>Response Body</p>
 
