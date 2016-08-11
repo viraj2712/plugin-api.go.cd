@@ -62,7 +62,7 @@ Before the delete-agent message is sent to the server, the plugin MUST ensure th
 
 <p class='request-name-heading'>Request name</p>
 
-`go.processor.elasticagent.delete-agents`
+`go.processor.elastic-agents.delete-agents`
 
 <p class='request-body-heading'>Request body</p>
 

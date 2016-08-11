@@ -49,7 +49,7 @@ This messages allows a plugin to query the server for a list of elastic agents t
 
 <p class='request-name-heading'>Request name</p>
 
-`go.processor.elasticagent.list-agents`
+`go.processor.elastic-agents.list-agents`
 
 <p class='request-body-heading'>Request body</p>
 

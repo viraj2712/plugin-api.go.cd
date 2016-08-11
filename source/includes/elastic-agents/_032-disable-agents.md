@@ -50,7 +50,7 @@ Agents in any state can be disabled, this will prevent jobs from being assigned 
 
 <p class='request-name-heading'>Request name</p>
 
-`go.processor.elasticagent.disable-agents`
+`go.processor.elastic-agents.disable-agents`
 
 <p class='request-body-heading'>Request body</p>
 
