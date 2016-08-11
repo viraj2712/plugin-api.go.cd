@@ -13,7 +13,7 @@ The server will not provide a request body.
 
 <p class='response-code-heading'>Response code</p>
 
-The plugin is expected to return status `200` if it could understand the request.
+The plugin is expected to return status `200` if it can understand the request.
 
 <p class='response-body-heading'>Response Body</p>
 
