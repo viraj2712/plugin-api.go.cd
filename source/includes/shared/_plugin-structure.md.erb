@@ -81,11 +81,11 @@ You can find the XML Schema for the plugins in the  [main repository](https://gi
 <dependency>
 	<groupId>cd.go.plugin</groupId>
 	<artifactId>go-plugin-api</artifactId>
-	<version>16.2.0</version>
+	<version><%= GOCD_VERSION %></version>
 </dependency>
 ```
 
-In order to use the plugin extension class, you must use add the following to your maven dependencies. If you're using [gradle](https://gradle.org), then use `cd.go.plugin:go-plugin-api:16.2.0`. You can find the latest version of the plugin in [maven central](http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api).
+In order to use the plugin extension class, you must use add the following to your maven dependencies. If you're using [gradle](https://gradle.org), then use `cd.go.plugin:go-plugin-api:<%= GOCD_VERSION %>`. You can find the latest version of the plugin in [maven central](http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api).
 
 <div style='clear: both;'></div>
 
