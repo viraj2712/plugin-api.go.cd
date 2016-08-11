@@ -224,7 +224,7 @@
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre>
 
-<p>In order to use the plugin extension class, you must use add the following to your maven dependencies. If you&rsquo;re using <a href="https://gradle.org">gradle</a>, then use <code class="prettyprint">cd.go.plugin:go-plugin-api:16.8.0</code>. You can find the latest version of the plugin in <a href="http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api">maven central</a>.</p>
+<p>In order to use the plugin extension class, you must add the following to your maven dependencies. If you&rsquo;re using <a href="https://gradle.org">gradle</a>, then use <code class="prettyprint">cd.go.plugin:go-plugin-api:16.8.0</code>. You can find the latest version of the plugin in <a href="http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api">maven central</a>.</p>
 
 <div style='clear: both;'></div>
 
@@ -336,7 +336,7 @@
 
 <h2 id="create-agent">Create Agent</h2>
 
-<p>This message is a request to the plugin to create an agent for a job that is about to be scheduled. A plugin may, at its discretion, choose to not actually launch an agent.</p>
+<p>This message is a request to the plugin to create an agent for a job that has been scheduled. A plugin may, at its discretion, choose to not actually launch an agent.</p>
 
 <aside class="warning">
   <strong>Important:</strong> Since this call may potentially make network requests to spin up new agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
@@ -412,7 +412,7 @@
 <tr>
 <td><code class="prettyprint">environment</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The <code class="prettyprint">environment</code> that this job belongs to. See the <a href="https://docs.go.cd/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
+<td>The <code class="prettyprint">environment</code> that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the <a href="https://docs.go.cd/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">properties</code></td>
@@ -423,7 +423,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -521,7 +521,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -545,7 +545,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -565,7 +565,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -585,7 +585,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -1187,29 +1187,14 @@ any server side errors</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">display-name</code></td>
+<td><code class="prettyprint">key</code></td>
 <td>String</td>
-<td>The name of the property.</td>
+<td>The name of configuration key that has an error.</td>
 </tr>
 <tr>
-<td><code class="prettyprint">default-value</code></td>
+<td><code class="prettyprint">message</code></td>
 <td>String</td>
-<td>The default value of the property.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">display-order</code></td>
-<td>String</td>
-<td>A string containing a numerical value.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">required</code></td>
-<td>Boolean</td>
-<td>If the field is mandatory.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">secure</code></td>
-<td>Boolean</td>
-<td>If the data in the field should be stored encrypted.</td>
+<td>The error message associated with that key.</td>
 </tr>
 </tbody></table>
 
