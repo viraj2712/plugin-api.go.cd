@@ -126,11 +126,217 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="elastic-agents">Elastic Agents</h1>
+        <h1 id="elastic-agents-beta">Elastic Agents (BETA)</h1>
 
-<p>Elastic Agent extension endpoint allows GoCD to interface with various cloud computing services to create agents on demand.</p>
+<h2 id="background">Background</h2>
 
-<p>If you&rsquo;re looking to start away with a basic template for elastic agents, we recommend forking this <a href="https://github.com/gocd-contrib/elastic-agent-skeleton-plugin">github repository</a>.</p>
+<p>In the current GoCD setup, all agents are fully provisioned and always available waiting for a job. When there are no jobs to be
+executed in that environment or for that specific resource that the agents have, the agents stay in an idle state waiting for jobs to
+be assigned to it, which is a waste of infrastructure resources. It could also lead to high costs if agents are running on cloud
+providers.</p>
+
+<p>Elastic agents are on-demand agents which are created and provisioned by an elastic-agent plugin when there are jobs to be executed,
+and terminated when the agents are running idle. These agents can be in a data center or in the cloud or both, and may be physical or
+virtual.</p>
+
+<p>Developers can start building their own elastic-agent plugins by forking the
+<a href="https://github.com/gocd-contrib/elastic-agent-skeleton-plugin">skeleton plugin</a> and looking at a sample
+<a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a> as an example reference implementation.</p>
+
+<h2 id="how-will-it-help-you">How will it help you?</h2>
+
+<p>A feature like this can allow for more efficient use of agent machines, can allow flexible scaling and in many cases,
+can reduce the cost of running agents. Imagine an automated performance test which runs occasionally and needs a lot of
+machines. These machines can be started at the beginning of the performance test, possibly using some cloud service, and
+then brought down when not needed. This feature should enable a more flexible and dynamic build grid.</p>
+
+<h2 id="can-i-use-it-in-production">Can I use it in production?</h2>
+
+<p>No, not yet. Elastic agents are released as &ldquo;beta&rdquo; feature in 16.8 release. It is marked as &ldquo;beta&rdquo; not because we think there are bugs, but because we&rsquo;d like users to try it out and give us feedback about the extension point. Please try it out on your development/test environments and share your feedback.</p>
+
+<h2 id="current-process-of-handling-agents">Current process of handling agents</h2>
+
+<p>Agents are currently started manually or automatically by scripts written by users. They are registered to the GoCD
+server manually, on the <a href="https://docs.go.cd/current/navigation/agents_page.html">agents page</a> or
+automatically, using <a href="https://docs.go.cd/current/advanced_usage/agent_auto_register.html">auto-registration</a>.</p>
+
+<p>Idle agents, after registration with the server, continuously poll the server, asking for jobs to run. When a stage is
+triggered, the jobs that need to be started are identified by the server. Suitable jobs are assigned to agents
+(depending on resources and environments). The agents pick up the jobs and run them. Once finished, they start polling
+the server for the next job to run.</p>
+
+<ol>
+<li>When a job is <a href="#glossary-schedule">scheduled</a>, it is considered for <a href="#glossary-assign">assignment</a> to an agent, and it waits in the queue
+for an idle agent to ping the server.</li>
+<li>When an idle agent pings the server for work, assuming that resources and environments match, the agent is assigned
+the scheduled and waiting job.</li>
+<li>Once the agent finishes running that job, it goes back into the idle agent pool, waiting for another,
+<a href="#glossary-suitable">suitable</a> job to be scheduled and assigned to it.</li>
+</ol>
+
+<p>See the image below to help make this a little more clear.</p>
+
+<div class='image-object' data="../images/elastic-agents/normal-agent-job-assignment.svg" type="image/svg+xml">
+</div>
+
+<h2 id="process-of-handling-elastic-agents">Process of handling elastic agents</h2>
+
+<blockquote>
+<p>Here is an example job configuration for the <a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a></p>
+</blockquote>
+
+<pre class="highlight xml"><code><span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"defaultJob"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;tasks&gt;</span>
+    <span class="nt">&lt;exec</span> <span class="na">command=</span><span class="s">"mvn"</span> <span class="na">args=</span><span class="s">"clean test"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/tasks&gt;</span>
+  <span class="c">&lt;!-- Specify the id of the plugin that should manage elastic agents for this job --&gt;</span>
+  <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"cd.go.contrib.elastic-agent.docker"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property&gt;</span>
+      <span class="c">&lt;!--
+      The plugin currently only supports the `Image` property,
+      which allows you to select the docker image that the build should run with
+      --&gt;</span>
+      <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;value&gt;</span>gocdcontrib/ubuntu-docker-elastic-agent<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;/agentConfig&gt;</span>
+<span class="nt">&lt;/job&gt;</span>
+</code></pre>
+
+<p>The user configures (in the job settings), configuration to be used to create an elastic-agent instance. Depending on the
+type of the plugin and the capabilities it provides, this configuration could contain the AMI ID, or docker image name,
+size of the machine, volumes to be mounted etc.</p>
+
+<p>The plugin decides whether to assign an agent to a job, or to start another agent, when consulted by Go.</p>
+
+<ol>
+<li>When a job is <a href="#glossary-schedule">scheduled</a>, if its job configuration contains elastic-agent specific configuration, the job is
+not considered for normal <a href="#glossary-assign">assignment</a> as described in the previous section.</li>
+<li>The corresponding plugin for that job is contacted
+(to <a href="https://plugin-api.go.cd/current/elastic-agents/#create-agent">create an agent</a>),
+along with the job configuration for which this assignment needs to be made.</li>
+<li>At this point the plugin may, at its discretion, create an agent or not.
+
+<ol>
+<li>If it sees that there are no idle agents that satisfy the job configuration, it may choose to spin a new agent.</li>
+<li>If it sees an existing idle agent that satisfies the job configuration, the plugin may choose to not spin a new agent.</li>
+<li>If there is no more capacity available to create new agents, the plugin may choose to not spin a new agent. (This is
+same as point above).</li>
+</ol></li>
+<li>In case the job is not assigned after a specified interval, the server waits some time, and then comes back to the plugin, asking
+it to choose, again.</li>
+<li>When an elastic-agent pings the server for work, and there is a job that requires an elastic-agent, then the
+corresponding plugin for that job is contacted (to check if the server
+<a href="https://plugin-api.go.cd/current/elastic-agents/#should-assign-work">should assign work</a> to the agent), along with the
+job configuration for which this assignment needs to be made.</li>
+</ol>
+
+<aside class='notice'>
+  Note that the matching for the job does not necessarily have to perform an exact check for agent configuration.
+  To give an example, here is some &ldquo;lax matching&rdquo; that may work better for you —
+</aside>
+
+<table>
+  <caption>Lax matching of agents to jobs</caption>
+  <thead>
+    <tr>
+      <th>Job Configuration</th>
+      <th>Agent Configuration</th>
+      <th>Should assign work?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>m1.small<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/agentConfig&gt;</span>
+</code></pre>
+
+      </td>
+      <td>
+        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>m1.xlarge<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/agentConfig&gt;</span>
+</code></pre>
+
+      </td>
+      <td>
+        <p><strong>Yes</strong></p>
+        Since the job requires a smaller agent, and a larger agent is available.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>aws-region<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/agentConfig&gt;</span>
+</code></pre>
+
+      </td>
+      <td>
+        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/agentConfig&gt;</span>
+</code></pre>
+
+      </td>
+      <td>
+        <p><strong>Yes</strong></p>
+        Since the job does not care which region it runs in.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>See this image to help make this a little more clear.</p>
+
+<div class='image-object' data="../images/elastic-agents/new-job-assignment.svg" type="image/svg+xml">
+  <aside style="display: none;" class="warning"><strong>Important:</strong> This animation is not visible in chrome. Please use firefox instead.</aside>
+</div>
+
+<script>
+$(function() {
+  var showAnimationWarning = function(i, elem) {
+    var template = '<aside class="warning">This animation is not visible in chrome. Please use firefox instead.</aside>';
+    $(elem).replaceWith($(template));
+  }
+
+  var showAnimation = function(i, elem) {
+    var newElem = document.createElement('object')
+    $(elem).append($(newElem).attr({
+      data: $(elem).attr('data'),
+      type: 'image/svg+xml'
+    }))
+  }
+
+  var isChromium = window.chrome,
+      winNav = window.navigator,
+      vendorName = winNav.vendor,
+      isOpera = winNav.userAgent.indexOf("OPR") > -1,
+      isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+      isIOSChrome = winNav.userAgent.match("CriOS");
+
+  if(isIOSChrome){
+     // is Google Chrome on IOS
+     $('.image-object').each(showAnimationWarning);
+  } else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+     // is Google Chrome
+     $('.image-object').each(showAnimationWarning);
+  } else {
+     // not Google Chrome
+     $('.image-object').each(showAnimation);
+  }
+});
+</script>
 
 <h1 id="getting-started">Getting started</h1>
 
@@ -336,7 +542,11 @@
 
 <h2 id="create-agent">Create Agent</h2>
 
-<p>This message is a request to the plugin to create an agent for a job that has been scheduled. A plugin may, at its discretion, choose to not actually launch an agent.</p>
+<p>This message is a request to the plugin to create an agent for a job that has been scheduled.</p>
+
+<aside class="notice">
+  <strong>Important:</strong> A plugin may, at its discretion, choose to not actually launch an agent. This could be because your servers do not have any capacity available, OR there are sufficient number of idle agents that may be able to fulfill the particular job configuration.
+</aside>
 
 <aside class="warning">
   <strong>Important:</strong> Since this call may potentially make network requests to spin up new agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
@@ -1197,6 +1407,18 @@ any server side errors</p>
 <td>The error message associated with that key.</td>
 </tr>
 </tbody></table>
+
+<h1 id="glossary">Glossary</h1>
+
+<ul>
+<li><p><a id="glossary-schedule"></a>Scheduled: The state that a job is in, before it is assigned (see &ldquo;Assigned&rdquo;) to an agent. A job can stay in a
+scheduled state for a long time, if all suitable (see &ldquo;Suitable&rdquo;) agents are busy running other jobs.</p></li>
+<li><p><a id="glossary-assign"></a>Assigned: The state that a job is in, when a suitable (see &ldquo;Suitable&rdquo;) agent has been decided for it. The job state
+changes to &ldquo;Preparing&rdquo; once the agent actually picks up the job, and starts checking out materials, etc. in
+preparation for the job.</p></li>
+<li><p><a id="glossary-suitable"></a>Suitable: An agent is said to be &ldquo;suitable&rdquo; for a job, if it has all the resources that the job needs, and is in the
+environment that the pipeline of this job is in.</p></li>
+</ul>
 
       </div>
       <div class="dark-box">
