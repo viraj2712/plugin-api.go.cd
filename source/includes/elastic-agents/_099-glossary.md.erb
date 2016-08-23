@@ -1,0 +1,11 @@
+# Glossary
+
+* <a id="glossary-schedule"></a>Scheduled: The state that a job is in, before it is assigned (see "Assigned") to an agent. A job can stay in a
+  scheduled state for a long time, if all suitable (see "Suitable") agents are busy running other jobs.
+
+* <a id="glossary-assign"></a>Assigned: The state that a job is in, when a suitable (see "Suitable") agent has been decided for it. The job state
+  changes to "Preparing" once the agent actually picks up the job, and starts checking out materials, etc. in
+  preparation for the job.
+
+* <a id="glossary-suitable"></a>Suitable: An agent is said to be "suitable" for a job, if it has all the resources that the job needs, and is in the
+  environment that the pipeline of this job is in.

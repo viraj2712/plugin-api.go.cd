@@ -1,6 +1,10 @@
 ## Create Agent
 
-This message is a request to the plugin to create an agent for a job that has been scheduled. A plugin may, at its discretion, choose to not actually launch an agent.
+This message is a request to the plugin to create an agent for a job that has been scheduled.
+
+<aside class="notice">
+  <strong>Important:</strong> A plugin may, at its discretion, choose to not actually launch an agent. This could be because your servers do not have any capacity available, OR there are sufficient number of idle agents that may be able to fulfill the particular job configuration.
+</aside>
 
 <aside class="warning">
   <strong>Important:</strong> Since this call may potentially make network requests to spin up new agents, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
