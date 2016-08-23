@@ -1,7 +1,181 @@
-# Elastic Agents
+# Elastic Agents (BETA)
 
-Elastic Agent extension endpoint allows GoCD to interface with various cloud computing services to create agents on demand.
+## Background
 
-If you're looking to start away with a basic template for elastic agents, we recommend forking this [github repository](https://github.com/gocd-contrib/elastic-agent-skeleton-plugin).
+In the current GoCD setup, all agents are fully provisioned and always available waiting for a job. When there are no jobs to be
+executed in that environment or for that specific resource that the agents have, the agents stay in an idle state waiting for jobs to
+be assigned to it, which is a waste of infrastructure resources. It could also lead to high costs if agents are running on cloud
+providers.
+
+Elastic agents are on-demand agents which are created and provisioned by an elastic-agent plugin when there are jobs to be executed,
+and terminated when the agents are running idle. These agents can be in a data center or in the cloud or both, and may be physical or
+virtual.
+
+Developers can start building their own elastic-agent plugins by forking the
+[skeleton plugin](https://github.com/gocd-contrib/elastic-agent-skeleton-plugin) and looking at a sample
+[docker plugin](https://github.com/gocd-contrib/docker-elastic-agents) as an example reference implementation.
+
+## How will it help you?
+
+A feature like this can allow for more efficient use of agent machines, can allow flexible scaling and in many cases,
+can reduce the cost of running agents. Imagine an automated performance test which runs occasionally and needs a lot of
+machines. These machines can be started at the beginning of the performance test, possibly using some cloud service, and
+then brought down when not needed. This feature should enable a more flexible and dynamic build grid.
+
+## Can I use it in production?
+
+No, not yet. Elastic agents are released as "beta" feature in 16.8 release. It is marked as "beta" not because we think there are bugs, but because we'd like users to try it out and give us feedback about the extension point. Please try it out on your development/test environments and share your feedback.
+
+## Current process of handling agents
+
+Agents are currently started manually or automatically by scripts written by users. They are registered to the GoCD
+server manually, on the [agents page](https://docs.go.cd/current/navigation/agents_page.html) or
+automatically, using [auto-registration](https://docs.go.cd/current/advanced_usage/agent_auto_register.html).
+
+Idle agents, after registration with the server, continuously poll the server, asking for jobs to run. When a stage is
+triggered, the jobs that need to be started are identified by the server. Suitable jobs are assigned to agents
+(depending on resources and environments). The agents pick up the jobs and run them. Once finished, they start polling
+the server for the next job to run.
+
+1. When a job is [scheduled](#glossary-schedule), it is considered for [assignment](#glossary-assign) to an agent, and it waits in the queue
+   for an idle agent to ping the server.
+2. When an idle agent pings the server for work, assuming that resources and environments match, the agent is assigned
+   the scheduled and waiting job.
+3. Once the agent finishes running that job, it goes back into the idle agent pool, waiting for another,
+   [suitable](#glossary-suitable) job to be scheduled and assigned to it.
+
+See the image below to help make this a little more clear.
+
+<div class='image-object' data="<%= asset_path :images, 'elastic-agents/normal-agent-job-assignment.svg' %>" type="image/svg+xml">
+</div>
+
+## Process of handling elastic agents
+
+> Here is an example job configuration for the [docker plugin](https://github.com/gocd-contrib/docker-elastic-agents)
+
+```xml
+<job name="defaultJob">
+  <tasks>
+    <exec command="mvn" args="clean test" />
+  </tasks>
+  <!-- Specify the id of the plugin that should manage elastic agents for this job -->
+  <agentConfig pluginId="cd.go.contrib.elastic-agent.docker">
+    <property>
+      <!--
+      The plugin currently only supports the `Image` property,
+      which allows you to select the docker image that the build should run with
+      -->
+      <key>Image</key>
+      <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
+    </property>
+  </agentConfig>
+</job>
+```
+
+The user configures (in the job settings), configuration to be used to create an elastic-agent instance. Depending on the
+type of the plugin and the capabilities it provides, this configuration could contain the AMI ID, or docker image name,
+size of the machine, volumes to be mounted etc.
+
+The plugin decides whether to assign an agent to a job, or to start another agent, when consulted by Go.
+
+1. When a job is [scheduled](#glossary-schedule), if its job configuration contains elastic-agent specific configuration, the job is
+   not considered for normal [assignment](#glossary-assign) as described in the previous section.
+2. The corresponding plugin for that job is contacted
+   (to [create an agent](https://plugin-api.go.cd/current/elastic-agents/#create-agent)),
+   along with the job configuration for which this assignment needs to be made.
+3. At this point the plugin may, at its discretion, create an agent or not.
+   1. If it sees that there are no idle agents that satisfy the job configuration, it may choose to spin a new agent.
+   2. If it sees an existing idle agent that satisfies the job configuration, the plugin may choose to not spin a new agent.
+   3. If there is no more capacity available to create new agents, the plugin may choose to not spin a new agent. (This is
+      same as point above).
+4. In case the job is not assigned after a specified interval, the server waits some time, and then comes back to the plugin, asking
+   it to choose, again.
+5. When an elastic-agent pings the server for work, and there is a job that requires an elastic-agent, then the
+   corresponding plugin for that job is contacted (to check if the server
+   [should assign work](https://plugin-api.go.cd/current/elastic-agents/#should-assign-work) to the agent), along with the
+   job configuration for which this assignment needs to be made.
+
+<aside class='notice'>
+  Note that the matching for the job does not necessarily have to perform an exact check for agent configuration.
+  To give an example, here is some "lax matching" that may work better for you —
+</aside>
+
+<table>
+  <caption>Lax matching of agents to jobs</caption>
+  <thead>
+    <tr>
+      <th>Job Configuration</th>
+      <th>Agent Configuration</th>
+      <th>Should assign work?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <%= partial 'includes/shared/elastic-agents/m1.small' %>
+      </td>
+      <td>
+        <%= partial 'includes/shared/elastic-agents/m1.xlarge' %>
+      </td>
+      <td>
+        <p><strong>Yes</strong></p>
+        Since the job requires a smaller agent, and a larger agent is available.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= partial 'includes/shared/elastic-agents/us-east-1' %>
+      </td>
+      <td>
+        <%= partial 'includes/shared/elastic-agents/no-region' %>
+      </td>
+      <td>
+        <p><strong>Yes</strong></p>
+        Since the job does not care which region it runs in.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+See this image to help make this a little more clear.
+
+<div class='image-object' data="<%= asset_path :images, 'elastic-agents/new-job-assignment.svg' %>" type="image/svg+xml">
+  <aside style="display: none;" class="warning"><strong>Important:</strong> This animation is not visible in chrome. Please use firefox instead.</aside>
+</div>
+
+<script>
+$(function() {
+  var showAnimationWarning = function(i, elem) {
+    var template = '<aside class="warning">This animation is not visible in chrome. Please use firefox instead.</aside>';
+    $(elem).replaceWith($(template));
+  }
+
+  var showAnimation = function(i, elem) {
+    var newElem = document.createElement('object')
+    $(elem).append($(newElem).attr({
+      data: $(elem).attr('data'),
+      type: 'image/svg+xml'
+    }))
+  }
+
+  var isChromium = window.chrome,
+      winNav = window.navigator,
+      vendorName = winNav.vendor,
+      isOpera = winNav.userAgent.indexOf("OPR") > -1,
+      isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+      isIOSChrome = winNav.userAgent.match("CriOS");
+
+  if(isIOSChrome){
+     // is Google Chrome on IOS
+     $('.image-object').each(showAnimationWarning);
+  } else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+     // is Google Chrome
+     $('.image-object').each(showAnimationWarning);
+  } else {
+     // not Google Chrome
+     $('.image-object').each(showAnimation);
+  }
+});
+</script>
 
 <%= partial 'includes/shared/plugin-structure.md.erb', locals: { plugin_class: 'DockerElasticAgentPlugin', plugin_type: 'elastic-agent', minimum_version: '16.8.0' } %>
