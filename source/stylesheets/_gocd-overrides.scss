@@ -72,4 +72,18 @@ blockquote + .highlight {
   &>h3 {
     clear: both;
   }
+
+  table {
+    caption {
+      padding: 5px 10px;
+      font-weight: bold;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ccc;
+    }
+
+    pre {
+      padding: 5px 20px;
+      width: 100%;
+    }
+  }
 }
