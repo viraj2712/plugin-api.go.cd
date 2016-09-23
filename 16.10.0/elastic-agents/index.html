@@ -184,53 +184,59 @@ the scheduled and waiting job.</li>
 <h2 id="process-of-handling-elastic-agents">Process of handling elastic agents</h2>
 
 <blockquote>
-<p>Here is an example job configuration for the <a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a></p>
+<p>Here is an example elastic profile configuration and a Job configured to use the profile for the <a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a></p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"defaultJob"</span><span class="nt">&gt;</span>
+<pre class="highlight xml"><code><span class="nt">&lt;server&gt;</span>
+  <span class="nt">&lt;elastic&gt;</span>
+    <span class="nt">&lt;profiles&gt;</span>
+      <span class="nt">&lt;profile</span>  <span class="na">id=</span><span class="s">"docker.unit-test"</span> <span class="na">pluginId=</span><span class="s">"cd.go.contrib.elastic-agent.docker"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="c">&lt;!--
+            The plugin currently only supports the `Image` property,
+            which allows you to select the docker image that the build should run with
+          --&gt;</span>
+          <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>gocdcontrib/ubuntu-docker-elastic-agent<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+      <span class="nt">&lt;/profile&gt;</span>
+    <span class="nt">&lt;/profiles&gt;</span>
+  <span class="nt">&lt;/elastic&gt;</span>
+<span class="nt">&lt;/server&gt;</span>
+...
+<span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"defaultJob"</span> <span class="na">elasticProfileId=</span><span class="s">"docker.unit-test"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;tasks&gt;</span>
     <span class="nt">&lt;exec</span> <span class="na">command=</span><span class="s">"mvn"</span> <span class="na">args=</span><span class="s">"clean test"</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;/tasks&gt;</span>
   <span class="c">&lt;!-- Specify the id of the plugin that should manage elastic agents for this job --&gt;</span>
-  <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"cd.go.contrib.elastic-agent.docker"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="c">&lt;!--
-      The plugin currently only supports the `Image` property,
-      which allows you to select the docker image that the build should run with
-      --&gt;</span>
-      <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>gocdcontrib/ubuntu-docker-elastic-agent<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-  <span class="nt">&lt;/agentConfig&gt;</span>
 <span class="nt">&lt;/job&gt;</span>
 </code></pre>
 
-<p>The user configures (in the job settings), configuration to be used to create an elastic-agent instance. Depending on the
-type of the plugin and the capabilities it provides, this configuration could contain the AMI ID, or docker image name,
-size of the machine, volumes to be mounted etc.</p>
+<p>User creates an elastic agent profile specific to a plugin, a profile represents the configuration to be used to create an elastic-agent instance. Depending on the type of the plugin and the capabilities it provides, a profile configuration could contain the AMI ID, or docker image name, size of the machine,
+volumes to be mounted etc.</p>
 
 <p>The plugin decides whether to assign an agent to a job, or to start another agent, when consulted by Go.</p>
 
 <ol>
-<li>When a job is <a href="#glossary-schedule">scheduled</a>, if its job configuration contains elastic-agent specific configuration, the job is
+<li>When a job is <a href="#glossary-schedule">scheduled</a>, if its job configuration contains a elasticProfileId, the job is
 not considered for normal <a href="#glossary-assign">assignment</a> as described in the previous section.</li>
-<li>The corresponding plugin for that job is contacted
+<li>The  plugin corresponding for that job elasticProfileId is contacted
 (to <a href="https://plugin-api.go.cd/current/elastic-agents/#create-agent">create an agent</a>),
-along with the job configuration for which this assignment needs to be made.</li>
+along with the corresponding profile configuration for which this assignment needs to be made.</li>
 <li>At this point the plugin may, at its discretion, create an agent or not.
 
 <ol>
-<li>If it sees that there are no idle agents that satisfy the job configuration, it may choose to spin a new agent.</li>
-<li>If it sees an existing idle agent that satisfies the job configuration, the plugin may choose to not spin a new agent.</li>
+<li>If it sees that there are no idle agents that satisfy the profile, it may choose to spin a new agent.</li>
+<li>If it sees an existing idle agent that satisfies the profile, the plugin may choose to not spin a new agent.</li>
 <li>If there is no more capacity available to create new agents, the plugin may choose to not spin a new agent. (This is
 same as point above).</li>
 </ol></li>
 <li>In case the job is not assigned after a specified interval, the server waits some time, and then comes back to the plugin, asking
 it to choose, again.</li>
-<li>When an elastic-agent pings the server for work, and there is a job that requires an elastic-agent, then the
+<li>When an elastic-agent pings the server for work, and if there is a job that requires an elastic-agent, then the
 corresponding plugin for that job is contacted (to check if the server
 <a href="https://plugin-api.go.cd/current/elastic-agents/#should-assign-work">should assign work</a> to the agent), along with the
-job configuration for which this assignment needs to be made.</li>
+profile configuration for which this assignment needs to be made.</li>
 </ol>
 
 <aside class='notice'>
@@ -250,22 +256,28 @@ job configuration for which this assignment needs to be made.</li>
   <tbody>
     <tr>
       <td>
-        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+        <pre class="highlight xml"><code><span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"aws.small"</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
     <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;value&gt;</span>m1.small<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;/agentConfig&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+<span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"unit-tests"</span>
+     <span class="na">elasticProfileId=</span><span class="s">"aws.small"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/job&gt;</span>
 </code></pre>
 
       </td>
       <td>
-        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+        <pre class="highlight xml"><code><span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"aws.large"</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
     <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;value&gt;</span>m1.xlarge<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;/agentConfig&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+
+<span class="c">&lt;!-- Agent for profile "aws.large" --&gt;</span>
+<span class="nt">&lt;agent</span> <span class="na">elasticPluginId=</span><span class="s">"aws"</span><span class="nt">/&gt;</span>
 </code></pre>
 
       </td>
@@ -276,18 +288,32 @@ job configuration for which this assignment needs to be made.</li>
     </tr>
     <tr>
       <td>
-        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+        <pre class="highlight xml"><code><span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"aws.small"</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;key&gt;</span>aws-region<span class="nt">&lt;/key&gt;</span>
-    <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>m1.small<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
-<span class="nt">&lt;/agentConfig&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+...
+<span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"unit-tests"</span>
+     <span class="na">elasticProfileId=</span><span class="s">"aws.small"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/job&gt;</span>
 </code></pre>
 
       </td>
       <td>
-        <pre class="highlight xml"><code><span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/agentConfig&gt;</span>
+        <pre class="highlight xml"><code><span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"aws.small-us-east"</span> <span class="na">pluginId=</span><span class="s">"aws"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>aws-region<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>instance-type<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>m1.small<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
+<span class="c">&lt;!-- Agent for profile "aws.small-us-east" --&gt;</span>
+<span class="nt">&lt;agent</span> <span class="na">elasticPluginId=</span><span class="s">"aws"</span><span class="nt">/&gt;</span>
 </code></pre>
 
       </td>
