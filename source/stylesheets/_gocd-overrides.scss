@@ -87,3 +87,12 @@ blockquote + .highlight {
     }
   }
 }
+
+.full-width {
+  clear: both;
+  padding-top: 1.2em;
+  padding-bottom: 1.2em;
+  display: inline-block;
+  background-color: $main-bg;
+  margin-right: inherit;
+}
