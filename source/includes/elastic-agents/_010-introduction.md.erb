@@ -51,49 +51,55 @@ See the image below to help make this a little more clear.
 
 ## Process of handling elastic agents
 
-> Here is an example job configuration for the [docker plugin](https://github.com/gocd-contrib/docker-elastic-agents)
+> Here is an example elastic profile configuration and a Job configured to use the profile for the [docker plugin](https://github.com/gocd-contrib/docker-elastic-agents)
 
 ```xml
-<job name="defaultJob">
+<server>
+  <elastic>
+    <profiles>
+      <profile  id="docker.unit-test" pluginId="cd.go.contrib.elastic-agent.docker">
+        <property>
+          <!--
+            The plugin currently only supports the `Image` property,
+            which allows you to select the docker image that the build should run with
+          -->
+          <key>Image</key>
+          <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
+        </property>
+      </profile>
+    </profiles>
+  </elastic>
+</server>
+...
+<job name="defaultJob" elasticProfileId="docker.unit-test">
   <tasks>
     <exec command="mvn" args="clean test" />
   </tasks>
   <!-- Specify the id of the plugin that should manage elastic agents for this job -->
-  <agentConfig pluginId="cd.go.contrib.elastic-agent.docker">
-    <property>
-      <!--
-      The plugin currently only supports the `Image` property,
-      which allows you to select the docker image that the build should run with
-      -->
-      <key>Image</key>
-      <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
-    </property>
-  </agentConfig>
 </job>
 ```
 
-The user configures (in the job settings), configuration to be used to create an elastic-agent instance. Depending on the
-type of the plugin and the capabilities it provides, this configuration could contain the AMI ID, or docker image name,
-size of the machine, volumes to be mounted etc.
+User creates an elastic agent profile specific to a plugin, a profile represents the configuration to be used to create an elastic-agent instance. Depending on the type of the plugin and the capabilities it provides, a profile configuration could contain the AMI ID, or docker image name, size of the machine,
+volumes to be mounted etc.
 
 The plugin decides whether to assign an agent to a job, or to start another agent, when consulted by Go.
 
-1. When a job is [scheduled](#glossary-schedule), if its job configuration contains elastic-agent specific configuration, the job is
+1. When a job is [scheduled](#glossary-schedule), if its job configuration contains a elasticProfileId, the job is
    not considered for normal [assignment](#glossary-assign) as described in the previous section.
-2. The corresponding plugin for that job is contacted
+2. The  plugin corresponding for that job elasticProfileId is contacted
    (to [create an agent](https://plugin-api.go.cd/current/elastic-agents/#create-agent)),
-   along with the job configuration for which this assignment needs to be made.
+   along with the corresponding profile configuration for which this assignment needs to be made.
 3. At this point the plugin may, at its discretion, create an agent or not.
-   1. If it sees that there are no idle agents that satisfy the job configuration, it may choose to spin a new agent.
-   2. If it sees an existing idle agent that satisfies the job configuration, the plugin may choose to not spin a new agent.
+   1. If it sees that there are no idle agents that satisfy the profile, it may choose to spin a new agent.
+   2. If it sees an existing idle agent that satisfies the profile, the plugin may choose to not spin a new agent.
    3. If there is no more capacity available to create new agents, the plugin may choose to not spin a new agent. (This is
       same as point above).
 4. In case the job is not assigned after a specified interval, the server waits some time, and then comes back to the plugin, asking
    it to choose, again.
-5. When an elastic-agent pings the server for work, and there is a job that requires an elastic-agent, then the
+5. When an elastic-agent pings the server for work, and if there is a job that requires an elastic-agent, then the
    corresponding plugin for that job is contacted (to check if the server
    [should assign work](https://plugin-api.go.cd/current/elastic-agents/#should-assign-work) to the agent), along with the
-   job configuration for which this assignment needs to be made.
+   profile configuration for which this assignment needs to be made.
 
 <aside class='notice'>
   Note that the matching for the job does not necessarily have to perform an exact check for agent configuration.
@@ -124,10 +130,10 @@ The plugin decides whether to assign an agent to a job, or to start another agen
     </tr>
     <tr>
       <td>
-        <%= partial 'includes/shared/elastic-agents/us-east-1' %>
+        <%= partial 'includes/shared/elastic-agents/no-region' %>
       </td>
       <td>
-        <%= partial 'includes/shared/elastic-agents/no-region' %>
+        <%= partial 'includes/shared/elastic-agents/us-east-1' %>
       </td>
       <td>
         <p><strong>Yes</strong></p>
