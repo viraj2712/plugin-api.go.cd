@@ -6,7 +6,7 @@ In order to implement an elastic agent extension point the following messages mu
 * [Should Assign Work](#should-assign-work)
 * [Server Ping](#server-ping)
 
-These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.
+These are general purpose messages that a plugin must implement to allow users to configure the plugin through the browser.
 
 * [Get Settings View](#get-settings-view)
 * [Get Plugin Configuration](#get-plugin-configuration)
