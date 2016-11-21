@@ -486,6 +486,15 @@
 
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 <h2 id="get-plugin-configuration">Get Plugin Configuration</h2>
 
 <p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page. This message allows the server to query a plugin about what properties are supported by this plugin.</p>
@@ -539,7 +548,7 @@
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 

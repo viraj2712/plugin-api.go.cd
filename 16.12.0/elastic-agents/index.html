@@ -568,6 +568,15 @@ $(function() {
 <li><a href="#get-settings-view">Get Settings View</a></li>
 <li><a href="#get-plugin-configuration">Get Plugin Configuration</a></li>
 <li><a href="#validate-plugin-configuration">Validate Plugin Configuration</a></li>
+<li><a href="#get-plugin-icon">Get Plugin Icon</a></li>
+</ul>
+
+<p>These are messages that a plugin must implement in order to allow users to configure elastic profiles through the browser.</p>
+
+<ul>
+<li><a href="#validate-profile">Validate Profile</a></li>
+<li><a href="#get-profile-view">Get Profile View</a></li>
+<li><a href="#get-profile-metadata">Get Profile Metadata</a></li>
 </ul>
 
 <h2 id="create-agent">Create Agent</h2>
@@ -811,6 +820,15 @@ $(function() {
 
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 <h2 id="get-plugin-configuration">Get Plugin Configuration</h2>
 
 <p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page. This message allows the server to query a plugin about what properties are supported by this plugin.</p>
@@ -864,7 +882,7 @@ $(function() {
 
 <p class='response-code-heading'>Response code</p>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if could understand the request.</p>
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p class='response-body-heading'>Response Body</p>
 
@@ -881,6 +899,151 @@ $(function() {
 </span></code></pre>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
+
+<h2 id="get-plugin-icon">Get Plugin Icon</h2>
+
+<p>This call is expected to return the icon for the plugin, so as to make it easy for users to identify the plugin.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.get-icon</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example plugin response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The plugin is expected to return an <a href="#image-object">image object</a>.</p>
+
+<aside class="notice">
+  <strong>It is recommended that:</strong>
+  <ul>
+    <li>The image be an SVG image, since it scales well. Using other types like PNG/JPEG/GIF/BMP will work too, but is not recommended.</li>
+    <li>The image be a square image.</li>
+    <li>The base-64 encoded data is &lt;= 100KB. Bigger sizes will work too, but may take a long time to render.</li>
+  </ul>
+</aside>
+
+<h2 id="validate-profile">Validate Profile</h2>
+
+<p>This call is expected to validate the user inputs that form a part of the elastic agent profile.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.validate-profile</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The request body will contain a JSON object with the keys and values that form part of the profile.</p>
+
+<blockquote>
+<p>An example validation request body for the docker elastic agent plugin</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"Image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alpine:latest"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"MaxMemory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+   </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxMemory"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"'foo' is not a valid value for `MaxMemory`."</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the profile is valid, the plugin should return an empty JSON array.</p>
+
+<h2 id="get-profile-view">Get Profile View</h2>
+
+<p>This is a message that the plugin should, to allow users to configure profiles from the Elastic Profiles View in GoCD.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.get-profile-view</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="get-profile-metadata">Get Profile Metadata</h2>
+
+<p>This is a message that the plugin should, to allow users to configure profiles from the Elastic Profiles View in GoCD.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.get-profile-metadata</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The server will not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body for a docker plugin</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>A JSON <a href="#the-profile-metadata-object">profile metadata object</a>.</p>
 
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
@@ -1435,6 +1598,76 @@ any server side errors</p>
 <td><code class="prettyprint">message</code></td>
 <td>String</td>
 <td>The error message associated with that key.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-image-object'></a></p>
+
+<h3 id="the-image-object">The Image Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the image object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">content-type</code></td>
+<td>String</td>
+<td>A valid <a href="http://www.iana.org/assignments/media-types/media-types.xhtml#image">content type</a> for the image. Please make sure the content type is supported by most browsers.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">data</code></td>
+<td>String</td>
+<td>A <a href="https://en.wikipedia.org/wiki/Base64">base-64</a> encoded (single-line non-chunking) byte array of the byte-sequence that composes the image.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-profile-metadata-object'></a></p>
+
+<h3 id="the-profile-metadata-object">The Profile Metadata Object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the profile metadata object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">key</code></td>
+<td>String</td>
+<td>The name of the configuration property supported by an elastic profile.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">metadata</code></td>
+<td>Object</td>
+<td>The metadata associated with the key used in the elastic profile. Valid keys are <code class="prettyprint">required</code> and <code class="prettyprint">secure</code>.</td>
 </tr>
 </tbody></table>
 
