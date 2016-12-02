@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8"><meta http-equiv="refresh" content="5;url=/current/">
+    <link href="current/images/gocd.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="current/images/gocd.png" rel="apple-touch-icon" type="image/png" size="192x192">
+    <script>
+    (function() {
+      var redirectWithLocationHash = function(){
+        if (window.location.hash !== '') {
+          window.location.href = '/current/' + window.location.hash;
+        }
+      }
+      window.setTimeout(redirectWithLocationHash, 5000);
+    })();
+    </script>
+    <meta charset="UTF-8"><meta http-equiv="refresh" content="6;url=/current/">
   </head>
 <body>
 
