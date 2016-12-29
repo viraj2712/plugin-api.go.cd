@@ -2,7 +2,7 @@
 
 [![Build Status](https://snap-ci.com/gocd/plugin-api.go.cd/branch/master/build_image)](https://snap-ci.com/gocd/plugin-api.go.cd/branch/master)
 
-Checkout the live documentation at https://plugin-api.go.cd
+Checkout the live documentation at https://plugin-api.gocd.io
 
 # Contributing to the API Documentation
 
