@@ -258,7 +258,7 @@
   <span class="c1">// a GoPluginIdentifier tells GoCD what kind of a plugin this is</span>
   <span class="c1">// and what version(s) of the request/response API it supports</span>
   <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="c1">// handle the request and return a response</span>
@@ -390,6 +390,7 @@
   </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-label"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-group"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"build-cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
@@ -419,12 +420,13 @@
       </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"last-transition-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last-transition-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100Z"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
           </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job-name"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"complete-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"assign-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:38.100Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"complete-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100Z"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"agent-uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="w">
@@ -596,7 +598,7 @@
   <span class="o">}</span>
 
   <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"elastic-agent"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="kd">private</span> <span class="n">PluginSettings</span> <span class="n">getSettings</span><span class="o">()</span> <span class="o">{</span>
