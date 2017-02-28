@@ -74,13 +74,15 @@ task :upload_to_s3 do
 
     end
 
-    puts "Deleting files that don't exist locally..."
-    objects_to_be_deleted_for_display = need_to_be_deleted.map{|object_to_be_deleted| object_to_be_deleted[:key]}
-    puts objects_to_be_deleted_for_display
-    s3_client.delete_objects({bucket: S3_BUCKET,
-                              delete: {
-                                  objects: need_to_be_deleted
-                              }
-                             })
+    unless need_to_be_deleted.empty?
+      puts "Deleting files that don't exist locally..."
+      objects_to_be_deleted_for_display = need_to_be_deleted.map { |object_to_be_deleted| object_to_be_deleted[:key] }
+      puts objects_to_be_deleted_for_display
+      s3_client.delete_objects({bucket: S3_BUCKET,
+                                delete: {
+                                    objects: need_to_be_deleted
+                                }
+                               })
+    end
   end
 end
