@@ -11,4 +11,7 @@ gem 'redcarpet', '~> 3.3.4'
 
 gem "middleman-livereload", "~> 3.4.0"
 gem 'rake', '~> 10.4.2'
+gem 'aws-sdk'
+gem 'parallel'
 gem 'listen', '3.0.5'
+gem 'mime-types'
