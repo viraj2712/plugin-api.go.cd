@@ -1,6 +1,7 @@
 ## Authenticate User
 
-This message is a request to the plugin to authenticate and authorize a user, along with the user credentials and all known `<authConfig />` configured for the plugin.
+This message is a request to the plugin to authenticate and authorize a user, along with the user credentials and all known
+`<authConfig />`  and `<roleConfig />`configured for the plugin.
 
 <p class='request-name-heading'>Request name</p>
 
@@ -12,28 +13,46 @@ This message is a request to the plugin to authenticate and authorize a user, al
 
 ```json
 {
-  "username": "jdoe",
-  "password": "secret",
-  "profiles": {
-    "ldap1": {
-      "Url": "ldap://ldap1.example.com",
-      "...": "..."
-    },
-    "ldap2": {
-      "Url": "ldap://ldap2.example.com",
-      "...": "..."
+  "credentials" : {
+    "username": "jdoe",
+    "password": "secret"
+  },
+  "auth_configs": [{
+    "id": "internal_ldap",
+    "configuration": {
+      "url": "ldap://ldap1.example.com"
     }
-  }
+  },
+  {
+    "id": "external_ldap",
+    "configuration": {
+      "url": "ldap://ldap2.example.com"
+    }
+  }],
+  "role_configs": [{
+    "name": "admin",
+    "auth_config_id": "internal_ldap",
+    "configuration": {
+      "memberOf": "ou=some-value"
+    }
+  },
+  {
+    "name": "view",
+    "auth_config_id": "external_ldap",
+    "configuration": {
+      "memberOf": "ou=some-value"
+    }
+  }]
 }
 ```
 
 <p class='attributes-table-follows'></p>
 
-| Key        | Type     | Description                                                                   |
-|------------|----------|-------------------------------------------------------------------------------|
-| `username` | `String` | This key contains value for `username` provided by user at the time of login. |
-| `password` | `String` | This key contains value for `password` provided by user at the time of login. |
-| `profiles` | `Object` | This key contains list of `<authconfig>` configured for plugin. |
+| Key            | Type     | Description                                                                   |
+|----------------|----------|-------------------------------------------------------------------------------|
+| `credentials`  | `Object` | For a plugin which supports password based authentication, this key should contain the 'username' and 'password' provided by the user at the time of login. |
+| `auth_configs` | `Object` | This key contains list of `<authconfig>` configured for the plugin. |
+| `role_configs` | `Object` | This key contains list of `<roleconfig>` configured for the plugin. |
 
 <p class='response-code-heading'>Response Body</p>
 

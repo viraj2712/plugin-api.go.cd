@@ -4,7 +4,7 @@ If a plugin requires to verify connection, this message must be implemented in o
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.authorization.plugin-config.verify-connection`
+`go.cd.authorization.auth-config.verify-connection`
 
 <p class='request-body-heading'>Request body</p>
 

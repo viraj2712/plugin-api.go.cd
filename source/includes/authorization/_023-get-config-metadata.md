@@ -4,7 +4,7 @@ This is a message that the plugin should implement, to allow users to configure 
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.authorization.plugin-config.get-metadata`
+`go.cd.authorization.auth-config.get-metadata`
 
 <p class='request-body-heading'>Request body</p>
 
