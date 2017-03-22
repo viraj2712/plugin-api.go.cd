@@ -4,7 +4,7 @@ If a plugin requires any authorization configuration, this message must be imple
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.authorization.plugin-config.validate`
+`go.cd.authorization.auth-config.validate`
 
 <p class='request-body-heading'>Request body</p>
 
