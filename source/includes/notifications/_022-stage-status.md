@@ -1,14 +1,87 @@
 ## Stage Status Changed
 
-This message is sent by the server, when it wants to notify the plugin about a "stage status change".
+This message is sent by the server, when it wants to notify the plugin about a "stage status change". Some tips on stage status changes:
+
+Stage status changed notifications only get sent when a stage gets scheduled or when it completes.
 
 <p class='request-name-heading'>Request name</p>
 
 `stage-status`
 
-<p class='request-body-heading'>Request body</p>
+<p class='request-body-heading'>Request body for stage start notifications</p>
 
-> An example stage status changed request body
+> A sample body when a stage with three jobs gets scheduled.
+
+```json
+{
+  "pipeline": {
+    "name": "pipeline-name",
+    "counter": "9",
+    "group": "defaultGroup",
+    "build-cause": [
+      {
+        "material": {
+          "git-configuration": {
+            "shallow-clone": false,
+            "branch": "2.x",
+            "url": "https://github.com/organization/repository"
+          },
+          "type": "git"
+        },
+        "changed": false,
+        "modifications": [
+          {
+            "revision": "8f60b12439840e5a0a4d464379dd3a48881008b4",
+            "modified-time": "2017-03-23T17:27:58.000Z",
+            "data": {}
+          }
+        ]
+      }
+    ],
+    "stage": {
+      "name": "stageOne",
+      "counter": "1",
+      "approval-type": "success",
+      "approved-by": "timer",
+      "state": "Building",
+      "result": "Unknown",
+      "create-time": "2017-03-23T20:44:02.119Z",
+      "jobs": [
+        {
+          "name": "job1",
+          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "state": "Scheduled",
+          "result": "Unknown"
+        },
+        {
+          "name": "job2",
+          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "state": "Scheduled",
+          "result": "Unknown"
+        },
+        {
+          "name": "job3",
+          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "state": "Scheduled",
+          "result": "Unknown"
+        }
+      ]
+    }
+  }
+}
+```
+
+The request body will contain a JSON representing the stage.
+
+* A stage start notification can be identified by the `.pipeline.stage.state` attribute set to `'Building'`.
+
+* For a stage with multiple jobs, `.pipeline.stage.jobs[].state` will at least be `'Scheduled'`.
+
+* All jobs will be made available in JSON.
+
+<p class='request-body-heading'>Request body for stage completion notifications</p>
+
+> A sample body when a stage with one job completes successfully.
 
 ```json
 {
@@ -63,6 +136,10 @@ This message is sent by the server, when it wants to notify the plugin about a "
 ```
 
 The request body will contain a JSON representing the stage.
+
+* Stage completion notifications can be identified when the `.pipeline.stage.state` is something other than `'Building'`. Other valid values are `'Passed'`, `'Failed'` and `'Cancelled'`.
+
+* For a completed stage with multiple jobs, `.pipeline.stage.jobs[].job_result` will at either `'Passed'`, `'Failed'` or `'Cancelled'`.
 
 <p class='response-code-heading'>Response code</p>
 
