@@ -1,14 +1,49 @@
 ## Stage Status Changed
 
-This message is sent by the server, when it wants to notify the plugin about a "stage status change". Some tips on stage status changes:
+This message is sent by the server, when it wants to notify the plugin about a "stage status change".
 
 Stage status changed notifications only get sent when a stage gets scheduled or when it completes.
+
+<a id='stage-start-body'></a>
+
+### Request-Response basics
 
 <p class='request-name-heading'>Request name</p>
 
 `stage-status`
 
-<p class='request-body-heading'>Request body for stage start notifications</p>
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` if it can understand the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+> An example response body if the plugin could send the notification successfully
+
+```json
+{
+  "status": "success"
+}
+```
+
+> An example response body if the plugin could not send the notification
+
+```json
+{
+  "status": "failure",
+  "messages": ["Could not send email for build/1/compile/1"]
+}
+```
+
+The plugin is expected to return a JSON object to indicate if the notifications could be processed.
+
+<aside class="warning">
+  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in "server health messages".
+</aside>
+
+<a id='stage-start-body'></a>
+
+### Stage start notifications
 
 > A sample body when a stage with three jobs gets scheduled.
 
@@ -71,15 +106,23 @@ Stage status changed notifications only get sent when a stage gets scheduled or 
 }
 ```
 
-The request body will contain a JSON representing the stage.
+These notifications get sent out when a stage starts. The request body will contain a JSON representing the stage that is starting.
 
-* A stage start notification can be identified by the `.pipeline.stage.state` attribute set to `'Building'`.
+* A stage start notification can be identified by the `.pipeline.stage.state` attribute set to `Building`.
 
-* For a stage with multiple jobs, `.pipeline.stage.jobs[].state` will at least be `'Scheduled'`.
+* For a stage with multiple jobs, all jobs will be made available in the JSON document.
 
-* All jobs will be made available in JSON.
+* Each job state `.pipeline.stage.jobs[].state` will be set to `Scheduled`.
 
-<p class='request-body-heading'>Request body for stage completion notifications</p>
+* Since the jobs have not run yet, every `.pipeline.stage.jobs[].result` will be set to `Unknown`.
+
+<aside class="note">
+In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
+</aside>
+
+<a id='stage-complete-body'></a>
+
+### Stage completion notifications
 
 > A sample body when a stage with one job completes successfully.
 
@@ -135,37 +178,16 @@ The request body will contain a JSON representing the stage.
 }
 ```
 
-The request body will contain a JSON representing the stage.
+These notifications get sent out after a stage completes. The request body will contain a JSON representing the stage that completed.
 
-* Stage completion notifications can be identified when the `.pipeline.stage.state` is something other than `'Building'`. Other valid values are `'Passed'`, `'Failed'` and `'Cancelled'`.
+* Stage completion notifications can be identified when the `.pipeline.stage.state` is something other than `Building`. Valid values are `Passed`, `Failed` and `Cancelled`.
 
-* For a completed stage with multiple jobs, `.pipeline.stage.jobs[].job_result` will at either `'Passed'`, `'Failed'` or `'Cancelled'`.
+* For a stage with multiple jobs, all jobs will be made available in the JSON document.
 
-<p class='response-code-heading'>Response code</p>
+* Each job state `.pipeline.stage.jobs[].state` will be set to `Completed`.
 
-The plugin is expected to return status `200` if it can understand the request.
+* Every `.pipeline.stage.jobs[].result` will one of `'Passed'`, `'Failed'` or `'Cancelled'`.
 
-<p class='response-body-heading'>Response Body</p>
-
-> An example response body if the plugin could send the notification successfully
-
-```json
-{
-  "status": "success"
-}
-```
-
-> An example response body if the plugin could not send the notification
-
-```json
-{
-  "status": "failure",
-  "messages": ["Could not send email for build/1/compile/1"]
-}
-```
-
-The plugin is expected to return a JSON object to indicate if the notifications could be processed.
-
-<aside class="warning">
-  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in "server health messages".
+<aside class="note">
+In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
 </aside>
