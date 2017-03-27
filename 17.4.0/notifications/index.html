@@ -376,14 +376,132 @@
 
 <p>This message is sent by the server, when it wants to notify the plugin about a &ldquo;stage status change&rdquo;.</p>
 
+<p>Stage status changed notifications only get sent when a stage gets scheduled or when it completes.</p>
+
+<p><a id='stage-start-body'></a></p>
+
+<h3 id="request-response-basics">Request-Response basics</h3>
+
 <p class='request-name-heading'>Request name</p>
 
 <p><code class="prettyprint">stage-status</code></p>
 
-<p class='request-body-heading'>Request body</p>
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example stage status changed request body</p>
+<p>An example response body if the plugin could send the notification successfully</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>An example response body if the plugin could not send the notification</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Could not send email for build/1/compile/1"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The plugin is expected to return a JSON object to indicate if the notifications could be processed.</p>
+
+<aside class="warning">
+  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in &ldquo;server health messages&rdquo;.
+</aside>
+
+<p><a id='stage-start-body'></a></p>
+
+<h3 id="stage-start-notifications">Stage start notifications</h3>
+
+<blockquote>
+<p>A sample body when a stage with three jobs gets scheduled.</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"defaultGroup"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"build-cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"git-configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"shallow-clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.x"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/organization/repository"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"changed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"modifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"revision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8f60b12439840e5a0a4d464379dd3a48881008b4"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T17:27:58.000Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stageOne"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"approval-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timer"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Building"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job2"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job3"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>These notifications get sent out when a stage starts. The request body will contain a JSON representing the stage that is starting.</p>
+
+<ul>
+<li><p>A stage start notification can be identified by the <code class="prettyprint">.pipeline.stage.state</code> attribute set to <code class="prettyprint">Building</code>.</p></li>
+<li><p>For a stage with multiple jobs, all jobs will be made available in the JSON document.</p></li>
+<li><p>Each job state <code class="prettyprint">.pipeline.stage.jobs[].state</code> will be set to <code class="prettyprint">Scheduled</code>.</p></li>
+<li><p>Since the jobs have not run yet, every <code class="prettyprint">.pipeline.stage.jobs[].result</code> will be set to <code class="prettyprint">Unknown</code>.</p></li>
+</ul>
+
+<aside class="note">
+In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
+</aside>
+
+<p><a id='stage-complete-body'></a></p>
+
+<h3 id="stage-completion-notifications">Stage completion notifications</h3>
+
+<blockquote>
+<p>A sample body when a stage with one job completes successfully.</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -437,37 +555,17 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>The request body will contain a JSON representing the stage.</p>
+<p>These notifications get sent out after a stage completes. The request body will contain a JSON representing the stage that completed.</p>
 
-<p class='response-code-heading'>Response code</p>
+<ul>
+<li><p>Stage completion notifications can be identified when the <code class="prettyprint">.pipeline.stage.state</code> is something other than <code class="prettyprint">Building</code>. Valid values are <code class="prettyprint">Passed</code>, <code class="prettyprint">Failed</code> and <code class="prettyprint">Cancelled</code>.</p></li>
+<li><p>For a stage with multiple jobs, all jobs will be made available in the JSON document.</p></li>
+<li><p>Each job state <code class="prettyprint">.pipeline.stage.jobs[].state</code> will be set to <code class="prettyprint">Completed</code>.</p></li>
+<li><p>Every <code class="prettyprint">.pipeline.stage.jobs[].result</code> will one of <code class="prettyprint">&#39;Passed&#39;</code>, <code class="prettyprint">&#39;Failed&#39;</code> or <code class="prettyprint">&#39;Cancelled&#39;</code>.</p></li>
+</ul>
 
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
-<p class='response-body-heading'>Response Body</p>
-
-<blockquote>
-<p>An example response body if the plugin could send the notification successfully</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<blockquote>
-<p>An example response body if the plugin could not send the notification</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Could not send email for build/1/compile/1"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The plugin is expected to return a JSON object to indicate if the notifications could be processed.</p>
-
-<aside class="warning">
-  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in &ldquo;server health messages&rdquo;.
+<aside class="note">
+In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
 </aside>
 
 <h2 id="get-settings-view">Get Settings View</h2>
