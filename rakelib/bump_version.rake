@@ -11,7 +11,7 @@ task :bump_version do
     value
   end
 
-  current_version = env('CURRENT_VERSION')
+  current_version = File.readlink('build/current')
   version_to_release = env('VERSION_TO_RELEASE')
   next_version = env('NEXT_VERSION')
 
