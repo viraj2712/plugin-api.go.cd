@@ -44,14 +44,14 @@ task :bump_version do
     end
 
     next_version_data = {
-      version: next_version,
-      location: "https://plugin-api.gocd.io/#{next_version}/",
-      type: "next"
+        version: next_version,
+        location: "https://plugin-api.gocd.io/#{next_version}/",
+        type: "next"
     }
 
     versions.unshift(next_version_data)
 
-    open('versions.json', 'w') {|f| f.puts(JSON.pretty_generate(versions))}
+    open('versions.json', 'w') { |f| f.puts(JSON.pretty_generate(versions)) }
 
     open('index.html', 'w') do |f|
       erb = ERB.new(File.read("#{File.dirname(__FILE__)}/../lib/root.html.erb"), nil, '-')
@@ -63,9 +63,12 @@ task :bump_version do
       html = erb.result(binding)
       f.puts(html)
     end
-    sh("git add current versions.json index.html robots.txt")
-    sh("git commit -m 'Add new version to dropdown'")
-    sh("git push")
+    response = %x[git status]
+    unless response.include?('nothing to commit')
+      sh("git add current versions.json index.html robots.txt")
+      sh("git commit -m 'Add new version to dropdown'")
+      sh("git push")
+    end
   end
 
   $stderr.puts("*** Creating branch for - #{version_to_release}")
