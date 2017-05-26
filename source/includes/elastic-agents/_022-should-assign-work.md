@@ -1,6 +1,7 @@
 ## Should Assign Work
 
 When there are multiple agents available to run a job, the server will ask the plugin if jobs should be assigned to a particular agent. The request will contain information about the agent, the job configuration and the environment that the agent belongs to.
+This allows plugin to decide if proposed agent is suitable to schedule a job on it. For example, plugin can check if flavor or region of VM is suitable.
 
 <p class='request-name-heading'>Request name</p>
 
@@ -12,20 +13,22 @@ When there are multiple agents available to run a job, the server will ask the p
 
 ```xml
 <server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6" />
+<profile id="ec2.small-us-east" pluginId="com.example.ec2">
+  <property>
+    <key>ami-id</key>
+    <value>ami-6ac7408f</value>
+  </property>
+  <property>
+    <key>region</key>
+    <value>us-east-1</value>
+  </property>
+</profile>
 <pipelines>
   <pipeline name='build'>
-    <job name='...'>
-      <tasks/>
-      <agentConfig pluginId='com.example.go.testplugin'>
-        <property>
-          <key>ami-id</key>
-          <value>ami-c79d704a</value>
-        </property>
-        <property>
-          <key>region</key>
-          <value>us-east-1</value>
-        </property>
-      </agentConfig>
+    <job name="run-upgrade" runOnAllAgents="true" timeout='30' elasticProfileId="ec2.small-us-east">
+      <tasks>
+        <ant target="upgrade" />
+      </tasks>
     </job>
   </pipeline>
 </pipelines>
@@ -53,7 +56,8 @@ When there are multiple agents available to run a job, the server will ask the p
     "config_state": "Enabled"
   },
   "properties": {
-    "property_name": "property_value"
+    "ami-id": "ami-6ac7408f",
+    "region" : "us-east-1"
   }
 }
 ```
@@ -66,7 +70,7 @@ The request body will contain the following JSON elements:
 | ------------------- | -------- | ----------- |
 | `environment`       | `String` | The `environment` that this job belongs to. See the [environments section](https://docs.gocd.io/current/introduction/concepts_in_go.html#environment) to know more about environments. |
 | `agent`             | `Object` | An object describing the [elastic agent](#elastic-agent-object). |
-| `properties`        | `Object` | Jobs that require elastic agents, will have an `<agentConfig/>` element on it. This object represents the key value pairs that form this configuration. |
+| `properties`        | `Object` | Jobs that require elastic agents, will have an `elasticPluginId` attribute on it, which refers to elastic `<profile/>` element. This object represents the key value pairs from the `<profile/>` element. |
 
 <p class='response-code-heading'>Response code</p>
 
