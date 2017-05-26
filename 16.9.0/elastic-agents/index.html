@@ -645,7 +645,8 @@ $(function() {
 
 <h2 id="should-assign-work">Should Assign Work</h2>
 
-<p>When there are multiple agents available to run a job, the server will ask the plugin if jobs should be assigned to a particular agent. The request will contain information about the agent, the job configuration and the environment that the agent belongs to.</p>
+<p>When there are multiple agents available to run a job, the server will ask the plugin if jobs should be assigned to a particular agent. The request will contain information about the agent, the job configuration and the environment that the agent belongs to.
+This allows plugin to decide if proposed agent is suitable to schedule a job on it. For example, plugin can check if flavor or region of VM is suitable.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -658,20 +659,22 @@ $(function() {
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"ec2.small-us-east"</span> <span class="na">pluginId=</span><span class="s">"com.example.ec2"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>ami-id<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>ami-6ac7408f<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>region<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/profile&gt;</span>
 <span class="nt">&lt;pipelines&gt;</span>
   <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">'build'</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">'...'</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;tasks/&gt;</span>
-      <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">'com.example.go.testplugin'</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;property&gt;</span>
-          <span class="nt">&lt;key&gt;</span>ami-id<span class="nt">&lt;/key&gt;</span>
-          <span class="nt">&lt;value&gt;</span>ami-c79d704a<span class="nt">&lt;/value&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-        <span class="nt">&lt;property&gt;</span>
-          <span class="nt">&lt;key&gt;</span>region<span class="nt">&lt;/key&gt;</span>
-          <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-      <span class="nt">&lt;/agentConfig&gt;</span>
+    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"run-upgrade"</span> <span class="na">runOnAllAgents=</span><span class="s">"true"</span> <span class="na">timeout=</span><span class="s">'30'</span> <span class="na">elasticProfileId=</span><span class="s">"ec2.small-us-east"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;tasks&gt;</span>
+        <span class="nt">&lt;ant</span> <span class="na">target=</span><span class="s">"upgrade"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/tasks&gt;</span>
     <span class="nt">&lt;/job&gt;</span>
   <span class="nt">&lt;/pipeline&gt;</span>
 <span class="nt">&lt;/pipelines&gt;</span>
@@ -700,7 +703,8 @@ $(function() {
     </span><span class="nt">"config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"property_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"property_value"</span><span class="w">
+    </span><span class="nt">"ami-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ami-6ac7408f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"region"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"us-east-1"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -729,7 +733,7 @@ $(function() {
 <tr>
 <td><code class="prettyprint">properties</code></td>
 <td><code class="prettyprint">Object</code></td>
-<td>Jobs that require elastic agents, will have an <code class="prettyprint">&lt;agentConfig/&gt;</code> element on it. This object represents the key value pairs that form this configuration.</td>
+<td>Jobs that require elastic agents, will have an <code class="prettyprint">elasticPluginId</code> attribute on it, which refers to elastic <code class="prettyprint">&lt;profile/&gt;</code> element. This object represents the key value pairs from the <code class="prettyprint">&lt;profile/&gt;</code> element.</td>
 </tr>
 </tbody></table>
 
