@@ -130,17 +130,17 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="authorization-plugins-beta">Authorization Plugins(Beta)</h1>
+        <h1 id="authorization-plugins">Authorization Plugins</h1>
 
 <h2 id="introduction">Introduction</h2>
 
-<p>GoCD currently supports password-file, LDAP and plugin based authentication.</p>
+<p>The Authorization endpoints are GoCD extensions to build plugins which provide authentication and authorization.</p>
 
-<p>In addition to authentication, GoCD offers authorization by restricting certain operations to specific users and groups of users (&ldquo;roles&rdquo;).</p>
+<p>GoCD enforces authorization by restricting certain operations to specific users and groups of users (&ldquo;roles&rdquo;).</p>
 
 <p>Without the use of authorization plugins, roles can only be managed through GoCD and it does not provide an ability to use roles defined in systems used for authentication (for example in LDAP groups). With this limitation, administrators need to configure roles in multiples places.</p>
 
-<p>The introduction of the authorization plugin endpoint (Beta) allows GoCD to delegate both authentication and authorization of users to plugins. The plugins will have the flexibility to use any identity service providers like LDAP, Google, GitHub etc.</p>
+<p>Authorization plugin endpoint allows GoCD to delegate both authentication and authorization of users to plugins. The plugins will have the flexibility to use any authorization service providers like LDAP, Google, GitHub etc.</p>
 
 <p>If you&rsquo;re looking to start away with a basic template for authorization plugins, we recommend forking this <a href="https://github.com/gocd-contrib/authorization-skeleton-plugin">Github repository</a>.</p>
 
@@ -154,39 +154,49 @@
 <p>An example authorization configuration</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;authConfigs&gt;</span>
-  <span class="nt">&lt;authConfig</span> <span class="na">id=</span><span class="s">"ldap"</span> <span class="na">pluginId=</span><span class="s">"cd.go.authorization.ldap"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>Url<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>ldap://ldap.server.url:10389<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>ManagerDN<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>uid=admin,ou=system<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>SearchBase<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>ou=users,ou=system<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>Password<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>secret<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>SearchFilter<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>uid<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-    <span class="nt">&lt;property&gt;</span>
-      <span class="nt">&lt;key&gt;</span>DisplayNameAttribute<span class="nt">&lt;/key&gt;</span>
-      <span class="nt">&lt;value&gt;</span>displayName<span class="nt">&lt;/value&gt;</span>
-    <span class="nt">&lt;/property&gt;</span>
-  <span class="nt">&lt;/authConfig&gt;</span>
-<span class="nt">&lt;/authConfigs&gt;</span>
+<pre class="highlight xml"><code>  <span class="nt">&lt;security&gt;</span>
+    <span class="nt">&lt;authConfigs&gt;</span>
+      <span class="nt">&lt;authConfig</span> <span class="na">id=</span><span class="s">"profile-id"</span> <span class="na">pluginId=</span><span class="s">"cd.go.authentication.ldap"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>Url<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>ldap://ldap-server-url<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>ManagerDN<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>cn=go,ou=Teams,dc=corporate,dc=example,dc=com<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>Password<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>secret<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>SearchBases<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>ou=Teams,dc=corporate,dc=example,dc=com<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>UserLoginFilter<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>(sAMAccountName={0})<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>UserSearchFilter<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>(|(sAMAccountName=*{0}*)(uid=*{0}*)(cn=*{0}*)(mail=*{0}*)(otherMailbox=*{0}*))<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>DisplayNameAttribute<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>displayName<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property&gt;</span>
+          <span class="nt">&lt;key&gt;</span>EmailAttribute<span class="nt">&lt;/key&gt;</span>
+          <span class="nt">&lt;value&gt;</span>mail<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+      <span class="nt">&lt;/authConfig&gt;</span>
+    <span class="nt">&lt;/authConfigs&gt;</span>
+  <span class="nt">&lt;/security&gt;</span>
 </code></pre>
 
-<p>Authorization configuration will usually allow administrators to configure  the connection settings for your authorization plugin, and may include configuration like URLs, and credentials, among others.</p>
+<p>Authorization configuration will usually allow administrators to configure the connection settings for your authorization plugin, and may include configuration like URLs and credentials, among others.</p>
 
-<p>GoCD administrators could provide multiple authorization configurations to connect with multiple identity providers.</p>
+<p>GoCD administrators could provide multiple authorization configurations to connect with multiple authorization servers.</p>
 
 <h3 id="plugin-role-configuration">Plugin Role Configuration</h3>
 
@@ -196,13 +206,17 @@
 
 <pre class="highlight xml"><code><span class="nt">&lt;pluginRole</span> <span class="na">name=</span><span class="s">"spacetiger"</span> <span class="na">authConfigId=</span><span class="s">"ldap"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
-    <span class="nt">&lt;key&gt;</span>memberOf<span class="nt">&lt;/key&gt;</span>
-    <span class="nt">&lt;value&gt;</span>ou=spacetiger,ou=example,ou=com<span class="nt">&lt;/value&gt;</span>
+    <span class="nt">&lt;key&gt;</span>MemberOfAttribute<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>memberOf<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;key&gt;</span>MatchingGroups<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;value&gt;</span>CN=Dev,OU=Groups,DC=some,DC=enterprise,DC=com<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/pluginRole&gt;</span>
 </code></pre>
 
-<p>This is used to define roles in GoCD, unlike the current roles which contains a list of users pluginRole provides configuration to map a GoCD role to a role defined in an external identity service. e.g pluginRole can be used to define mappings between LDAP group and GoCD roles.</p>
+<p>This is used to define roles in GoCD, unlike the current roles which contains a list of users pluginRole provides configuration to map a GoCD role to a role defined in an external authorization service. e.g pluginRole can be used to define mappings between LDAP group and GoCD roles.</p>
 
 <h1 id="getting-started">Getting started</h1>
 
@@ -390,7 +404,9 @@
 
 <h1 id="requests-from-the-gocd-server">Requests from the GoCD server</h1>
 
-<p>In order to implement an authorization extension point, following messages must be implemented by the plugin.</p>
+<p>Authorization extension exposes endpoints to support authentication and authorization.</p>
+
+<p>All Authorization plugins should implement the following messages to support authentication.</p>
 
 <ul>
 <li><a href="#get-plugin-icon">Get Plugin Icon</a></li>
@@ -399,9 +415,18 @@
 <li><a href="#get-authorization-configuration-view">Get Authorization Configuration View</a></li>
 <li><a href="#validate-authorization-configuration">Validate Authorization Configuration</a></li>
 <li><a href="#authenticate-user">Authenticate User</a></li>
+<li><a href="#authorization-server-url">Authorization Server URL</a></li>
+<li><a href="#verify-connection">Verify Connection</a></li>
 </ul>
 
-<p>In order to create plugin role configuration <code class="prettyprint">&lt;pluginRole&gt;</code>, following messages must be implemented by plugin.</p>
+<p>If a plugin supports web based authentication, apart from the above, the plugin must implement the following messages. The plugin should use the <code class="prettyprint">supported_auth_type</code> <a href="#get-plugin-capabilities">capability</a> to expose this feature.</p>
+
+<ul>
+<li><a href="#fetch-access-token">Fetch Access Token</a></li>
+<li><a href="#authorization-server-redirect-url">Get Authorization Server Redirect URL</a></li>
+</ul>
+
+<p>For a plugin to support authorization, the following messages must be implemented. The plugin should use the <code class="prettyprint">can_authorize</code> <a href="#get-plugin-capabilities">capability</a> to expose this feature.</p>
 
 <ul>
 <li><a href="#get-role-configuration-metadata">Get Role Metadata</a></li>
@@ -409,16 +434,10 @@
 <li><a href="#validate-role-configuration">Validate Role</a></li>
 </ul>
 
-<p>If a plugin supports search, the following message must be implemented in order to serve search request from server.</p>
+<p>If a plugin supports search, the following message must be implemented in order to serve search request from server. The plugin should use the <code class="prettyprint">can_search</code> <a href="#get-plugin-capabilities">capability</a> to expose this feature.</p>
 
 <ul>
 <li><a href="#search-users">Search user</a></li>
-</ul>
-
-<p>Nice to have</p>
-
-<ul>
-<li><a href="#verify-connection">Verify Connection</a></li>
 </ul>
 
 <h2 id="get-plugin-icon">Get Plugin Icon</h2>
@@ -462,7 +481,7 @@
 
 <h2 id="get-plugin-capabilities">Get Plugin Capabilities</h2>
 
-<p>This message is a request to the plugin to provide plugin capabilities.</p>
+<p>This message is a request to the plugin to provide plugin capabilities. Based on these capablities GoCD would enable or disable the plugin features for a user.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -480,7 +499,8 @@
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"supported_auth_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"can_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"can_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"can_authorize"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -504,6 +524,11 @@
 <td><code class="prettyprint">can_search</code></td>
 <td><code class="prettyprint">Boolean</code></td>
 <td>Whether Plugin supports search or not, depends on this <code class="prettyprint">boolean</code> value.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">can_authorize</code></td>
+<td><code class="prettyprint">Boolean</code></td>
+<td>Whether Plugin supports authorization, depends on this <code class="prettyprint">boolean</code> value.</td>
 </tr>
 </tbody></table>
 
@@ -601,7 +626,7 @@
 
 <h2 id="validate-authorization-configuration">Validate Authorization Configuration</h2>
 
-<p>If a plugin requires any authorization configuration, this message must be implemented in order to validate the configuration.</p>
+<p>This message must be implemented in order to validate the configuration. The plugin would receive this message from GoCD server during config save.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -648,8 +673,11 @@
 
 <h2 id="authenticate-user">Authenticate User</h2>
 
-<p>This message is a request to the plugin to authenticate and authorize a user, along with the user credentials and all known
-<code class="prettyprint">&lt;authConfig /&gt;</code>  and <code class="prettyprint">&lt;roleConfig /&gt;</code>configured for the plugin.</p>
+<p>This message is a request to the plugin to authenticate and authorize a user, along with the user credentials the GoCD server sends all known
+<code class="prettyprint">&lt;authConfig /&gt;</code>  and <code class="prettyprint">&lt;roleConfig /&gt;</code> configured for the plugin. In case of multiple <code class="prettyprint">&lt;authConfig /&gt;</code> configured for the plugin, the plugin
+is expected to try authenticating the user against each config until a successful authentication.</p>
+
+<p>GoCD forces a perodic re-authentication of users, this is to ensure any changes like removing of users or roles in the external authorization server are reflected in GoCD.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -707,7 +735,7 @@
 <tr>
 <td><code class="prettyprint">credentials</code></td>
 <td><code class="prettyprint">Object</code></td>
-<td>For a plugin which supports password based authentication, this key should contain the &lsquo;username&rsquo; and &lsquo;password&rsquo; provided by the user at the time of login.</td>
+<td>For a password based plugins, the server sends the &lsquo;username&rsquo; and &lsquo;password&rsquo; provided by the user at the time of login. For web based plugins, the server sends the data received from <a href="#fetch-access-token">Fetch Access Token</a> call made to the plugin.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">auth_configs</code></td>
@@ -764,8 +792,9 @@
 
 <h2 id="verify-connection">Verify Connection</h2>
 
-<p>This message must be implemented by plugin in order to provide an option to verify connection for a given authorization configuration. The plugin is 
-expected to validate the configuration before trying to check connection.</p>
+<p>The plugin must implement this message in order to verify if a connection can be established with the authorization server using the authorization configuration.</p>
+
+<p>The plugin is expected to validate the configuration before trying to check connection.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -781,7 +810,7 @@ expected to validate the configuration before trying to check connection.</p>
   </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.bar.com:389"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"ManagerDN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dummy manager dn"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"SearchFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"UserLoginFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"(uid={0})"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"DisplayNameAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"displayName"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"EmailAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mail"</span><span class="w">
@@ -834,6 +863,8 @@ expected to validate the configuration before trying to check connection.</p>
 
 <p>The response body will contain the following JSON elements:</p>
 
+<p class='attributes-table-follows'></p>
+
 <table><thead>
 <tr>
 <th>Key</th>
@@ -860,7 +891,7 @@ expected to validate the configuration before trying to check connection.</p>
 
 <h2 id="get-role-configuration-metadata">Get Role Configuration Metadata</h2>
 
-<p>This is a message that the plugin should implement, to allow users to configure role configuration(<code class="prettyprint">&lt;pluginRole&gt;</code>) from the Role Configuration View in GoCD.</p>
+<p>This is a message that the plugin should implement to allow users to configure role configuration(<code class="prettyprint">&lt;pluginRole&gt;</code>) from the Role Configuration View in GoCD. The role configuration should provide a way for admins to map Authorization Server roles with GoCD roles(e.g map LDAP groups to GoCD roles).</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -984,7 +1015,7 @@ expected to validate the configuration before trying to check connection.</p>
 
 <h2 id="search-users">Search users</h2>
 
-<p>If a plugin supports search, this message must be implemented in order for GoCD users to search for users in external authorization systems.</p>
+<p>If a plugin supports users search, this message must be implemented to lookup for users in an external Authorization Server through GoCD User Summary page.</p>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -1009,9 +1040,9 @@ expected to validate the configuration before trying to check connection.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p class='attributes-table-follows'></p>
-
 <p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
 
 <table><thead>
 <tr>
@@ -1084,6 +1115,147 @@ expected to validate the configuration before trying to check connection.</p>
 </tr>
 </tbody></table>
 
+<h2 id="authorization-server-url">Authorization Server URL</h2>
+
+<p>This is a message that a web based plugin should implement. A web based plugin uses an external authorization server for authentication. For this request the plugin should return the URL of the external authorization server to which GoCD redirects the user for authentication.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.authorization.authorization-server-url</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}],</span><span class="w">
+  </span><span class="nt">"authorization_server_callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my_go_server/go/plugin/my_plugin_id/authenticate"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">auth_configs</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>This key contains list of <code class="prettyprint">&lt;authconfig&gt;</code> configured for the plugin.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">authorization_server_callback_url</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>This key contains the GoCD url to which the authorization server should redirect on a successful authentication</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"authorization_server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://external_auth_server_url/login?redirect_url=http://my_go_server/go/plugin/my_plugin_id/authenticate&amp;client_id=hdfjh3r&amp;client_secret=vbvdv1493"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The response body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">authorization_server_url</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The external authorization server URL to which GoCD redirects the user for authentication.</td>
+</tr>
+</tbody></table>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<h2 id="fetch-access-token">Fetch Access Token</h2>
+
+<p>This is a message that a web based plugin should implement. In case of web based authentication a user is authenticated by an external authorization server. On successful authentication, the authorization server should redirect to GoCD endpoint returned by <a href="#authorization-server-url">authorization server url</a> request. We would refer to these requests as pre-authenticated requests. Depending upon the authorization server, the pre-authenticated requests can contain user information either in HTTP header or request params. GoCD, upon receiving a pre-authenticated request, would make the fetch access token request to the plugin by passing all the user information provided by the authorization server. The plugin in turn should exchange this information with the authorization server to request for an access token to make subsequent requests on behalf of the user.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.authorization.fetch-access-token</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">auth_configs</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>This key contains list of <code class="prettyprint">&lt;authconfig&gt;</code> configured for the plugin.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">role_configs</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>This key contains list of <code class="prettyprint">&lt;roleconfig&gt;</code> configured for the plugin.</td>
+</tr>
+</tbody></table>
+
+<p class='request-body-heading'>Request parameters</p>
+
+<p>Request paramters would contain all request parameters sent by the external authorization server to GoCD.</p>
+
+<p class='request-body-heading'>Request headers</p>
+
+<p>Request headers would contain all the HTTP request headers sent by the external authorization server to GoCD.</p>
+
+<p class='response-code-heading'>Response Body</p>
+
+<p>The response should be a JSON with the necessary information required by the plugin to make any subsequent calls to the authorization server on behalf of the user.
+GoCD would pass the returned json as credentials for the <a href="#authenticate-user">Authenticate User</a> request.</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
 <p>The plugin may make following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
@@ -1094,7 +1266,9 @@ expected to validate the configuration before trying to check connection.</p>
 
 <h2 id="invalidate-users-cache">Invalidate Users Cache</h2>
 
-<p>This message allows a plugin invalidate logged in user session.</p>
+<p>This message allows a plugin invalidate logged in user session in GoCD.</p>
+
+<p>With authorization plugins a user is authenticated using an external authorization server, upon successful authentication GoCD creates a looged in session for the user. Changes on the external authorization server like removing a user or change of role needs to be notified to GoCD. This message can be used by plugins to trigger a re-authentication of users in GoCD.</p>
 
 <p class='request-name-heading'>Request name</p>
 
