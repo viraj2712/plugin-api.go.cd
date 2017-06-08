@@ -123,8 +123,8 @@
       </div>
         <ul class="toc-footer">
             <li><a href='https://github.com/gocd/plugin-api.go.cd'>Edit this guide on GitHub</a></li>
-            <li><a href='https://api.gocd.io'>GoCD API Documentation</a></li>
-            <li><a href='https://docs.gocd.io'>GoCD User Documentation</a></li>
+            <li><a href='https://api.gocd.org'>GoCD API Documentation</a></li>
+            <li><a href='https://docs.gocd.org'>GoCD User Documentation</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -157,8 +157,8 @@ then brought down when not needed. This feature should enable a more flexible an
 <h2 id="current-process-of-handling-agents">Current process of handling agents</h2>
 
 <p>Agents are currently started manually or automatically by scripts written by users. They are registered to the GoCD
-server manually, on the <a href="https://docs.gocd.io/current/navigation/agents_page.html">agents page</a> or
-automatically, using <a href="https://docs.gocd.io/current/advanced_usage/agent_auto_register.html">auto-registration</a>.</p>
+server manually, on the <a href="https://docs.gocd.org/current/navigation/agents_page.html">agents page</a> or
+automatically, using <a href="https://docs.gocd.org/current/advanced_usage/agent_auto_register.html">auto-registration</a>.</p>
 
 <p>Idle agents, after registration with the server, continuously poll the server, asking for jobs to run. When a stage is
 triggered, the jobs that need to be started are identified by the server. Suitable jobs are assigned to agents
@@ -219,7 +219,7 @@ volumes to be mounted etc.</p>
 <li>When a job is <a href="#glossary-schedule">scheduled</a>, if its job configuration contains a elasticProfileId, the job is
 not considered for normal <a href="#glossary-assign">assignment</a> as described in the previous section.</li>
 <li>The  plugin corresponding for that job elasticProfileId is contacted
-(to <a href="https://plugin-api.gocd.io/current/elastic-agents/#create-agent">create an agent</a>),
+(to <a href="https://plugin-api.gocd.org/current/elastic-agents/#create-agent">create an agent</a>),
 along with the corresponding profile configuration for which this assignment needs to be made.</li>
 <li>At this point the plugin may, at its discretion, create an agent or not.
 
@@ -233,7 +233,7 @@ same as point above).</li>
 it to choose, again.</li>
 <li>When an elastic-agent pings the server for work, and if there is a job that requires an elastic-agent, then the
 corresponding plugin for that job is contacted (to check if the server
-<a href="https://plugin-api.gocd.io/current/elastic-agents/#should-assign-work">should assign work</a> to the agent), along with the
+<a href="https://plugin-api.gocd.org/current/elastic-agents/#should-assign-work">should assign work</a> to the agent), along with the
 profile configuration for which this assignment needs to be made.</li>
 </ol>
 
@@ -654,12 +654,12 @@ $(function() {
 <tr>
 <td><code class="prettyprint">auto_register_key</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate <code class="prettyprint">autoregister.properties</code> file on the agent instance, before it starts the agent process. See the <a href="https://docs.gocd.io/current/advanced_usage/agent_auto_register.html">auto-register documentation</a> for more information.</td>
+<td>The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate <code class="prettyprint">autoregister.properties</code> file on the agent instance, before it starts the agent process. See the <a href="https://docs.gocd.org/current/advanced_usage/agent_auto_register.html">auto-register documentation</a> for more information.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">environment</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The <code class="prettyprint">environment</code> that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the <a href="https://docs.gocd.io/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
+<td>The <code class="prettyprint">environment</code> that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the <a href="https://docs.gocd.org/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">properties</code></td>
@@ -756,7 +756,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <tr>
 <td><code class="prettyprint">environment</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The <code class="prettyprint">environment</code> that this job belongs to. See the <a href="https://docs.gocd.io/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
+<td>The <code class="prettyprint">environment</code> that this job belongs to. See the <a href="https://docs.gocd.org/current/introduction/concepts_in_go.html#environment">environments section</a> to know more about environments.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">agent</code></td>
@@ -1167,7 +1167,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <span class="o">}</span>
 </code></pre>
 
-<p>Before a plugin terminates an agent instance, it must first disable it in order to prevent jobs from being assigned to it. This call is the equivalent of setting <code class="prettyprint">isDisabled</code> on an <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.gocd.io/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
+<p>Before a plugin terminates an agent instance, it must first disable it in order to prevent jobs from being assigned to it. This call is the equivalent of setting <code class="prettyprint">isDisabled</code> on an <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.gocd.org/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
 
 <p>Agents in any state can be disabled, this will prevent jobs from being assigned to it. Any jobs the agent is running will eventually complete.</p>
 
@@ -1238,7 +1238,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <span class="o">}</span>
 </code></pre>
 
-<p>Before the delete-agent message is sent to the server, the plugin MUST ensure that the agent is terminated. This call is the equivalent of removing the <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.gocd.io/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
+<p>Before the delete-agent message is sent to the server, the plugin MUST ensure that the agent is terminated. This call is the equivalent of removing the <code class="prettyprint">&lt;agent/&gt;</code> element in the config XML. More information about the agent config here, can be found in the <a href="https://docs.gocd.org/current/configuration/configuration_reference.html#agent">configuration reference</a>.</p>
 
 <aside class="notice">
   <strong>Important:</strong> Before an agent is terminated, it is recommended to ensure that it is first <a href='#disable-agents'>disabled</a> and that the <code>agent_state</code> is <code>Idle</code>. This will ensure that any jobs that an agent is running are completed.
