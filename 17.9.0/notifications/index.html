@@ -674,6 +674,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 
 <ul>
 <li><a href="#get-plugin-settings">Get Plugin Settings</a></li>
+<li><a href="#get-server-info">Get Server Info</a></li>
 </ul>
 
 <h2 id="get-plugin-settings">Get Plugin Settings</h2>
@@ -764,6 +765,45 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 </span></code></pre>
 
 <p>The server will send a map of settings.</p>
+
+<h2 id="get-server-info">Get Server Info</h2>
+
+<p>This messages allows a plugin to query the server to get some metadata about the server.</p>
+
+<p class='available-since'>
+  Available since v17.9.0.
+</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.server-info.get</code></p>
+
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The plugin should not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
 
@@ -966,6 +1006,47 @@ any server side errors</p>
 <td><code class="prettyprint">message</code></td>
 <td>String</td>
 <td>The error message associated with that key.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-server-info-object'></a></p>
+
+<h3 id="the-server-info-object">The server info object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the server info object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">server_id</code></td>
+<td>String</td>
+<td>This contains a unique identifier for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_url</code></td>
+<td>String</td>
+<td>This contains the site url configured for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure_site_url</code></td>
+<td>String</td>
+<td>This contains the secure site url configured for this server.</td>
 </tr>
 </tbody></table>
 

@@ -688,7 +688,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body for password based authorization —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"credentials"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
@@ -754,7 +753,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
@@ -789,7 +787,6 @@ is expected to try authenticating the user against each config until a successfu
 </tbody></table>
 
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
 <h2 id="verify-connection">Verify Connection</h2>
 
 <p>The plugin must implement this message in order to verify if a connection can be established with the authorization server using the authorization configuration.</p>
@@ -805,7 +802,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example LDAP plugin authorization configuration request body to verify connection</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.bar.com:389"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
@@ -828,7 +824,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>Example response body based on successful verification</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection passed"</span><span class="w">
@@ -838,7 +833,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>Example response body based on verification failed</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection failed, unable to reach ldap://my_ldap_server"</span><span class="w">
@@ -848,7 +842,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>Example response body based on validation failed</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"validation-failed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Validation failed for the given authorization config"</span><span class="p">,</span><span class="w">
@@ -888,7 +881,6 @@ is expected to try authenticating the user against each config until a successfu
 <td>In case of validation errors plugin should return a list of <a href="#the-validation-error-object">validation error objects</a>.</td>
 </tr>
 </tbody></table>
-
 <h2 id="get-role-configuration-metadata">Get Role Configuration Metadata</h2>
 
 <p>This is a message that the plugin should implement to allow users to configure role configuration(<code class="prettyprint">&lt;pluginRole&gt;</code>) from the Role Configuration View in GoCD. The role configuration should provide a way for admins to map Authorization Server roles with GoCD roles(e.g map LDAP groups to GoCD roles).</p>
@@ -906,7 +898,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
@@ -942,7 +933,6 @@ is expected to try authenticating the user against each config until a successfu
 </tbody></table>
 
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
 <h2 id="get-role-configuration-view">Get Role Configuration View</h2>
 
 <p>This is a message that the plugin should implement, to allow users to configure role configuration (<code class="prettyprint">&lt;pluginRole&gt;</code>) from the Role Configurations View in GoCD.</p>
@@ -966,12 +956,10 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-
 <h2 id="validate-role-configuration">Validate Role Configuration</h2>
 
 <p>If a plugin requires any authorization configuration, this message must be implemented in order to validate the configuration.</p>
@@ -985,7 +973,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example validation request body for LDAP plugin</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"MemberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=blackbird,ou=area51,dc=example,dc=com"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1002,7 +989,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
@@ -1012,7 +998,6 @@ is expected to try authenticating the user against each config until a successfu
 </span></code></pre>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
-
 <h2 id="search-users">Search users</h2>
 
 <p>If a plugin supports users search, this message must be implemented to lookup for users in an external Authorization Server through GoCD User Summary page.</p>
@@ -1026,7 +1011,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An search request body</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"search_term"</span><span class="p">:</span><span class="w"> </span><span class="s2">"queried string"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -1072,7 +1056,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin should respond with JSON array of users</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbanks"</span><span class="p">,</span><span class="w">
@@ -1114,7 +1097,6 @@ is expected to try authenticating the user against each config until a successfu
 <td><code class="prettyprint">email_id</code> of user</td>
 </tr>
 </tbody></table>
-
 <h2 id="authorization-server-url">Authorization Server URL</h2>
 
 <p>This is a message that a web based plugin should implement. A web based plugin uses an external authorization server for authentication. For this request the plugin should return the URL of the external authorization server to which GoCD redirects the user for authentication.</p>
@@ -1128,7 +1110,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
@@ -1168,7 +1149,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"authorization_server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://external_auth_server_url/login?redirect_url=http://my_go_server/go/plugin/my_plugin_id/authenticate&amp;client_id=hdfjh3r&amp;client_secret=vbvdv1493"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1193,7 +1173,6 @@ is expected to try authenticating the user against each config until a successfu
 </tbody></table>
 
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
 <h2 id="fetch-access-token">Fetch Access Token</h2>
 
 <p>This is a message that a web based plugin should implement. In case of web based authentication a user is authenticated by an external authorization server. On successful authentication, the authorization server should redirect to GoCD endpoint returned by <a href="#authorization-server-url">authorization server url</a> request. We would refer to these requests as pre-authenticated requests. Depending upon the authorization server, the pre-authenticated requests can contain user information either in HTTP header or request params. GoCD, upon receiving a pre-authenticated request, would make the fetch access token request to the plugin by passing all the user information provided by the authorization server. The plugin in turn should exchange this information with the authorization server to request for an access token to make subsequent requests on behalf of the user.</p>
@@ -1207,7 +1186,6 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
@@ -1255,15 +1233,14 @@ is expected to try authenticating the user against each config until a successfu
 GoCD would pass the returned json as credentials for the <a href="#authenticate-user">Authenticate User</a> request.</p>
 
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
 <p>The plugin may make following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
 
 <ul>
 <li><a href="#invalidate-users-cache">Invalidate Cache</a></li>
+<li><a href="#get-server-info">Get Server Info</a></li>
 </ul>
-
 <h2 id="invalidate-users-cache">Invalidate Users Cache</h2>
 
 <p>This message allows a plugin invalidate logged in user session in GoCD.</p>
@@ -1283,6 +1260,44 @@ GoCD would pass the returned json as credentials for the <a href="#authenticate-
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
 <p>The server will not provide any response body.</p>
+<h2 id="get-server-info">Get Server Info</h2>
+
+<p>This messages allows a plugin to query the server to get some metadata about the server.</p>
+
+<p class='available-since'>
+  Available since v17.9.0.
+</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.server-info.get</code></p>
+
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The plugin should not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
 
@@ -1425,6 +1440,47 @@ GoCD would pass the returned json as credentials for the <a href="#authenticate-
 <td><code class="prettyprint">message</code></td>
 <td>String</td>
 <td>Connection check failure message.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-server-info-object'></a></p>
+
+<h3 id="the-server-info-object">The server info object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the server info object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">server_id</code></td>
+<td>String</td>
+<td>This contains a unique identifier for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_url</code></td>
+<td>String</td>
+<td>This contains the site url configured for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure_site_url</code></td>
+<td>String</td>
+<td>This contains the secure site url configured for this server.</td>
 </tr>
 </tbody></table>
 

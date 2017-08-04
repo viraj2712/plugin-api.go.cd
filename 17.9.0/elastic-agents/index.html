@@ -184,7 +184,6 @@ the scheduled and waiting job.</li>
 <blockquote>
 <p>Here is an example elastic profile configuration and a Job configured to use the profile for the <a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a></p>
 </blockquote>
-
 <pre class="highlight xml"><code><span class="nt">&lt;server&gt;</span>
   <span class="nt">&lt;elastic&gt;</span>
     <span class="nt">&lt;profiles&gt;</span>
@@ -549,7 +548,6 @@ $(function() {
 <h3 id="the-plugin-dependencies">The plugin dependencies</h3>
 
 <p>Any dependencies that your plugin requires, should go into the <code class="prettyprint">lib</code> directory inside the plugin JAR.</p>
-
 <h1 id="requests-from-the-gocd-server">Requests from the GoCD server</h1>
 
 <p>In order to implement an elastic agent extension point the following messages must be implemented by the plugin.</p>
@@ -576,7 +574,6 @@ $(function() {
 <li><a href="#get-profile-view">Get Profile View</a></li>
 <li><a href="#get-profile-metadata">Get Profile Metadata</a></li>
 </ul>
-
 <h2 id="create-agent">Create Agent</h2>
 
 <p>This message is a request to the plugin to create an agent for a job that has been scheduled.</p>
@@ -598,7 +595,6 @@ $(function() {
 <blockquote>
 <p>Given the following config XML snippet —</p>
 </blockquote>
-
 <pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;pipelines&gt;</span>
   <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">'build'</span><span class="nt">&gt;</span>
@@ -629,7 +625,6 @@ $(function() {
 <blockquote>
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"auto_register_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"production"</span><span class="p">,</span><span class="w">
@@ -675,7 +670,6 @@ $(function() {
 <p class='response-body-heading'>Response Body</p>
 
 <p>Can be left blank, the server does not parse any response body returned.</p>
-
 <h2 id="should-assign-work">Should Assign Work</h2>
 
 <p>When there are multiple agents available to run a job, the server will ask the plugin if jobs should be assigned to a particular agent. The request will contain information about the agent, the job configuration and the environment that the agent belongs to.
@@ -690,7 +684,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>Given the following config XML snippet —</p>
 </blockquote>
-
 <pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"ec2.small-us-east"</span> <span class="na">pluginId=</span><span class="s">"com.example.ec2"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
@@ -726,7 +719,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"staging"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"agent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -777,7 +769,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>The server must return a JSON string response with a boolean — <code class="prettyprint">true</code> or <code class="prettyprint">false</code> to indicate whether the agent should be assigned work.</p>
-
 <h2 id="server-ping">Server Ping</h2>
 
 <p>Each elastic agent plugin will receive a periodic signal at regular intervals for it to perform any cleanup operations. Plugins may use this message to disable and/or terminate agents at their discretion.</p>
@@ -801,7 +792,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>Can be left blank, the server does not parse any response body returned.</p>
-
 <h2 id="get-settings-view">Get Settings View</h2>
 
 <p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page.</p>
@@ -830,7 +820,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
   </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-
 <h2 id="get-plugin-configuration">Get Plugin Configuration</h2>
 
 <p>This is an optional message that the plugin may implement, should users want to configure the plugin from the GoCD admin page. This message allows the server to query a plugin about what properties are supported by this plugin.</p>
@@ -850,7 +839,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>A JSON <a href="#the-plugin-settings-configuration-object">plugin settings configuration object</a>.</p>
-
 <h2 id="validate-plugin-configuration">Validate Plugin Configuration</h2>
 
 <p>If a plugin requires any configuration, this message must be implemented in order to validate the configuration.</p>
@@ -901,7 +889,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
-
 <h2 id="get-plugin-icon">Get Plugin Icon</h2>
 
 <p>This call is expected to return the icon for the plugin, so as to make it easy for users to identify the plugin.</p>
@@ -940,7 +927,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
     <li>The base-64 encoded data is &lt;= 100KB. Bigger sizes will work too, but may take a long time to render.</li>
   </ul>
 </aside>
-
 <h2 id="validate-profile">Validate Profile</h2>
 
 <p>This call is expected to validate the user inputs that form a part of the elastic agent profile.</p>
@@ -956,7 +942,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>An example validation request body for the docker elastic agent plugin</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"Image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alpine:latest"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"MaxMemory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="w">
@@ -972,7 +957,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MaxMemory"</span><span class="p">,</span><span class="w">
@@ -982,7 +966,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the profile is valid, the plugin should return an empty JSON array.</p>
-
 <h2 id="get-profile-view">Get Profile View</h2>
 
 <p>This is a message that the plugin should, to allow users to configure profiles from the Elastic Profiles View in GoCD.</p>
@@ -1006,12 +989,10 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>An example response body</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-
 <h2 id="get-profile-metadata">Get Profile Metadata</h2>
 
 <p>This is a message that the plugin should, to allow users to configure profiles from the Elastic Profiles View in GoCD.</p>
@@ -1033,7 +1014,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <blockquote>
 <p>An example response body for a docker plugin</p>
 </blockquote>
-
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
@@ -1046,7 +1026,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>A JSON <a href="#the-profile-metadata-object">profile metadata object</a>.</p>
-
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
 <p>The plugin may make the following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
@@ -1056,10 +1035,9 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <li><a href="#disable-agents">Disable Agents</a></li>
 <li><a href="#delete-agents">Delete Agents</a></li>
 <li><a href="#get-plugin-settings">Get Plugin Settings</a></li>
+<li><a href="#get-server-info">Get Server Info</a></li>
 </ul>
-
 <h2 id="list-agents">List Agents</h2>
-
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
@@ -1121,9 +1099,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>The server will send a list of <a href="#elastic-agent-object">agents</a>.</p>
-
 <h2 id="disable-agents">Disable Agents</h2>
-
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
@@ -1186,9 +1162,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>The server will not send a response body.</p>
-
 <h2 id="delete-agents">Delete Agents</h2>
-
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
@@ -1262,7 +1236,6 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='response-body-heading'>Response Body</p>
 
 <p>The server will not send a response body.</p>
-
 <h2 id="get-plugin-settings">Get Plugin Settings</h2>
 
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
@@ -1351,6 +1324,44 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>The server will send a map of settings.</p>
+<h2 id="get-server-info">Get Server Info</h2>
+
+<p>This messages allows a plugin to query the server to get some metadata about the server.</p>
+
+<p class='available-since'>
+  Available since v17.9.0.
+</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.processor.server-info.get</code></p>
+
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The plugin should not provide a request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
 
@@ -1670,6 +1681,47 @@ any server side errors</p>
 <td><code class="prettyprint">metadata</code></td>
 <td>Object</td>
 <td>The metadata associated with the key used in the elastic profile. Valid keys are <code class="prettyprint">required</code> and <code class="prettyprint">secure</code>.</td>
+</tr>
+</tbody></table>
+
+<p><a id='the-server-info-object'></a></p>
+
+<h3 id="the-server-info-object">The server info object</h3>
+
+<blockquote>
+<p>Here&rsquo;s an example of the server info object</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">server_id</code></td>
+<td>String</td>
+<td>This contains a unique identifier for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">site_url</code></td>
+<td>String</td>
+<td>This contains the site url configured for this server.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure_site_url</code></td>
+<td>String</td>
+<td>This contains the secure site url configured for this server.</td>
 </tr>
 </tbody></table>
 
