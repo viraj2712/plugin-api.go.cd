@@ -1,0 +1,35 @@
+## Get Server Info
+
+This messages allows a plugin to query the server to get some metadata about the server.
+
+<%= available_since('17.9.0') %>
+
+<p class='request-name-heading'>Request name</p>
+
+`go.processor.server-info.get`
+
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
+<p class='request-body-heading'>Request body</p>
+
+The plugin should not provide a request body.
+
+<p class='response-code-heading'>Response code</p>
+
+The server is expected to return status `200` if it could process the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+The plugin will provide a [server info](#the-server-info-object) object.
+
+> An example response body
+
+```json
+{
+  "server_id": "df0cb9be-2696-4689-8d46-1ef3c4e4447c",
+  "site_url": "http://example.com:8153/go",
+  "secure_site_url": "https://example.com:8154/go"
+}
+```
