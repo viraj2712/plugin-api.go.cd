@@ -1,0 +1,16 @@
+<%
+
+json = {
+  server_id: "df0cb9be-2696-4689-8d46-1ef3c4e4447c",
+  site_url: "http://example.com:8153/go",
+  secure_site_url: "https://example.com:8154/go"
+}
+%>
+
+<%=
+describe_sub_object 'The server info object', json: json, html_id: 'the-server-info-object' do
+  server_id       'String',  'This contains a unique identifier for this server.'
+  site_url        'String',  'This contains the site url configured for this server.'
+  secure_site_url 'String',  'This contains the secure site url configured for this server.'
+end
+%>
