@@ -1,7 +1,7 @@
 [
   {
     "version": "17.10.0",
-    "location": "https://plugin-api.gocd.org/17.10.0/",
+    "location": "https://api.gocd.org/17.10.0/",
     "type": "next"
   },
   {
