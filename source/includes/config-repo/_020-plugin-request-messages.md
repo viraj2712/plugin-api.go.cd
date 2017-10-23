@@ -1,9 +1,8 @@
 # Requests from the GoCD server
 
-In order to implement the notification extension point the following messages must be implemented by the plugin.
+In order to implement config repository extension point the following message must be implemented by the plugin.
 
-* [Notifications Interested In](#notifications-interested-in)
-* [Stage Status Changed](#stage-status-changed)
+* [Parse directory](#parse-directory)
 
 These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.
 

@@ -1,0 +1,418 @@
+## Parse directory
+
+This message is a request to the plugin to parse a directory containing files which represent pipeline
+configuration. GoCD will periodically check the configured material repository (git, svn, etc) and if it finds a new
+commit, will send this request to the plugin, so that it can parse the configuration and tell it which pipelines have
+been defined in the external configuration.
+
+<p class='request-name-heading'>Request name</p>
+
+`parse-directory`
+
+<p class='request-body-heading'>Request body</p>
+
+> Given the following config XML snippet —
+
+```xml
+<config-repos>
+  <config-repo pluginId="your.plugin.id" id="some-unique-id">
+    <git url="https://some.repo" />
+    <configuration>
+      <property>
+        <key>some.key</key>
+        <value>some.value</value>
+      </property>
+    </configuration>
+  </config-repo>
+```
+
+> The plugin will receive the following JSON body —
+
+```json
+{
+  "directory": "/absolute/path/to/directory/with/configs",
+  "configurations": [
+    {
+      "key": "some.key",
+      "value": "some.value"
+    }
+  ]
+}
+```
+
+The request body will contain a JSON with an attribute `directory`, which points to a local checkout of the specified
+material repository. It will also contain an attribute `configuration` which contains the specified configuration. Note:
+This is not the configuration in the plugin settings page.
+
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` if it can understand the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+> An example response body of a problematic config:
+
+```json
+{
+  "target_version": 2,
+  "environments": [],
+  "pipelines": [],
+  "errors": [
+    {
+      "location": "1.pipeline.json",
+      "message": "There is an error here ..."
+    }
+  ]
+}
+```
+
+> A full response, with environments and pipelines:
+
+```json
+{
+  "target_version": 2,
+  "environments": [
+    {
+      "name": "environmentName",
+      "environment_variables": [
+        {
+          "name": "env1",
+          "value": "val1"
+        }
+      ],
+      "agents": [
+        "agent-uuid-1",
+        "agent-uuid-2"
+      ],
+      "pipelines": [
+        "pipeline1"
+      ]
+    }
+  ],
+  "pipelines": [
+    {
+      "name": "pipeline1",
+      "group": "group1",
+      "label_template": "labelTemplate1",
+      "lock_behavior": "lockOnFailure",
+      "tracking_tool": {
+        "link": "link",
+        "regex": "regex",
+        "location": "optional: key to group errors by"
+      },
+      "mingle": {
+        "base_url": "baseUrl",
+        "project_identifier": "projectId",
+        "location": "optional: key to group errors by"
+      },
+      "timer": {
+        "spec": "timerSpec",
+        "only_on_changes": true,
+        "location": "optional: key to group errors by"
+      },
+      "environment_variables": [
+        {
+          "name": "key1",
+          "value": "value1",
+          "location": "optional: key to group errors by"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "param1",
+          "value": "value1",
+          "location": "optional: key to group errors by"
+        }
+      ],
+      "materials": [
+        {
+          "type": "git",
+          "url": "gitrepo",
+          "branch": "feature12",
+          "shallow_clone": true,
+          "filter": {
+            "ignore": [
+              "externals",
+              "tools"
+            ],
+            "whitelist": []
+          },
+          "destination": "dir1",
+          "auto_update": false,
+          "name": "gitMaterial1",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "hg",
+          "url": "repos/myhg",
+          "filter": {
+            "ignore": [
+              "externals",
+              "tools"
+            ],
+            "whitelist": []
+          },
+          "destination": "dir1",
+          "auto_update": false,
+          "name": "hgMaterial1",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "p4",
+          "port": "10.18.3.102:1666",
+          "username": "user1",
+          "password": "pass1",
+          "use_tickets": false,
+          "view": "//depot/dev/src...          //anything/src/...",
+          "filter": {
+            "ignore": [
+              "lib",
+              "tools"
+            ],
+            "whitelist": []
+          },
+          "destination": "dir1",
+          "auto_update": false,
+          "name": "p4materialName",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "svn",
+          "url": "http://svn",
+          "username": "user1",
+          "password": "pass1",
+          "check_externals": true,
+          "filter": {
+            "ignore": [
+              "tools",
+              "lib"
+            ],
+            "whitelist": []
+          },
+          "destination": "destDir1",
+          "auto_update": false,
+          "name": "svnMaterial1",
+          "location": "optional location for errors"
+        },
+        {
+          "type": "tfs",
+          "url": "url3",
+          "username": "user4",
+          "domain": "example.com",
+          "password": "pass",
+          "project": "projectDir",
+          "filter": {
+            "ignore": [
+              "tools",
+              "externals"
+            ],
+            "whitelist": []
+          },
+          "destination": "dir1",
+          "auto_update": false,
+          "name": "tfsMaterialName",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "package",
+          "package_id": "package-id-in-bigger-config-xml",
+          "name": "packageMaterialName",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "plugin",
+          "scm_id": "someScmGitRepositoryId",
+          "destination": "destinationDir",
+          "filter": {
+            "ignore": [
+              "dir1",
+              "dir2"
+            ],
+            "whitelist": []
+          },
+          "name": "myPluggableGit",
+          "location": "optional: key to group errors by"
+        },
+        {
+          "type": "dependency",
+          "pipeline": "pipeline2",
+          "stage": "build",
+          "name": "pipe2",
+          "location": "optional: key to group errors by"
+        }
+      ],
+      "stages": [
+        {
+          "name": "stage1",
+          "fetch_materials": true,
+          "never_cleanup_artifacts": true,
+          "clean_working_directory": true,
+          "approval": {
+            "type": "manual",
+            "users": [
+              "user1"
+            ],
+            "roles": [
+              "role1"
+            ],
+            "location": "optional: key to group errors by"
+          },
+          "environment_variables": [
+            {
+              "name": "key1",
+              "value": "value1",
+              "location": "optional: key to group errors by"
+            }
+          ],
+          "jobs": [
+            {
+              "name": "job1",
+              "environment_variables": [
+                {
+                  "name": "key1",
+                  "value": "value1",
+                  "location": "optional: key to group errors by"
+                }
+              ],
+              "tabs": [
+                {
+                  "name": "tab1",
+                  "path": "path/to/file",
+                  "location": "optional: key to group errors by"
+                }
+              ],
+              "resources": [
+                "resource1"
+              ],
+              "artifacts": [
+                {
+                  "source": "src1",
+                  "destination": "dest1",
+                  "type": "build",
+                  "location": "optional: key to group errors by"
+                },
+                {
+                  "source": "src2",
+                  "destination": "dest2",
+                  "type": "test",
+                  "location": "optional: key to group errors by"
+                }
+              ],
+              "properties": [
+                {
+                  "name": "name1",
+                  "source": "target/file.xml",
+                  "xpath": "string(//path/to/element)",
+                  "location": "optional: key to group errors by"
+                }
+              ],
+              "elastic_profile_id": "elasticProfile1",
+              "run_instance_count": "all",
+              "timeout": 20,
+              "tasks": [
+                {
+                  "command": "command1",
+                  "working_directory": "workDir1",
+                  "timeout": 120,
+                  "arguments": [
+                    "arg1",
+                    "arg2"
+                  ],
+                  "run_if": "passed",
+                  "on_cancel": {
+                    "plugin_configuration": {
+                      "id": "pluginId",
+                      "version": "version1",
+                      "location": "optional: key to group errors by"
+                    },
+                    "configuration": [
+                      {
+                        "key": "key1",
+                        "value": "value1",
+                        "encrypted_value": "encryptedValue1",
+                        "location": "optional: key to group errors by"
+                      }
+                    ],
+                    "run_if": "passed",
+                    "location": "optional: key to group errors by"
+                  },
+                  "location": "optional: key to group errors by"
+                }
+              ],
+              "location": "optional: key to group errors by"
+            }
+          ],
+          "location": "optional: key to group errors by"
+        }
+      ],
+      "template": "template1",
+      "location": "optional: key to group errors by"
+    }
+  ],
+  "errors": []
+}
+```
+
+The plugin is expected to return a JSON object (corresponding to
+[ParseDirectoryResponseMessage](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/messages/ParseDirectoryResponseMessage.java)
+with these top level attributes:
+
+#### 1. The `target_version` element
+
+The `target_version` element should be set to 2 (static) for all new plugins. The change in the response based on
+changes in the value of `target_version` are described below:
+
+| Version change from ... | Change in schema                                     |
+|-------------------------|------------------------------------------------------|
+| 1 to 2                  | The property `enable_pipeline_locking` was changed to `lock_behavior`. The old values of `true` and `false` in `enable_pipeline_locking` were changed to `lockOnFailure` and `none` respectively in `lock_behavior`. A new value of `unlockWhenFinished` was introduced.|
+
+
+#### 2. The `environments` element
+
+The `environments` element is a list of environment objects (corresponding to
+[CREnvironment](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/CREnvironment.java))
+, each of which has a `name`, `environment_variables` (for the whole environment), `agents` in this environment and the
+`pipelines` in this environment.
+
+See example shown.
+
+
+#### 3. The `errors` element
+
+If this list has any errors defined (corresponding to
+[CRError](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/CRError.java)),
+the configuration will be considered invalid and the errors will be shown to the user in an appropriate manner.
+
+
+#### 4. The `pipelines` element
+
+A fairly comprehensive response with a `pipelines` element is shown in the example. Not all of the parts are
+mandatory. Some noteworthy properties of this element are:
+
+    - This element corresponds to the [CRPipeline](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/CRPipeline.java) object in GoCD.
+
+    - `name` is mandatory (and should be unique across the GoCD server).
+
+    - `group` is mandatory. It is the pipeline group that this pipeline should be added to.
+
+    - There should be at least one material and material names should be unique across the pipeline.
+
+    - There should either be `stages` defined or a `template` to fetch stages from. Not both.
+
+    - Environment variable names and parameter names should be unique across the pipeline.
+
+    - The different kinds of materials are shown in the example. They correspond to these objects in the GoCD contract
+      part of the codebase:
+      [CRGitMaterial (git)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRGitMaterial.java),
+      [CRSvnMaterial (SVN)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRSvnMaterial.java),
+      [CRP4Material (P4)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRP4Material.java),
+      [CRHgMaterial (Hg)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRHgMaterial.java),
+      [CRPackageMaterial (Package)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRPackageMaterial.java),
+      [CRTfsMaterial (TFS)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRTfsMaterial.java),
+      [CRDependencyMaterial (Dependency)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRDependencyMaterial.java) and
+      [CRPluggableScmMaterial (SCM plugin)](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/contract/material/CRPluggableScmMaterial.java).
+
+    - Jobs cannot have both `resources` and `elastic_profile_id` defined. They can have one of them or neither define.
+
+    - Most top-level attributes of a pipeline *can* have a `location` defined. If defined, that value will be used to
+      show more meaningful error messages, if the GoCD server detects errors during its parsing and validation.
