@@ -416,3 +416,52 @@ mandatory. Some noteworthy properties of this element are:
 
     - Most top-level attributes of a pipeline *can* have a `location` defined. If defined, that value will be used to
       show more meaningful error messages, if the GoCD server detects errors during its parsing and validation.
+
+    - See this note about the [special material type: `configrepo`](#the-special-material-type-configrepo).
+
+### The special material type: `configrepo`
+
+> Given this config repo XML:
+
+```xml
+<config-repos>
+   <config-repo pluginId="plugin.id" id="repo1">
+     <git url="https://your/config/repo" branch="something" />
+   </config-repo>
+</config-repos>
+```
+
+> Instead of using a material like this:
+
+```json
+{
+  "materials": [
+    {
+      "url": "https://your/config/repo",
+      "branch": "something",
+      "type": "git",
+      "name": "mygit"
+    }
+  ]
+}
+```
+
+> ... you can use this:
+
+```json
+{
+  "materials": [
+    {
+      "type": "configrepo",
+      "name": "mygit"
+    }
+  ]
+}
+```
+
+If the type of a material is `configrepo`, then the corresponding config repository's information will be used as that
+material. This allows the pipeline definition to not have to repeat the config repository's material information. This
+is most useful when the config repo definition and the rest of the source code are stored together.
+
+The GoCD server clones the material configuration of the current repository (**as is in XML**) and replaces **name,
+destination and filters (whitelist/blacklist)**. Then, it uses the modified clone in place of `configrepo` material.
