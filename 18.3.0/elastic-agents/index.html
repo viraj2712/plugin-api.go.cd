@@ -134,6 +134,10 @@
       <div class="content">
         <h1 id="elastic-agents">Elastic Agents</h1>
 
+<h2 id="current-version">Current Version</h2>
+
+<p>This document is for version 3.0 (the latest) of the elastic agent endpoint.</p>
+
 <h2 id="background">Background</h2>
 
 <p>In the current GoCD setup, all agents are fully provisioned and always available waiting for a job. When there are no jobs to be
@@ -558,6 +562,7 @@ $(function() {
 <li><a href="#create-agent">Create Agent</a></li>
 <li><a href="#should-assign-work">Should Assign Work</a></li>
 <li><a href="#server-ping">Server Ping</a></li>
+<li><a href="#get-plugin-capabilities">Capabilities</a></li>
 </ul>
 
 <p>These are general purpose messages that a plugin must implement to allow users to configure the plugin through the browser.</p>
@@ -576,6 +581,60 @@ $(function() {
 <li><a href="#get-profile-view">Get Profile View</a></li>
 <li><a href="#get-profile-metadata">Get Profile Metadata</a></li>
 </ul>
+
+<p>If a plugin supports supports status reports, apart from the above, the plugin must implement the following messages. The plugin should use the <code class="prettyprint">supports_status_report</code> <a href="#get-plugin-capabilities">capability</a> to expose this feature.</p>
+
+<ul>
+<li><a href="#get-agent-status-report">Agent Status Report</a></li>
+<li><a href="#get-plugin-status-report">Plugin Status Report</a></li>
+</ul>
+<h2 id="get-plugin-capabilities">Get Plugin Capabilities</h2>
+
+<p>This message is a request to the plugin to provide plugin capabilities. Based on these capabilities GoCD would enable or disable the plugin features for a user.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.get-capabilities</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Server sends request with <code class="prettyprint">Empty</code> request body.</p>
+
+<p class='response-code-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body —</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"supports_status_report"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"supports_agent_status_report"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The response body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">supports_status_report</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Whether plugin supports <a href="#get-plugin-status-report">Plugin status report</a> depends on this <code class="prettyprint">boolean</code> value</td>
+</tr>
+<tr>
+<td><code class="prettyprint">supports_agent_status_report</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Whether plugin supports <a href="#get-agent-status-report">Agent status report</a> depends on this <code class="prettyprint">boolean</code> value</td>
+</tr>
+</tbody></table>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 <h2 id="create-agent">Create Agent</h2>
 
 <p>This message is a request to the plugin to create an agent for a job that has been scheduled.</p>
@@ -598,30 +657,29 @@ $(function() {
 <p>Given the following config XML snippet —</p>
 </blockquote>
 <pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;pipelines&gt;</span>
-  <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">'build'</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">'...'</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;tasks/&gt;</span>
-      <span class="nt">&lt;agentConfig</span> <span class="na">pluginId=</span><span class="s">'...'</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;property&gt;</span>
-          <span class="nt">&lt;key&gt;</span>ami-id<span class="nt">&lt;/key&gt;</span>
-          <span class="nt">&lt;value&gt;</span>ami-c79d704a<span class="nt">&lt;/value&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-        <span class="nt">&lt;property&gt;</span>
-          <span class="nt">&lt;key&gt;</span>region<span class="nt">&lt;/key&gt;</span>
-          <span class="nt">&lt;value&gt;</span>us-east-1<span class="nt">&lt;/value&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-      <span class="nt">&lt;/agentConfig&gt;</span>
+<span class="nt">&lt;elastic&gt;</span>
+  <span class="nt">&lt;profiles&gt;</span>
+    <span class="nt">&lt;profile</span> <span class="na">id=</span><span class="s">"gocd-dev-build"</span> <span class="na">pluginId=</span><span class="s">"plugin-id"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;value&gt;</span>gocd/gocd-agent-alpine-3.5:v18.1.0<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;/property&gt;</span>
+      <span class="nt">&lt;property&gt;</span>
+        <span class="nt">&lt;key&gt;</span>MaxMemory<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;value&gt;</span>500Mb<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/profile&gt;</span>
+  <span class="nt">&lt;/profiles&gt;</span>
+<span class="nt">&lt;/elastic&gt;</span>
+<span class="nt">&lt;pipelines</span> <span class="na">group=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"build"</span><span class="nt">&gt;</span>
+    ...
+    <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"test-job"</span> <span class="na">elasticProfileId=</span><span class="s">"gocd-dev-build"</span><span class="nt">&gt;</span>
+      ...
     <span class="nt">&lt;/job&gt;</span>
+    ...
   <span class="nt">&lt;/pipeline&gt;</span>
 <span class="nt">&lt;/pipelines&gt;</span>
-<span class="nt">&lt;environments&gt;</span>
-  <span class="nt">&lt;environment</span> <span class="na">name=</span><span class="s">"gocd"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;pipelines&gt;</span>
-      <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"build"</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/pipelines&gt;</span>
-  <span class="nt">&lt;/environment&gt;</span>
-<span class="nt">&lt;/environment&gt;</span>
 </code></pre>
 
 <blockquote>
@@ -629,10 +687,19 @@ $(function() {
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"auto_register_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"production"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"prod"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"job_identifier"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"job_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-job"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-stage"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
   </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"ami-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ami-c79d704a"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"us-east-1"</span><span class="w">
+    </span><span class="nt">"Image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gocd/gocd-agent-alpine-3.5:v18.1.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"MaxMemory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"500Mb"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -662,6 +729,11 @@ $(function() {
 <td><code class="prettyprint">properties</code></td>
 <td><code class="prettyprint">Object</code></td>
 <td>Jobs that require elastic agents, will have an <code class="prettyprint">&lt;agentConfig/&gt;</code> element on it. This object represents the key value pairs that form this configuration.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">job_identifier</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>Job identifier of the job for which this call is being made.</td>
 </tr>
 </tbody></table>
 
@@ -722,16 +794,25 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"staging"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"agent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"agent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"i-283432d4"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"agent_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"build_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Idle"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enabled"</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"environment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"staging"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"job_identifier"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"job_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"run-upgrade"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-stage"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
   </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"ami-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ami-6ac7408f"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"region"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"us-east-1"</span><span class="w">
+    </span><span class="nt">"region"</span><span class="p">:</span><span class="w"> </span><span class="s2">"us-east-1"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -761,6 +842,11 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <td><code class="prettyprint">properties</code></td>
 <td><code class="prettyprint">Object</code></td>
 <td>Jobs that require elastic agents, will have an <code class="prettyprint">elasticPluginId</code> attribute on it, which refers to elastic <code class="prettyprint">&lt;profile/&gt;</code> element. This object represents the key value pairs from the <code class="prettyprint">&lt;profile/&gt;</code> element.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">job_identifier</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>Job identifier of the job for which this call is being made.</td>
 </tr>
 </tbody></table>
 
@@ -1028,6 +1114,130 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>A JSON <a href="#the-profile-metadata-object">profile metadata object</a>.</p>
+<h2 id="get-agent-status-report">Get agent status report</h2>
+
+<p>If plugin supports status report, this message must be implemented to report the status of a particular elastic agent brought up by the plugin to run a job. The purpose of this call is to provide specific information about the current state of the elastic agent.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.agent-status-report</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>An example request body for a docker plugin</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"job_identifier"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-pipeline"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test Pipeline"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-stage"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"job_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-job"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"elastic_agent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"46d7aa499c9f44958e118ffb7f975c52"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">job_identifier</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>This key contains the job identifier information for which user has requested status report.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">elastic_agent_id</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>This key contains the elastic agent id, this is available only when agent is registered with GoCD server.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> JSON object of view and in following format.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"view"</span><span class="p">:</span><span class="w"> </span><span class="s2">"status-report-html-view"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">view</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Agent status report view html. GoCD server will render this view as a agent status report.</td>
+</tr>
+</tbody></table>
+<h2 id="get-plugin-status-report">Get plugin status report</h2>
+
+<p>If plugin supports status report, this message must be implemented to provide the overall status of the environment.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.elastic-agent.status-report</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Server sends request with <code class="prettyprint">Empty</code> request body.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> JSON object of view and in following format.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"view"</span><span class="p">:</span><span class="w"> </span><span class="s2">"status-report-html-view"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">view</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Plugin should return html view containing information about elastic agents.</td>
+</tr>
+</tbody></table>
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
 <p>The plugin may make the following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
