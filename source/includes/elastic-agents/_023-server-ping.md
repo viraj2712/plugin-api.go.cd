@@ -8,7 +8,7 @@ Each elastic agent plugin will receive a periodic signal at regular intervals fo
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.elastic-agent.server-ping`
+`cd.go.elastic-agent.server-ping`
 
 <p class='request-body-heading'>Request body</p>
 

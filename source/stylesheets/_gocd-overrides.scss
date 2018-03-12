@@ -11,20 +11,19 @@ blockquote + .highlight {
 }
 
 .tocify-wrapper > img {
-    margin: 10px;
+  margin: 10px;
 }
 
-[data-popover]{
+[data-popover] {
   padding-left: 10px;
   &:before {
     @extend %icon-info-sign;
   }
 }
 
-
 .version-switcher {
   padding: 0 15px 0 15px;
-  width: 100%;
+  width:   100%;
   span {
     color: #fff;
   }
@@ -33,7 +32,7 @@ blockquote + .highlight {
 .attributes-table-follows {
   + table tbody tr {
     code {
-      word-break: normal;
+      word-break:  normal;
       white-space: nowrap;
     }
   }
@@ -45,22 +44,22 @@ blockquote + .highlight {
       // we don't display the 3rd level item, but the scrolling generates the links via `history.pushState`. See `_toc.js` for this
       // display: none;
       padding-left: $nav-padding + $nav-indent * 2;
-      font-size: 12px;
+      font-size:    12px;
     }
   }
 }
 
 %heading-like {
   @extend %header-font;
-  font-size: 14px;
-  margin-top: 2.5em;
+  font-size:     14px;
+  margin-top:    2.5em;
   margin-bottom: 0.8em;
 
-  margin-right: $examples-width;
-  padding: 0 $main-padding;
-  box-sizing: border-box;
-  display: block;
-  text-shadow: $main-embossed-text-shadow;
+  margin-right:  $examples-width;
+  padding:       0 $main-padding;
+  box-sizing:    border-box;
+  display:       block;
+  text-shadow:   $main-embossed-text-shadow;
 
   @extend %left-col;
 }
@@ -70,30 +69,42 @@ blockquote + .highlight {
 }
 
 .content {
-  &>h3 {
+  & > h3 {
     clear: both;
   }
 
   table {
     caption {
-      padding: 5px 10px;
-      font-weight: bold;
-      border-top: 1px solid #ddd;
+      padding:       5px 10px;
+      font-weight:   bold;
+      border-top:    1px solid #ddd;
       border-bottom: 1px solid #ccc;
     }
 
     pre {
       padding: 5px 20px;
-      width: 100%;
+      width:   100%;
     }
   }
 }
 
 .full-width {
-  clear: both;
-  padding-top: 1.2em;
-  padding-bottom: 1.2em;
-  display: inline-block;
+  clear:            both;
+  padding-top:      1.2em;
+  padding-bottom:   1.2em;
+  display:          inline-block;
   background-color: $main-bg;
-  margin-right: inherit;
+  margin-right:     inherit;
+}
+
+select.version {
+  width:      170px;
+  height:     30px;
+  background: transparent;
+  color:      #fff;
+}
+
+span.version-label {
+  color:       #a5a5a5;
+  font-weight: normal;
 }

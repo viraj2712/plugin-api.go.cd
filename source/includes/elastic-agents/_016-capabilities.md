@@ -4,7 +4,7 @@ This message is a request to the plugin to provide plugin capabilities. Based on
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.elastic-agent.get-capabilities`
+`cd.go.elastic-agent.get-capabilities`
 
 <p class='request-body-heading'>Request body</p>
 
