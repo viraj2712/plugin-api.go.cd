@@ -5,7 +5,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.elastic-agent.should-assign-work`
+`cd.go.elastic-agent.should-assign-work`
 
 <p class='request-body-heading'>Request body</p>
 

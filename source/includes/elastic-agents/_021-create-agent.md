@@ -12,7 +12,7 @@ This message is a request to the plugin to create an agent for a job that has be
 
 <p class='request-name-heading'>Request name</p>
 
-`go.cd.elastic-agent.create-agent`
+`cd.go.elastic-agent.create-agent`
 
 <p class='request-body-heading'>Request body</p>
 
