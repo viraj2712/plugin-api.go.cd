@@ -55,21 +55,22 @@ See the image below to help make this a little more clear.
 
 ```xml
 <server>
-  <elastic>
-    <profiles>
-      <profile  id="docker.unit-test" pluginId="cd.go.contrib.elastic-agent.docker">
-        <property>
-          <!--
-            The plugin currently only supports the `Image` property,
-            which allows you to select the docker image that the build should run with
-          -->
-          <key>Image</key>
-          <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
-        </property>
-      </profile>
-    </profiles>
-  </elastic>
+  ...
 </server>
+<elastic>
+  <profiles>
+    <profile  id="docker.unit-test" pluginId="cd.go.contrib.elastic-agent.docker">
+      <property>
+        <!--
+          The plugin currently only supports the `Image` property,
+          which allows you to select the docker image that the build should run with
+        -->
+        <key>Image</key>
+        <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
+      </property>
+    </profile>
+  </profiles>
+</elastic>
 ...
 <job name="defaultJob" elasticProfileId="docker.unit-test">
   <tasks>
