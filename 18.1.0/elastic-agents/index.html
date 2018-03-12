@@ -187,21 +187,22 @@ the scheduled and waiting job.</li>
 <p>Here is an example elastic profile configuration and a Job configured to use the profile for the <a href="https://github.com/gocd-contrib/docker-elastic-agents">docker plugin</a></p>
 </blockquote>
 <pre class="highlight xml"><code><span class="nt">&lt;server&gt;</span>
-  <span class="nt">&lt;elastic&gt;</span>
-    <span class="nt">&lt;profiles&gt;</span>
-      <span class="nt">&lt;profile</span>  <span class="na">id=</span><span class="s">"docker.unit-test"</span> <span class="na">pluginId=</span><span class="s">"cd.go.contrib.elastic-agent.docker"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;property&gt;</span>
-          <span class="c">&lt;!--
-            The plugin currently only supports the `Image` property,
-            which allows you to select the docker image that the build should run with
-          --&gt;</span>
-          <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
-          <span class="nt">&lt;value&gt;</span>gocdcontrib/ubuntu-docker-elastic-agent<span class="nt">&lt;/value&gt;</span>
-        <span class="nt">&lt;/property&gt;</span>
-      <span class="nt">&lt;/profile&gt;</span>
-    <span class="nt">&lt;/profiles&gt;</span>
-  <span class="nt">&lt;/elastic&gt;</span>
+  ...
 <span class="nt">&lt;/server&gt;</span>
+<span class="nt">&lt;elastic&gt;</span>
+  <span class="nt">&lt;profiles&gt;</span>
+    <span class="nt">&lt;profile</span>  <span class="na">id=</span><span class="s">"docker.unit-test"</span> <span class="na">pluginId=</span><span class="s">"cd.go.contrib.elastic-agent.docker"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;property&gt;</span>
+        <span class="c">&lt;!--
+          The plugin currently only supports the `Image` property,
+          which allows you to select the docker image that the build should run with
+        --&gt;</span>
+        <span class="nt">&lt;key&gt;</span>Image<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;value&gt;</span>gocdcontrib/ubuntu-docker-elastic-agent<span class="nt">&lt;/value&gt;</span>
+      <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/profile&gt;</span>
+  <span class="nt">&lt;/profiles&gt;</span>
+<span class="nt">&lt;/elastic&gt;</span>
 ...
 <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"defaultJob"</span> <span class="na">elasticProfileId=</span><span class="s">"docker.unit-test"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;tasks&gt;</span>
