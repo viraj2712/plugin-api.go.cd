@@ -4,3 +4,4 @@ The plugin may make following requests to the server using `GoApplicationAccesso
 
 * [Invalidate Cache](#invalidate-users-cache)
 * [Get Server Info](#get-server-info)
+* [Add Server Health Messages](#add-server-health-messages)

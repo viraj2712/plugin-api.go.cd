@@ -4,3 +4,4 @@ The plugin may make the following requests to the server using `GoApplicationAcc
 
 * [Get Plugin Settings](#get-plugin-settings)
 * [Get Server Info](#get-server-info)
+* [Add Server Health Messages](#add-server-health-messages)
