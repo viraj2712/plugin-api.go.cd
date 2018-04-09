@@ -4,6 +4,10 @@ This message is sent by the server, when it wants to notify the plugin about a "
 
 Agent status changed notifications only get sent when the the state of the agent has changed.
 
+<aside class="info">
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all the date information is sent in <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong> UTC format pattern.
+</aside>
+
 ### Request-Response basics
 
 <p class='request-name-heading'>Request name</p>
