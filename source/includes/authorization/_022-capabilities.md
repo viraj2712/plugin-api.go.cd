@@ -1,6 +1,6 @@
 ## Get Plugin Capabilities
 
-This message is a request to the plugin to provide plugin capabilities. Based on these capablities GoCD would enable or disable the plugin features for a user.
+This message is a request to the plugin to provide plugin capabilities. Based on these capabilities GoCD would enable or disable the plugin features for a user.
 
 <p class='request-name-heading'>Request name</p>
 
