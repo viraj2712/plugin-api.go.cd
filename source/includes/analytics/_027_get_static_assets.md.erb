@@ -1,0 +1,49 @@
+## Get Static Assets
+
+For building rich visualization the plugins would require multiple static assets like javascript libraries, images, css, html etc. GoCD provides an option for plugins to cache these static assets in GoCD. The plugin is free to decide on the type of static assets it wants to use.
+
+On plugin load GoCD would send this message to fetch the static assets. The plugin should zip all the assets and return the zipped assets as a Base64 encoded string. GoCD would unzip and store the contents in a path specific to the plugin. Everytime a plugin is loaded GoCD would delete any exisiting plugin assets before storing the new assets.
+
+<p class='request-name-heading'>Request name</p>
+
+`go.cd.analytics.get-static-assets`
+
+<p class='request-body-heading'>Request body</p>
+
+Server sends request with `Empty` request body.
+
+<p class='response-code-heading'>Response Body</p>
+
+> Example code snippet for generating the response 
+
+```java
+    public GoPluginApiResponse execute() throws Exception {
+        DefaultGoPluginApiResponse response = new DefaultGoPluginApiResponse(200);
+        response.setResponseBody(
+                GSON.toJson(Collections.singletonMap("assets", new String(
+                        Base64.getEncoder().encode(
+                            IOUtils.toByteArray(getClass().getResourceAsStream("assets.zip"))
+                        ),
+                        StandardCharsets.ISO_8859_1
+                )))
+        );
+        return response;
+    }
+```
+> An example response body —
+
+```json
+{
+  "assets": "static_assets which is base64 encoded"
+}
+```
+
+The response body will contain the <code>assets</code> field which is the zipped static assets as a Base64 encoded string. 
+
+<p class='attributes-table-follows'></p>
+
+| Key     | Type     | Description                                                                                                                                                                                       |
+|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `assets`    | `String` | The zipped assets returned as a Base64 encoded string.                                                                                                                             |
+
+The plugin is expected to return status `200` if it can understand the request.
