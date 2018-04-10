@@ -135,7 +135,13 @@
       <div class="content">
         <h1 id="notification-plugins">Notification Plugins</h1>
 
-<p>Notification extension endpoint allows GoCD to send notifications about builds over various channels.</p>
+<h2 id="current-version">Current Version</h2>
+
+<p>This document is for version 3.0 (the latest) of the notification endpoint.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Notification extension endpoint allows GoCD to send notifications about builds and agent state changes over various channels.</p>
 
 <p>If you&rsquo;re looking to start away with a basic template for notification plugins, we recommend forking this <a href="https://github.com/gocd-contrib/notification-skeleton-plugin">github repository</a>.</p>
 
@@ -330,6 +336,7 @@
 <ul>
 <li><a href="#notifications-interested-in">Notifications Interested In</a></li>
 <li><a href="#stage-status-changed">Stage Status Changed</a></li>
+<li><a href="#agent-status-changed">Agent Status Changed</a></li>
 </ul>
 
 <p>These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.</p>
@@ -380,6 +387,10 @@
 <p>This message is sent by the server, when it wants to notify the plugin about a &ldquo;stage status change&rdquo;.</p>
 
 <p>Stage status changed notifications only get sent when a stage gets scheduled or when it completes.</p>
+
+<aside class="info">
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp&rsquo;s are in `UTC` with the DateTime format <strong>&ldquo;yyyy-MM-dd&rsquo;T'HH:mm:ss.SSSZ&rdquo;</strong>
+</aside>
 
 <p><a id='stage-start-body'></a></p>
 
@@ -447,7 +458,7 @@
         </span><span class="nt">"modifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="p">{</span><span class="w">
             </span><span class="nt">"revision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8f60b12439840e5a0a4d464379dd3a48881008b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T17:27:58.000Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T17:27:58.000+0000"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
           </span><span class="p">}</span><span class="w">
         </span><span class="p">]</span><span class="w">
@@ -460,23 +471,23 @@
       </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timer"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Building"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
           </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
           </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
           </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job3"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
         </span><span class="p">}</span><span class="w">
@@ -527,7 +538,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
         </span><span class="nt">"modifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="p">{</span><span class="w">
             </span><span class="nt">"revision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-06T12:50:03.317Z"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-06T12:50:03.317+0000"</span><span class="p">,</span><span class="w">
             </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
           </span><span class="p">}</span><span class="w">
         </span><span class="p">]</span><span class="w">
@@ -540,14 +551,14 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
       </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"changes"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"last-transition-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100+0000"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"last-transition-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100+0000"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
           </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job-name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100Z"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"assign-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:38.100Z"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"complete-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100+0000"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"assign-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:38.100+0000"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"complete-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100+0000"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"agent-uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="w">
@@ -570,6 +581,81 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <aside class="note">
 In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
 </aside>
+
+<h2 id="agent-status-changed">Agent Status Changed</h2>
+
+<p>This message is sent by the server, when it wants to notify the plugin about any change in agent state.</p>
+
+<p>Agent status changed notifications only get sent when the the state of the agent has changed.</p>
+
+<aside class="info">
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp&rsquo;s are in `UTC` with the DateTime format <strong>&ldquo;yyyy-MM-dd&rsquo;T'HH:mm:ss.SSSZ&rdquo;</strong>
+</aside>
+
+<h3 id="request-response-basics">Request-Response basics</h3>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">agent-status</code></p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body if the plugin could send the notification successfully</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>An example response body if the plugin could not send the notification</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Could not send email for agent agent_hostname"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The plugin is expected to return a JSON object to indicate if the notifications could be processed.</p>
+
+<aside class="warning">
+  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in &ldquo;server health messages&rdquo;.
+</aside>
+
+<h3 id="agent-state-change-notifications">Agent state change notifications</h3>
+
+<blockquote>
+<p>A sample body when the agent state changes building.</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"agent_config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enabled"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"agent_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"building"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"build_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"building"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_elastic"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"free_space"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"host_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent_hostname"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"operating_system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rh"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"transition_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-15T06:31:28.998+0000"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent_uuid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The agent status notifications is sent out when the state of an agent changes. The change of state can be either to <code class="prettyprint">agent_config_state</code>, <code class="prettyprint">build_state</code> or the <code class="prettyprint">agent_state</code>. The request body will contain a JSON representing the agent.</p>
+
+<ul>
+<li><code class="prettyprint">agent_config_state</code> - can be either <code class="prettyprint">Pending</code>, <code class="prettyprint">Enabled</code>, <code class="prettyprint">Disabled</code></li>
+<li><code class="prettyprint">agent_state</code> - can be either <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">LostContact</code>, <code class="prettyprint">Missing</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code></li>
+<li><code class="prettyprint">build_state</code> - can be either <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code></li>
+</ul>
 
 <h2 id="get-settings-view">Get Settings View</h2>
 
