@@ -4,8 +4,9 @@ This message is sent by the server, when it wants to notify the plugin about a "
 
 Stage status changed notifications only get sent when a stage gets scheduled or when it completes.
 
+
 <aside class="info">
-  <strong>Note</strong>: As part of notification plugin endpoint V3, all the date information is sent in <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong> UTC format pattern.
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp's are in `UTC` with the DateTime format <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong>
 </aside>
 
 <a id='stage-start-body'></a>

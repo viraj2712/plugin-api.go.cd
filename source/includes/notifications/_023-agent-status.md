@@ -1,11 +1,11 @@
 ## Agent Status Changed
 
-This message is sent by the server, when it wants to notify the plugin about a "agent status change".
+This message is sent by the server, when it wants to notify the plugin about any change in agent state.
 
 Agent status changed notifications only get sent when the the state of the agent has changed.
 
 <aside class="info">
-  <strong>Note</strong>: As part of notification plugin endpoint V3, all the date information is sent in <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong> UTC format pattern.
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp's are in `UTC` with the DateTime format <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong>
 </aside>
 
 ### Request-Response basics
@@ -62,10 +62,8 @@ The plugin is expected to return a JSON object to indicate if the notifications 
 }
 ```
 
-These notifications get sent out when the state of an agent changes. The request body will contain a JSON representing the agent.
+The agent status notifications is sent out when the state of an agent changes. The change of state can be either to `agent_config_state`, `build_state` or the `agent_state`. The request body will contain a JSON representing the agent.
 
-* The new state of the agent can be identified by the `.agent_state` attribute set to `building`.
-
-<aside class="note">
-In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
-</aside>
+* `agent_config_state` - can be either `Pending`, `Enabled`, `Disabled`
+* `agent_state` - can be either `Idle`, `Building`, `LostContact`, `Missing`, `Cancelled`, `Unknown`
+* `build_state` - can be either `Idle`, `Building`, `Cancelled`, `Unknown`
