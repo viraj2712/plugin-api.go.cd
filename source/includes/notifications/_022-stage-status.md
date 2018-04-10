@@ -4,6 +4,11 @@ This message is sent by the server, when it wants to notify the plugin about a "
 
 Stage status changed notifications only get sent when a stage gets scheduled or when it completes.
 
+
+<aside class="info">
+  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp's are in `UTC` with the DateTime format <strong>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</strong>
+</aside>
+
 <a id='stage-start-body'></a>
 
 ### Request-Response basics
@@ -67,7 +72,7 @@ The plugin is expected to return a JSON object to indicate if the notifications 
         "modifications": [
           {
             "revision": "8f60b12439840e5a0a4d464379dd3a48881008b4",
-            "modified-time": "2017-03-23T17:27:58.000Z",
+            "modified-time": "2017-03-23T17:27:58.000+0000",
             "data": {}
           }
         ]
@@ -80,23 +85,23 @@ The plugin is expected to return a JSON object to indicate if the notifications 
       "approved-by": "timer",
       "state": "Building",
       "result": "Unknown",
-      "create-time": "2017-03-23T20:44:02.119Z",
+      "create-time": "2017-03-23T20:44:02.119+0000",
       "jobs": [
         {
           "name": "job1",
-          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "schedule-time": "2017-03-23T20:44:02.119+0000",
           "state": "Scheduled",
           "result": "Unknown"
         },
         {
           "name": "job2",
-          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "schedule-time": "2017-03-23T20:44:02.119+0000",
           "state": "Scheduled",
           "result": "Unknown"
         },
         {
           "name": "job3",
-          "schedule-time": "2017-03-23T20:44:02.119Z",
+          "schedule-time": "2017-03-23T20:44:02.119+0000",
           "state": "Scheduled",
           "result": "Unknown"
         }
@@ -147,7 +152,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
         "modifications": [
           {
             "revision": "1",
-            "modified-time": "2016-04-06T12:50:03.317Z",
+            "modified-time": "2016-04-06T12:50:03.317+0000",
             "data": {}
           }
         ]
@@ -160,14 +165,14 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
       "approved-by": "changes",
       "state": "Passed",
       "result": "Passed",
-      "create-time": "2011-07-13T19:43:37.100Z",
-      "last-transition-time": "2011-07-13T19:43:39.100Z",
+      "create-time": "2011-07-13T19:43:37.100+0000",
+      "last-transition-time": "2011-07-13T19:43:39.100+0000",
       "jobs": [
         {
           "name": "job-name",
-          "schedule-time": "2011-07-13T19:43:37.100Z",
-          "assign-time": "2011-07-13T19:43:38.100Z",
-          "complete-time": "2011-07-13T19:43:39.100Z",
+          "schedule-time": "2011-07-13T19:43:37.100+0000",
+          "assign-time": "2011-07-13T19:43:38.100+0000",
+          "complete-time": "2011-07-13T19:43:39.100+0000",
           "state": "Completed",
           "result": "Passed",
           "agent-uuid": "uuid"

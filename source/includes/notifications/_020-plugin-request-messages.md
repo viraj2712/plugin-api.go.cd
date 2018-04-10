@@ -4,6 +4,7 @@ In order to implement the notification extension point the following messages mu
 
 * [Notifications Interested In](#notifications-interested-in)
 * [Stage Status Changed](#stage-status-changed)
+* [Agent Status Changed](#agent-status-changed)
 
 These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.
 

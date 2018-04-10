@@ -1,7 +1,16 @@
 # Notification Plugins
 
-Notification extension endpoint allows GoCD to send notifications about builds over various channels.
+
+## Current Version
+
+This document is for version 3.0 (the latest) of the notification endpoint.
+
+## Introduction
+
+Notification extension endpoint allows GoCD to send notifications about builds and agent state changes over various channels.
 
 If you're looking to start away with a basic template for notification plugins, we recommend forking this [github repository](https://github.com/gocd-contrib/notification-skeleton-plugin).
 
 <%= partial 'includes/shared/plugin-structure.md.erb', locals: { plugin_class: 'ConsoleOutNotificationPlugin', plugin_type: 'notification', endpoint_version: '2.0', minimum_version: '15.1.0' } %>
+
+
