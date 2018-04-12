@@ -1250,6 +1250,7 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <li><a href="#delete-agents">Delete Agents</a></li>
 <li><a href="#get-plugin-settings">Get Plugin Settings</a></li>
 <li><a href="#get-server-info">Get Server Info</a></li>
+<li><a href="#add-server-health-messages">Add Server Health Messages</a></li>
 </ul>
 <h2 id="list-agents">List Agents</h2>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
@@ -1576,6 +1577,135 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
   </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<h2 id="add-server-health-messages">Add Server Health Messages</h2>
+<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.response.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.gson.Gson</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="nd">@Extension</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DockerElasticAgentPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">DockerElasticAgentPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"elastic-agent"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="n">addErrorsAndWarnings</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+    <span class="c1">// create a request</span>
+    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+      <span class="s">"go.processor.server-health.add-messages"</span><span class="o">,</span>
+      <span class="s">"1.0"</span><span class="o">,</span>
+      <span class="n">pluginIdentifier</span><span class="o">()</span>
+    <span class="o">);</span>
+
+    <span class="c1">// set the request body</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">message1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"warning"</span><span class="o">);</span>
+    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"A warning message from the plugin."</span><span class="o">);</span>
+
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">message2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"error"</span><span class="o">);</span>
+    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"An error message from the plugin."</span><span class="o">);</span>
+
+    <span class="n">messages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">message1</span><span class="o">);</span>
+    <span class="n">messages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">message2</span><span class="o">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="n">gson</span><span class="o">.</span><span class="na">toJson</span><span class="o">(</span><span class="n">messages</span><span class="o">));</span>
+
+    <span class="c1">// submit the request</span>
+    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+    <span class="c1">// check status</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<p>This message allows a plugin to add error and warning messages to be shown in
+GoCD. Any previous messages sent by the plugin will be cleared and replaced with
+the newly specified messages (or cleared if the body is an empty list).</p>
+
+<p class='available-since'>
+  Available since v18.3.0.
+</p>
+
+<p class='request-name-heading'>Request</p>
+
+<p>Name: <code class="prettyprint">go.processor.server-health.add-messages</code></p>
+
+<p>Version: <code class="prettyprint">1.0</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>An example request body</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A warning message from the plugin."</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error message from the plugin."</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>Must be a JSON array made up of JSON objects as described below:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Should be either <code class="prettyprint">warning</code> or <code class="prettyprint">error</code>, corresponding to the type of message to be shown.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">message</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>A message to be shown in the &ldquo;Errors and Warnings&rdquo; box.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request. It is expected to return status <code class="prettyprint">500</code> if it failed to process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body for a failure</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The server will respond with a single JSON object with an error message with the key <code class="prettyprint">message</code>, if it is unable to process the request. If
+successful, the response body will be empty.</p>
 
 <h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
 
