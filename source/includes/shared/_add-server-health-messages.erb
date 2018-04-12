@@ -58,10 +58,9 @@ public class <%= plugin_class %> implements GoPlugin {
 }
 ```
 
-This message allows a plugin to add error and warning messages to be shown in GoCD.
-
-GoCD on receiving a request to add new messages from the plugin would clear the existing
-messages from the plugin if any and would show the new messages.
+This message allows a plugin to add error and warning messages to be shown in
+GoCD. Any previous messages sent by the plugin will be cleared and replaced with
+the newly specified messages (or cleared if the body is an empty list).
 
 <%= available_since('18.3.0') %>
 
