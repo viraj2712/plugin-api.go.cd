@@ -1,0 +1,115 @@
+## Add Server Health Messages
+
+```java
+import com.thoughtworks.go.plugin.api.*;
+import com.thoughtworks.go.plugin.api.annotation.Extension;
+import com.thoughtworks.go.plugin.api.logging.Logger;
+import com.thoughtworks.go.plugin.api.request.*;
+import com.thoughtworks.go.plugin.api.response.*;
+import com.google.gson.Gson;
+import java.util.*;
+
+@Extension
+public class <%= plugin_class %> implements GoPlugin {
+  private GoApplicationAccessor accessor;
+  public static final Logger LOG = Logger.getLoggerFor(<%= plugin_class %>.class);
+
+  public void initializeGoApplicationAccessor(GoApplicationAccessor accessor) {
+    this.accessor = accessor;
+  }
+
+  public GoPluginIdentifier pluginIdentifier() {
+    return new GoPluginIdentifier("<%= plugin_type %>", Arrays.asList("<%= endpoint_version %>"));
+  }
+
+  private void addErrorsAndWarnings() {
+    Gson gson = new Gson();
+    // create a request
+    DefaultGoApiRequest request = new DefaultGoApiRequest(
+      "go.processor.server-health.add-messages",
+      "1.0",
+      pluginIdentifier()
+    );
+
+    // set the request body
+    List<Map<String, String>> messages = new ArrayList<>();
+
+    Map<String, String> message1 = new HashMap<>();
+    message1.put("type", "warning");
+    message1.put("message", "A warning message from the plugin.");
+
+    Map<String, String> message2 = new HashMap<>();
+    message1.put("type", "error");
+    message1.put("message", "An error message from the plugin.");
+
+    messages.add(message1);
+    messages.add(message2);
+
+    request.setRequestBody(gson.toJson(messages));
+
+    // submit the request
+    GoApiResponse response = accessor.submit(request);
+
+    // check status
+    if (response.responseCode() != 200) {
+      LOG.error("The server sent an unexpected status code " + response.responseCode() + " with the response body " + response.responseBody());
+    }
+  }
+}
+```
+
+This message allows a plugin to add error and warning messages to be shown in
+GoCD. Any previous messages sent by the plugin will be cleared and replaced with
+the newly specified messages (or cleared if the body is an empty list).
+
+<%= available_since('18.3.0') %>
+
+<p class='request-name-heading'>Request</p>
+
+Name: `go.processor.server-health.add-messages`
+
+Version: `1.0`
+
+<p class='request-body-heading'>Request body</p>
+
+> An example request body
+
+```json
+[
+  {
+    "type": "warning",
+    "message": "A warning message from the plugin."
+  },
+  {
+    "type": "error",
+    "message": "An error message from the plugin."
+  }
+]
+```
+
+Must be a JSON array made up of JSON objects as described below:
+
+<p class='attributes-table-follows'></p>
+
+| Key           | Type     | Description                                                                              |
+| ------------- | -------- | ---------------------------------------------------------------------------------------- |
+| `type`        | `String` | Should be either `warning` or `error`, corresponding to the type of message to be shown. |
+| `message`     | `String` | A message to be shown in the "Errors and Warnings" box.                                  |
+
+
+<p class='response-code-heading'>Response code</p>
+
+The server is expected to return status `200` if it could process the request. It is expected to return status `500` if it failed to process the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+> An example response body for a failure
+
+```json
+{
+  "message": "An error occurred ..."
+}
+```
+
+The server will respond with a single JSON object with an error message with the key `message`, if it is unable to process the request. If
+successful, the response body will be empty.
