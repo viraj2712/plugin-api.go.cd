@@ -1,6 +1,6 @@
 ## go.cd.analytics.v1.fetch-analytics
 
-The iframe can send a message with key `go.cd.analytics.v1.fetch-analytics` to [fetch analytics](#get-analytics) from the plugin. The message body should specify the `pluginId`, `type` of metric, the id of the `metric` and additional params required by the plugin to fetch the analytics data. Upon recieving this message the parent window would make a GoCD API request to fetch the analytics from the plugin, upon recieving the response data the same would be passed to the iframe as a new message. 
+The iframe can send a message with key `go.cd.analytics.v1.fetch-analytics` to [fetch analytics](#get-analytics) from the plugin. The message body should specify the `pluginId`, `type` of metric, the id of the `metric` and additional params required by the plugin to fetch the analytics data. Upon receiving this message the parent window would make a GoCD API request to fetch the analytics from the plugin, upon receiving the response data the same would be passed to the iframe as a new message. 
 
 
 > An example message from iframe to parent window to fetch analytics -

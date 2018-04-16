@@ -2,9 +2,9 @@
 
 This message is a request to the plugin to fetch analytics. 
 
-Analytics is currently supported on the pipeline dashboard and the analytics dashboard. On a request to render analytics, GoCD sends a message to the plugin to fetch analytics. The plugin is expected to respond with a JSON which contains a path to an html which would render the analytics and the relevant data for rendering the analytics.
+Analytics is currently supported on the pipeline dashboard and the analytics dashboard. On a request to render analytics, GoCD sends a message to the plugin to fetch analytics. The plugin is expected to respond with a JSON which contains a path to an HTML which would render the analytics and the relevant data for rendering the analytics.
 
-The `view_path` should refer to the html which should be part of the [static assets](#get-static-assets) returned by the plugin. GoCD on recieving the response would load the html specified in the `view_path` in an iframe and pass the relevant `data`. The html is responsible in building visualization using the provided data.
+The `view_path` should refer to the HTML which should be part of the [static assets](#get-static-assets) returned by the plugin. GoCD on receiving the response would load the HTML specified in the `view_path` in an iframe and pass the relevant `data`. The HTML is responsible in building visualization using the provided data.
 
 
 <p class='request-name-heading'>Request name</p>
@@ -52,7 +52,7 @@ The response body will contain the following JSON elements:
 | Key         | Type     | Description                                                        |
 |-------------|----------|--------------------------------------------------------------------|
 | `data`      | `String` | The data as `json` string used to build the analytics.             |
-| `view_path` | `String` | The path the html file which would render the requested analytics. |
+| `view_path` | `String` | The path the HTML file which would render the requested analytics. |
 
 
 The plugin is expected to return status `200` if it can understand the request.

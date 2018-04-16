@@ -2,7 +2,7 @@
 
 The iframe can send a message with the key `go.cd.analytics.v1.link-to` to the parent window to link to a GoCD page. The version v1 of the message supports linking to Job Details page and first Stage of a Pipeline Instance.
 
-Upon receieving this message with correct parameters the parent window would open the linked pages in a new tab. 
+Upon receiving this message with correct parameters the parent window would open the linked pages in a new tab. 
 
 
 > An example message from iframe to parent window to link to pipeline instance page -
