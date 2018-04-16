@@ -1,6 +1,10 @@
 ## init
 
-On [fetching analytics](#get-analytics) from the plugin the parent window loads an iframe and posts a message with the key `init` and passes the data returned by the plugin. The plugin is expected to handle this message and render the analytics using the data passed in the message. 
+This message is sent from the GoCD parent window, after the plugin-provided HTML front-end file for the [chosen analytics](#get-analytics)
+is loaded into the iframe.
+
+This allows GoCD to provide the data needed by the plugin, without having to have the plugin-provided HTML front-end make an AJAX call to
+the server. The plugin is expected to handle this message and render the analytics using the data passed in the message.
 
 > An example message -
 

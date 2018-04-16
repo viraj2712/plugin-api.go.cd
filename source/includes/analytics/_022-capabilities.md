@@ -1,6 +1,6 @@
 ## Get Plugin Capabilities
 
-This message is a request to the plugin to provide plugin capabilities. The capabilities should be a list of analytics supported by the plugin. Based on the type of supported analytics, GoCD decides the page on which to render the analytics, e.g analytics of type `pipeline` would show up on the GoCD pipeline dashboard.  
+This message is a request to the plugin to provide plugin capabilities. The capabilities should be a list of analytics supported by the plugin. Based on the type of supported analytics, GoCD decides the page on which to render the analytics, e.g analytics of type `pipeline` will show up on the GoCD pipeline dashboard.
 
 <p class='request-name-heading'>Request name</p>
 
@@ -31,14 +31,14 @@ Server sends request with `Empty` request body.
 }
 ```
 
-The response body will contain the <code>supported_analytics</code> field which is a collection of analytics metrics. Each analytics metric has following JSON elements:
+The response body should contain the <code>supported_analytics</code> field which is a collection of analytics metrics. Each analytics metric has following JSON elements:
 
 <p class='attributes-table-follows'></p>
 
-| Key     | Type     | Description                                                                                                                                                                                       |
-|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`    | `String` | Unique identifier for an analytics. The id will be used by GoCD to fetch a specific metric from the plugin.                                                                                                                                                            |
-| `title` | `String` | The title for analytics.                                                                                                                                                          |
+| Key     | Type     | Description                                                                                                                                                                                           |
+|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`    | `String` | Unique identifier for an analytics. The id will be used by GoCD to fetch a specific metric from the plugin.                                                                                           |
+| `title` | `String` | The title for analytics.                                                                                                                                                                              |
 | `type`  | `String` | The type of the analytics which defines the position of analytics in GoCD. Analytics of type `pipeline` are shown on pipeline dashboard and of type `dashboard` are shown on the analytics dashboard. |
 
 Valid types of analytics metric are as follows:
