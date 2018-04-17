@@ -4,6 +4,8 @@ GoCD renders plugin analytics in a <a href='https://developer.mozilla.org/en-US/
 
 As the iframe runs in a sandbox, cross-origin communication between the parent window and iframe is through the <a href='https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage' target='_blank'>window.postMessage()</a> method. GoCD allows two way communication between the parent window and the iframe.
 
+GoCD provides a Javascript module named plugin-endpoint.js which exposes an API to handle the cross-origin communication. Please see examples in the [Analytics Skeleton Plugin](https://github.com/gocd-contrib/analytics-skeleton-plugin) to use the plugin-endpoint.js API's.
+
 > An example message -
 
 ```json

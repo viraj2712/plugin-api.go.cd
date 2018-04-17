@@ -29,8 +29,8 @@ The `view_path` should refer to the HTML which should be part of the [static ass
 
 | Key            | Type     | Description                                                                                |
 |----------------|----------|--------------------------------------------------------------------------------------------|
-| `type`         | `String` | The type of the analytics as defined in the [Supported Analytics](#get-plugin-capabilities)|
-| `id`           | `String` | The id of the analytics as defined in the [Supported Analytics](#get-plugin-capabilities)  |
+| `type`         | `String` | The type of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities)|
+| `id`           | `String` | The id of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities)  |
 | `params`       | `Object` | This is a hash of optional params the plugin would require to generate analytics. For analytics of type `pipeline`, GoCD will send the pipeline name as a param `pipeline_name`. |
 
 
