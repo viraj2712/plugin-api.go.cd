@@ -2,7 +2,7 @@
 
 This is a notification message to the plugin on update of plugin settings.
 
-Everytime the plugin settings change, GoCD would send this message to plugin with the updated plugin settings.
+Every time the plugin settings change, GoCD will send this message to the plugin with the updated plugin settings.
 
 <p class='request-name-heading'>Request name</p>
 
@@ -10,7 +10,7 @@ Everytime the plugin settings change, GoCD would send this message to plugin wit
 
 <p class='request-body-heading'>Request body</p>
 
-The request body will be a JSON which would be a map of the plugin settings. 
+The request body will be a JSON which will be a map of the plugin settings.
 
 > An example request body
 

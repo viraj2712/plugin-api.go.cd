@@ -1,7 +1,7 @@
 ## go.cd.analytics.v1.link-external
 
 Any links opened directly from the plugin's front-end will open inside the iframe. For security reasons, the iframe cannot affect the
-navigation of the parent GoCD window directly. So, the iframe can send a message with the key `go.cd.analytics.v1.link-external` to the
+navigation of the parent GoCD window directly. Instead, the iframe can send a message with the key `go.cd.analytics.v1.link-external` to the
 parent window to link to a page outside of GoCD. The parent window will open the page in a new tab.
 
 > An example message from iframe to parent window to link to an external page -

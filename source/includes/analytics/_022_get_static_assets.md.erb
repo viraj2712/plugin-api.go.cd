@@ -1,20 +1,6 @@
 ## Get Static Assets
 
-For building rich visualizations plugins might need to use multiple static assets like javascript libraries, images, css, HTML etc. GoCD provides an option for plugins to cache these static assets in GoCD. The plugin is free to decide on the type of static assets it wants to use.
-
-On plugin load GoCD sends this message to fetch the static assets. The plugin should zip all the assets and return the zipped assets as a Base64 encoded string. GoCD will unzip and store the contents in a path specific to the plugin. Every time a plugin is loaded GoCD will delete any existing plugin assets before storing the new assets.
-
-<p class='request-name-heading'>Request name</p>
-
-`go.cd.analytics.get-static-assets`
-
-<p class='request-body-heading'>Request body</p>
-
-Server sends request with an empty request body.
-
-<p class='response-code-heading'>Response Body</p>
-
-> Example code snippet for generating the response
+> Example code snippet for generating the response:
 
 ```java
     public GoPluginApiResponse execute() throws Exception {
@@ -30,13 +16,52 @@ Server sends request with an empty request body.
         return response;
     }
 ```
-> An example response body —
+> An example response body:
 
 ```json
 {
   "assets": "static assets which is a Base64 encoded zip file"
 }
 ```
+
+> An examples assets.zip file:
+
+```shell
+$ unzip -l assets.zip
+Archive:  assets.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+      240  02-01-1980 00:00   pipeline_analytics.html
+        0  02-01-1980 00:00   js/
+     1350  02-01-1980 00:00   js/my-script.js
+---------                     -------
+   478394                     16 files
+$ unzip -p assets.zip pipeline_analytics.html
+<html>
+<head>
+  <title>My chart!</title>
+  <script type="text/javascript" src="plugin-endpoint.js"></script>
+</head>
+<body>
+  <div id="chart-container"></div>
+  <script type="text/javascript" src="js/my-script.js"></script>
+</body>
+</html>
+```
+
+For building rich visualizations plugins might need to use multiple static assets like javascript libraries, images, css, HTML etc. GoCD provides an option for plugins to cache these static assets in GoCD. The plugin is free to decide on the type of static assets it wants to use.
+
+On plugin load GoCD sends this message to fetch the static assets. The plugin should zip all the assets and return the zipped assets as a Base64 encoded string. GoCD will unzip and store the contents in a path specific to the plugin. Every time a plugin is loaded GoCD will delete any existing plugin assets before storing the new assets.
+
+<p class='request-name-heading'>Request name</p>
+
+`go.cd.analytics.get-static-assets`
+
+<p class='request-body-heading'>Request body</p>
+
+Server sends request with an empty request body.
+
+<p class='response-code-heading'>Response Body</p>
 
 The response body should contain the <code>assets</code> field which is the zipped static assets as a Base64 encoded string.
 

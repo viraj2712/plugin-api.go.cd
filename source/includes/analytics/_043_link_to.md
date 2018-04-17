@@ -1,8 +1,8 @@
 ## go.cd.analytics.v1.link-to
 
 Any links opened directly from the plugin's front-end will open inside the iframe. For security reasons, the iframe cannot affect the
-navigation of the parent GoCD window directly. So, the iframe can send a message with the key `go.cd.analytics.v1.link-to` to the parent
-window to link to one of a specific set of GoCD pages.
+navigation of the parent GoCD window directly. Instead, the iframe can send a message with the key `go.cd.analytics.v1.link-to` to the
+parent window to link to one of a specific set of GoCD pages.
 
 The version `v1` of the message supports linking to Job Details page and first Stage of a Pipeline Instance.
 
