@@ -1,4 +1,4 @@
-## init
+## go.cd.analytics.v1.init
 
 This message is sent from the GoCD parent window, after the plugin-provided HTML front-end file for the [chosen analytics](#get-analytics)
 is loaded into the iframe.

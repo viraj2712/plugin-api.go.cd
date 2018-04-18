@@ -43,7 +43,7 @@ The metadata should have the following structure.
 
 GoCD currently supports the following messages with the `keys`,
 
-* [init](#init)
+* [go.cd.analytics.v1.init](#go-cd-analytics-v1-init)
 * [go.cd.analytics.v1.fetch-analytics](#go-cd-analytics-v1-fetch-analytics)
 * [go.cd.analytics.v1.link-to](#go-cd-analytics-v1-link-to)
 * [go.cd.analytics.v1.link-external](#go-cd-analytics-v1-link-external)
