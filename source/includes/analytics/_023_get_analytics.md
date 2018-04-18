@@ -4,7 +4,7 @@ This message is a request to the plugin to fetch analytics for display.
 
 Analytics is currently supported on the pipeline dashboard and the analytics dashboard. On a request to render analytics, GoCD sends a message to the plugin to fetch analytics. The plugin is expected to respond with a JSON which contains a path to an HTML which would render the analytics and the relevant data for rendering the analytics.
 
-The `view_path` should refer to the HTML which should be part of the [static assets](#get-static-assets) returned by the plugin. GoCD, on receiving the response, will load the HTML specified in the `view_path` in an iframe and pass the relevant `data`. The HTML is responsible for building the visualization using the provided data. See the [Javascript Messages](#javascript-messages) section below for more information.
+The `view_path` should refer to the HTML which should be part of the [static assets](#get-static-assets) returned by the plugin. GoCD, on receiving the response, will load the HTML specified in the `view_path` in an iframe and pass the relevant `data`. The HTML is responsible for building the visualization using the provided data. See the [Analytics JS API](#analytics-js-api) section below for more information.
 
 
 <p class='request-name-heading'>Request name</p>

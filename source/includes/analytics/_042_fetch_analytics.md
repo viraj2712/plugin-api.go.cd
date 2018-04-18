@@ -1,65 +1,61 @@
-## go.cd.analytics.v1.fetch-analytics
+### Request key: `fetch-analytics`
 
-> An example message from iframe to parent window to fetch analytics -
+> An example message from iframe to parent window to fetch analytics:
 
-```json
-{
-    "head": {
-        "reqId": 1,
-        "type": "request",
-        "key": "go.cd.analytics.v1.fetch-analytics"
-    },
-    "body": {
-        "pluginId": "com.my.org.analytics",
-        "type": "pipeline",
-        "metric": "metric_id",
-        "pipeline_name": "my_pipeline"
-    }
-}
+```html
+<html>
+<head>
+  <script src="analytics-endpoint.js"></script>
+  <script>
+  AnalyticsEndpoint.onInit(function(initialData, transport) {
+    ...
+    transport.request("fetch-analytics", {
+      type: "pipeline",
+      metric: "pipeline_duration",
+
+      user_defined_param1: "my_pipeline",
+      user_defined_param2: "something_else"
+    })
+      .done(function(data) {
+        var dataObject = JSON.parse(data);
+        console.log("Done! Got: " + dataObject);
+      })
+      .fail(function(errors) {
+        console.log("Something failed: " + errors);
+      });
+  });
+
+  AnalyticsEndpoint.ensure("v1");
+  </script>
+</head>
+<body>
+  ...
+</body>
+</html>
 ```
 
-> The API request to GoCD to fetch the analytics
+> The API request to GoCD to fetch the analytics (for above example):
 
 ```
-https://ci.example.com/go/analytics/com.my.org.analytics/pipeline/metric_id?pipeline_name=my_pipeline
+https://ci.example.com/go/analytics/plugin_id/pipeline/pipeline_duration?user_defined_param1=my_pipeline&user_defined_param2=something_else
 ```
 
-> An example response message from parent window to iframe -
-
-
-```json
-{
-    "head": {
-        "reqId": 1,
-        "type": "response"
-    },
-    "body": {
-        "data": "{'pipelines:['a','b','c']'}"
-    }
-}
-```
-
-The plugin front-end in the iframe can send a message with key `go.cd.analytics.v1.fetch-analytics` to [fetch analytics](#get-analytics)
+The plugin front-end in the iframe can send a message with key `fetch-analytics` to [get analytics](#get-analytics)
 from its plugin back-end in the GoCD server. This message can be used to implement drill-downs and other navigation between charts.
 
-The message body should specify the `pluginId`, `type` of metric, the id of the `metric` and additional params required by the plugin to
-fetch the analytics data. Upon receiving this message the parent window will make a GoCD API request to fetch the analytics from the plugin.
-Upon receiving the response data, it will be passed to the plugin front-end in the iframe as a new message.
+Upon receiving this message, the parent window will make a GoCD API request to the plugin's [get analytics](#get-analytics) API to fetch the
+specified analytics from the plugin. Upon receiving the response data, it will be passed to the plugin front-end in the iframe as a response
+to the `fetch-analytics` call.
 
-The head object should contain:
+<aside class='notice'>
+  <strong>Note:</strong> The response will only contain the <code>data</code> part, and will not contain the <code>view_path</code> parameter, if sent by the plugin as a response to <a href="#get-analytics">the get-analytics</a> call.
+</aside>
 
-| Key     | Description                                      |
-|---------|--------------------------------------------------|
-| `reqId` | A unique request ID.                             |
-| `type`  | Should be: `request`.                            |
-| `key`   | Should be: `go.cd.analytics.v1.fetch-analytics`. |
+The parameter object should contain these keys:
 
-The body object should contain these keys:
-
-| Key                   | Description                                    |
-|-----------------------|------------------------------------------------|
-| `plugin_id`           | The plugin ID to use in the request.           |
-| `type`                | Type of the metric: `pipeline` or `dashboard`. |
-| `metric`              | The ID of the metric.                          |
-| `user_defined_param1` | Any plugin-author-defined parameters.          |
-| `user_defined_param2` | Any plugin-author-defined parameters.          |
+| Key                   | Description                                                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `type`                | Type of the metric. Usually `pipeline` or `dashboard`. Depends on the [capabilities](#get-plugin-capabilities) of the plugin. |
+| `metric`              | The ID of the metric as defined by the plugin in its [capabilities](#get-plugin-capabilities).                        |
+| `user_defined_param1` | Any plugin-author-defined parameters (optional).                                                                              |
+| `user_defined_param2` | Any plugin-author-defined parameters (optional).                                                                              |
