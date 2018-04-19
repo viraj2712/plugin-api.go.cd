@@ -1,0 +1,15 @@
+# Analytics Plugins
+
+## Current Version
+
+This document is for version 1.0 of the analytics endpoint.
+
+## Introduction
+
+The Analytics endpoints are GoCD extensions which allow plugins to embed external analytics directly into GoCD. The Analytics endpoint complements the [Notification endpoint](../notifications/), allowing visualizations and insights into the metrics collected using the Notification endpoint and from other sources.
+
+GoCD provides a placeholder on the pipeline dashboard for plugins to display their pipeline level analytics. Apart from this, GoCD also provides a global analytics dashboard which can be leveraged by plugins to visualize analytics at a global level.
+
+If you're looking to start right away with a basic template for analytics plugins, we recommend forking this [GitHub repository](https://github.com/gocd-contrib/analytics-skeleton-plugin).
+
+<%= partial 'includes/shared/plugin-structure.md.erb', locals: { plugin_class: 'ConsoleOutAnalyticsPlugin', plugin_type: 'analytics', endpoint_version: '1.0', minimum_version: '18.3.0' } %>

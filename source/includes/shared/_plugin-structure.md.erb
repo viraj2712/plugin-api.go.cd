@@ -25,7 +25,7 @@ plugin.jar
 The plugin jar is a self contained-jar, it is expected to contain the following inside it —
 
 * `plugin.xml` — the [metadata](#the-plugin-metadata) of your plugin
-* the [plugin extension class](#the-plugin-extension-class) (`<%= plugin_class %>.class` in the example shown) and any other classes that form your plugin 
+* the [plugin extension class](#the-plugin-extension-class) (`<%= plugin_class %>.class` in the example shown) and any other classes that form your plugin
 * any optional [dependencies](#the-plugin-dependencies) your plugin may requires (inside the `lib`)
 
 <a id='the-plugin-metadata'></a>
@@ -69,7 +69,7 @@ The plugin jar is a self contained-jar, it is expected to contain the following 
 
 This is an XML file that should be present in the plugin jar file at the top level.
 
-You can find the XML Schema for the plugins in the  [main repository](https://github.com/gocd/gocd/blob/master/plugin-infra/go-plugin-api/resources/plugin-descriptor.xsd).
+You can find the XML Schema for the plugins in the  [main repository](https://github.com/gocd/gocd/blob/master/plugin-infra/go-plugin-api/src/main/resources/plugin-descriptor.xsd).
 
 <a name='the-plugin-extension-class'></a>
 
@@ -79,9 +79,9 @@ You can find the XML Schema for the plugins in the  [main repository](https://gi
 
 ```xml
 <dependency>
-	<groupId>cd.go.plugin</groupId>
-	<artifactId>go-plugin-api</artifactId>
-	<version><%= GOCD_VERSION %></version>
+  <groupId>cd.go.plugin</groupId>
+  <artifactId>go-plugin-api</artifactId>
+  <version><%= GOCD_VERSION %></version>
 </dependency>
 ```
 
@@ -150,7 +150,7 @@ The other types in the example are —
 If you're familiar with http request/responses handled by a web application, you will find this very familiar.
 
 <aside class="notice">
-  GoCD has built in support for allowing plugins to enhance their capabilities in the future without having to break compatibility. This is achieved by ensuring that each extension-point and messages that are sent to the plugin are versioned.
+  GoCD has built in support for allowing plugins to enhance their capabilities in the future without having to break compatibility. This is achieved by ensuring that each extension-point and messages that is sent to the plugin is versioned.
 </aside>
 
 <a id='the-plugin-dependencies'></a>

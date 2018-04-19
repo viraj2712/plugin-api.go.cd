@@ -39,8 +39,8 @@ public class <%= plugin_class %> implements GoPlugin {
     message1.put("message", "A warning message from the plugin.");
 
     Map<String, String> message2 = new HashMap<>();
-    message1.put("type", "error");
-    message1.put("message", "An error message from the plugin.");
+    message2.put("type", "error");
+    message2.put("message", "An error message from the plugin.");
 
     messages.add(message1);
     messages.add(message2);
