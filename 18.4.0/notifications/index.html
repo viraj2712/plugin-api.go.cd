@@ -152,7 +152,7 @@
 <h2 id="structure-of-a-gocd-plugin">Structure of a GoCD Plugin</h2>
 
 <blockquote>
-<p>A plugin for GoCD is a JAR file with the following structure</p>
+<p>A plugin for GoCD is a JAR file with the following structure:</p>
 </blockquote>
 
 <pre class="highlight plaintext"><code>plugin.jar
@@ -170,12 +170,12 @@
     \-- dependency-2.jar
 </code></pre>
 
-<p>The plugin jar is a self contained-jar, it is expected to contain the following inside it —</p>
+<p>The plugin jar is a self contained-jar. It is expected to contain the following inside it:</p>
 
 <ul>
-<li><code class="prettyprint">plugin.xml</code> — the <a href="#the-plugin-metadata">metadata</a> of your plugin</li>
-<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutNotificationPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
-<li>any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>)</li>
+<li><code class="prettyprint">plugin.xml</code> — The <a href="#the-plugin-metadata">metadata</a> of your plugin.</li>
+<li>The <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutNotificationPlugin.class</code> in the example shown) and any other classes that form your plugin.</li>
+<li>Any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>).</li>
 </ul>
 
 <p><a id='the-plugin-metadata'></a></p>
@@ -183,7 +183,7 @@
 <h3 id="the-plugin-metadata-plugin-xml">The plugin metadata <code class="prettyprint">plugin.xml</code></h3>
 
 <blockquote>
-<p>Here is an example <code class="prettyprint">plugin.xml</code></p>
+<p>Here is an example <code class="prettyprint">plugin.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
@@ -227,7 +227,7 @@
 <h3 id="the-plugin-extension-class">The plugin extension class</h3>
 
 <blockquote>
-<p>Add this to your maven <code class="prettyprint">pom.xml</code></p>
+<p>Add this to your maven <code class="prettyprint">pom.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
@@ -242,7 +242,7 @@
 <div style='clear: both;'></div>
 
 <blockquote>
-<p>An example plugin class implementation</p>
+<p>An example plugin class implementation:</p>
 </blockquote>
 
 <pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
@@ -289,7 +289,7 @@
 
 <p>The plugin extension class is a Java class that implements the <code class="prettyprint">GoPlugin</code> interface.</p>
 
-<p>The other types in the example are —</p>
+<p>The other types in the example are:</p>
 
 <p class='attributes-table-follows'></p>
 
@@ -374,7 +374,7 @@
 </ul>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -678,7 +678,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -827,7 +827,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -844,7 +844,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -885,7 +885,7 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -970,7 +970,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -1014,7 +1014,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body for a failure</p>
+<p>An example response body for a failure:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
@@ -1031,7 +1031,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-settings-view-object">The Settings View Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the settings view object</p>
+<p>Here&rsquo;s an example of the settings view object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1068,7 +1068,7 @@ successful, the response body will be empty.</p>
 <h4 id="getting-started-with-angularjs-based-templates">Getting started with AngularJS based templates</h4>
 
 <blockquote>
-<p>Given a configuration —</p>
+<p>Given a configuration:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;configuration&gt;</span>
@@ -1080,7 +1080,7 @@ successful, the response body will be empty.</p>
 </code></pre>
 
 <blockquote>
-<p>This gets converted into the following JSON representation in the browser —</p>
+<p>This gets converted into the following JSON representation in the browser:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1089,7 +1089,7 @@ successful, the response body will be empty.</p>
 </span></code></pre>
 
 <blockquote>
-<p>The AngularJS template is expected to bind to the JSON object shown above —</p>
+<p>The AngularJS template is expected to bind to the JSON object shown above:</p>
 </blockquote>
 
 <pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
@@ -1129,7 +1129,7 @@ any server side errors</p>
 <h3 id="the-plugin-settings-configuration-object">The Plugin Settings Configuration Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the plugin settings configuration object</p>
+<p>Here&rsquo;s an example of the plugin settings configuration object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1192,7 +1192,7 @@ any server side errors</p>
 <h3 id="the-validation-error-object">The Validation Error Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the validation error object</p>
+<p>Here&rsquo;s an example of the validation error object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1233,7 +1233,7 @@ any server side errors</p>
 <h3 id="the-server-info-object">The server info object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the server info object</p>
+<p>Here&rsquo;s an example of the server info object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">

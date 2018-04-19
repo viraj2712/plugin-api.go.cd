@@ -154,7 +154,7 @@
 <h2 id="structure-of-a-gocd-plugin">Structure of a GoCD Plugin</h2>
 
 <blockquote>
-<p>A plugin for GoCD is a JAR file with the following structure</p>
+<p>A plugin for GoCD is a JAR file with the following structure:</p>
 </blockquote>
 
 <pre class="highlight plaintext"><code>plugin.jar
@@ -172,12 +172,12 @@
     \-- dependency-2.jar
 </code></pre>
 
-<p>The plugin jar is a self contained-jar, it is expected to contain the following inside it —</p>
+<p>The plugin jar is a self contained-jar. It is expected to contain the following inside it:</p>
 
 <ul>
-<li><code class="prettyprint">plugin.xml</code> — the <a href="#the-plugin-metadata">metadata</a> of your plugin</li>
-<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutAnalyticsPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
-<li>any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>)</li>
+<li><code class="prettyprint">plugin.xml</code> — The <a href="#the-plugin-metadata">metadata</a> of your plugin.</li>
+<li>The <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutAnalyticsPlugin.class</code> in the example shown) and any other classes that form your plugin.</li>
+<li>Any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>).</li>
 </ul>
 
 <p><a id='the-plugin-metadata'></a></p>
@@ -185,7 +185,7 @@
 <h3 id="the-plugin-metadata-plugin-xml">The plugin metadata <code class="prettyprint">plugin.xml</code></h3>
 
 <blockquote>
-<p>Here is an example <code class="prettyprint">plugin.xml</code></p>
+<p>Here is an example <code class="prettyprint">plugin.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
@@ -229,7 +229,7 @@
 <h3 id="the-plugin-extension-class">The plugin extension class</h3>
 
 <blockquote>
-<p>Add this to your maven <code class="prettyprint">pom.xml</code></p>
+<p>Add this to your maven <code class="prettyprint">pom.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
@@ -244,7 +244,7 @@
 <div style='clear: both;'></div>
 
 <blockquote>
-<p>An example plugin class implementation</p>
+<p>An example plugin class implementation:</p>
 </blockquote>
 
 <pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
@@ -291,7 +291,7 @@
 
 <p>The plugin extension class is a Java class that implements the <code class="prettyprint">GoPlugin</code> interface.</p>
 
-<p>The other types in the example are —</p>
+<p>The other types in the example are:</p>
 
 <p class='attributes-table-follows'></p>
 
@@ -366,7 +366,7 @@
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body —</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -543,7 +543,7 @@ Archive:  assets.zip
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body -</p>
+<p>An example request body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -567,12 +567,12 @@ Archive:  assets.zip
 <tr>
 <td><code class="prettyprint">type</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The type of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a></td>
+<td>The type of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a>.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">id</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The id of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a></td>
+<td>The id of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a>.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">params</code></td>
@@ -584,7 +584,7 @@ Archive:  assets.zip
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body —</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -633,7 +633,7 @@ Archive:  assets.zip
 <p>The request body will be a JSON which will be a map of the plugin settings.</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -670,7 +670,7 @@ Archive:  assets.zip
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example plugin response body</p>
+<p>An example plugin response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -711,7 +711,7 @@ Archive:  assets.zip
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -859,7 +859,7 @@ Archive:  assets.zip
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -876,7 +876,7 @@ Archive:  assets.zip
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -963,7 +963,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -1007,7 +1007,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body for a failure</p>
+<p>An example response body for a failure:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
@@ -1106,6 +1106,19 @@ analytics-endpoint.js API&rsquo;s.</p>
 
 <h2 id="the-transport-object">The Transport Object</h2>
 
+<blockquote>
+<p>Example snippet:</p>
+</blockquote>
+
+<pre class="highlight javascript"><code><span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="p">{</span> <span class="na">url</span><span class="p">:</span> <span class="s2">"https://google.com"</span> <span class="p">};</span>
+  <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"link-external"</span><span class="p">,</span> <span class="nx">params</span><span class="p">).</span>
+    <span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"success! received: "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span> <span class="p">}).</span>
+    <span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"failed due to: "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">errors</span><span class="p">));</span> <span class="p">}).</span>
+    <span class="nx">always</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"all done here."</span><span class="p">);</span> <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+
 <p>The <code class="prettyprint">Transport</code> object provides an AJAX-like API to facilitate communication with GoCD. It provides a chainable callback setup, similar to
 <code class="prettyprint">jQuery.ajax</code> handlers. It has a <code class="prettyprint">request</code> method, which takes two parameters:</p>
 
@@ -1125,12 +1138,12 @@ analytics-endpoint.js API&rsquo;s.</p>
 </tr>
 </tbody></table>
 
-<p>The <code class="prettyprint">request method</code>returns a chainable object to set up <code class="prettyprint">done</code>, <code class="prettyprint">fail</code>, and <code class="prettyprint">always</code> callbacks:</p>
+<p>The <code class="prettyprint">request() method</code> returns a chainable object to set up <code class="prettyprint">done</code>, <code class="prettyprint">fail</code>, and <code class="prettyprint">always</code> callbacks:</p>
 
 <ol>
-<li><code class="prettyprint">done(function(data) {})</code>: fires upon successful response from GoCD. Similar to <a href="https://api.jquery.com/deferred.done/">done() in jQuery</a>.</li>
-<li><code class="prettyprint">fail(function(errors) {})</code>: fires upon error response from GoCD. Similar to <a href="https://api.jquery.com/deferred.fail/">fail() in jQuery</a></li>
-<li><code class="prettyprint">always(function() {})</code>: fires after response is received, regardless of success/failure. executes after <code class="prettyprint">done()</code> or <code class="prettyprint">fail()</code>. Similar to
+<li><code class="prettyprint">done(function(data) {})</code>: Fires upon successful response from GoCD. Similar to <a href="https://api.jquery.com/deferred.done/">done() in jQuery</a>.</li>
+<li><code class="prettyprint">fail(function(errors) {})</code>: Fires upon error response from GoCD. Similar to <a href="https://api.jquery.com/deferred.fail/">fail() in jQuery</a></li>
+<li><code class="prettyprint">always(function() {})</code>: Fires after response is received, regardless of success/failure. Executes after <code class="prettyprint">done()</code> or <code class="prettyprint">fail()</code>. Similar to
 <a href="https://api.jquery.com/deferred.always/">always() in jQuery</a>.</li>
 </ol>
 
@@ -1306,7 +1319,7 @@ window will open the linked page in a new tab.</p>
 <h3 id="request-key-link-to-pipeline-instance-page">Request key: <code class="prettyprint">link-to</code> pipeline instance page</h3>
 
 <blockquote>
-<p>An example message from iframe to parent window to link to pipeline instance page -</p>
+<p>An example message from iframe to parent window to link to pipeline instance page:</p>
 </blockquote>
 
 <pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
@@ -1418,7 +1431,7 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 </thead><tbody>
 <tr>
 <td><code class="prettyprint">url</code></td>
-<td>The URL that should be navigated to.</td>
+<td>The URL to navigate to.</td>
 </tr>
 </tbody></table>
 
@@ -1429,7 +1442,7 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 <h3 id="the-settings-view-object">The Settings View Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the settings view object</p>
+<p>Here&rsquo;s an example of the settings view object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1466,7 +1479,7 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 <h4 id="getting-started-with-angularjs-based-templates">Getting started with AngularJS based templates</h4>
 
 <blockquote>
-<p>Given a configuration —</p>
+<p>Given a configuration:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;configuration&gt;</span>
@@ -1478,7 +1491,7 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 </code></pre>
 
 <blockquote>
-<p>This gets converted into the following JSON representation in the browser —</p>
+<p>This gets converted into the following JSON representation in the browser:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1487,7 +1500,7 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 </span></code></pre>
 
 <blockquote>
-<p>The AngularJS template is expected to bind to the JSON object shown above —</p>
+<p>The AngularJS template is expected to bind to the JSON object shown above:</p>
 </blockquote>
 
 <pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
@@ -1527,7 +1540,7 @@ any server side errors</p>
 <h3 id="the-plugin-settings-configuration-object">The Plugin Settings Configuration Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the plugin settings configuration object</p>
+<p>Here&rsquo;s an example of the plugin settings configuration object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1590,7 +1603,7 @@ any server side errors</p>
 <h3 id="the-validation-error-object">The Validation Error Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the validation error object</p>
+<p>Here&rsquo;s an example of the validation error object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1631,7 +1644,7 @@ any server side errors</p>
 <h3 id="the-image-object">The Image Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the image object</p>
+<p>Here&rsquo;s an example of the image object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">

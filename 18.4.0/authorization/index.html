@@ -228,7 +228,7 @@
 <h2 id="structure-of-a-gocd-plugin">Structure of a GoCD Plugin</h2>
 
 <blockquote>
-<p>A plugin for GoCD is a JAR file with the following structure</p>
+<p>A plugin for GoCD is a JAR file with the following structure:</p>
 </blockquote>
 
 <pre class="highlight plaintext"><code>plugin.jar
@@ -246,12 +246,12 @@
     \-- dependency-2.jar
 </code></pre>
 
-<p>The plugin jar is a self contained-jar, it is expected to contain the following inside it —</p>
+<p>The plugin jar is a self contained-jar. It is expected to contain the following inside it:</p>
 
 <ul>
-<li><code class="prettyprint">plugin.xml</code> — the <a href="#the-plugin-metadata">metadata</a> of your plugin</li>
-<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">LdapAuthorizationPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
-<li>any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>)</li>
+<li><code class="prettyprint">plugin.xml</code> — The <a href="#the-plugin-metadata">metadata</a> of your plugin.</li>
+<li>The <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">LdapAuthorizationPlugin.class</code> in the example shown) and any other classes that form your plugin.</li>
+<li>Any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>).</li>
 </ul>
 
 <p><a id='the-plugin-metadata'></a></p>
@@ -259,7 +259,7 @@
 <h3 id="the-plugin-metadata-plugin-xml">The plugin metadata <code class="prettyprint">plugin.xml</code></h3>
 
 <blockquote>
-<p>Here is an example <code class="prettyprint">plugin.xml</code></p>
+<p>Here is an example <code class="prettyprint">plugin.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
@@ -303,7 +303,7 @@
 <h3 id="the-plugin-extension-class">The plugin extension class</h3>
 
 <blockquote>
-<p>Add this to your maven <code class="prettyprint">pom.xml</code></p>
+<p>Add this to your maven <code class="prettyprint">pom.xml</code>:</p>
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
@@ -318,7 +318,7 @@
 <div style='clear: both;'></div>
 
 <blockquote>
-<p>An example plugin class implementation</p>
+<p>An example plugin class implementation:</p>
 </blockquote>
 
 <pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
@@ -365,7 +365,7 @@
 
 <p>The plugin extension class is a Java class that implements the <code class="prettyprint">GoPlugin</code> interface.</p>
 
-<p>The other types in the example are —</p>
+<p>The other types in the example are:</p>
 
 <p class='attributes-table-follows'></p>
 
@@ -462,7 +462,7 @@
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example plugin response body</p>
+<p>An example plugin response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -497,7 +497,7 @@
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body —</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -552,7 +552,7 @@
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -617,7 +617,7 @@
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -754,7 +754,7 @@ is expected to try authenticating the user against each config until a successfu
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body —</p>
+<p>An example response body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -899,7 +899,7 @@ is expected to try authenticating the user against each config until a successfu
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -957,7 +957,7 @@ is expected to try authenticating the user against each config until a successfu
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
@@ -1150,7 +1150,7 @@ is expected to try authenticating the user against each config until a successfu
 <p class='response-code-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body —</p>
+<p>An example response body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"authorization_server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://external_auth_server_url/login?redirect_url=http://my_go_server/go/plugin/my_plugin_id/authenticate&amp;client_id=hdfjh3r&amp;client_secret=vbvdv1493"</span><span class="w">
@@ -1293,7 +1293,7 @@ GoCD would pass the returned json as credentials for the <a href="#authenticate-
 <p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
 
 <blockquote>
-<p>An example response body</p>
+<p>An example response body:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1378,7 +1378,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='request-body-heading'>Request body</p>
 
 <blockquote>
-<p>An example request body</p>
+<p>An example request body:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -1422,7 +1422,7 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body for a failure</p>
+<p>An example response body for a failure:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
@@ -1439,7 +1439,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-settings-view-object">The Settings View Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the settings view object</p>
+<p>Here&rsquo;s an example of the settings view object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1468,7 +1468,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-image-object">The Image Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the image object</p>
+<p>Here&rsquo;s an example of the image object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1503,7 +1503,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-validation-error-object">The Validation Error Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the validation error object</p>
+<p>Here&rsquo;s an example of the validation error object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1544,7 +1544,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-verify-connection-error-object">The Verify Connection Error Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the verify connection error object</p>
+<p>Here&rsquo;s an example of the verify connection error object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -1581,7 +1581,7 @@ successful, the response body will be empty.</p>
 <h3 id="the-server-info-object">The server info object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the server info object</p>
+<p>Here&rsquo;s an example of the server info object:</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
