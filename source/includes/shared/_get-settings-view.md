@@ -18,7 +18,7 @@ The plugin is expected to return status `200` if it can understand the request.
 
 A JSON [settings view object](#the-get-settings-view-object)
 
-> An example response body
+> An example response body:
 
 ```json
 {

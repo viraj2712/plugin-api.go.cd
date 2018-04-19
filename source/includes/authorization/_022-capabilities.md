@@ -12,7 +12,7 @@ Server sends request with `Empty` request body.
 
 <p class='response-code-heading'>Response Body</p>
 
-> An example response body —
+> An example response body:
 
 ```json
 {
