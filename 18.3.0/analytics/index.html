@@ -1149,8 +1149,9 @@ analytics-endpoint.js API&rsquo;s.</p>
     <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"fetch-analytics"</span><span class="p">,</span> <span class="p">{</span>
       <span class="na">type</span><span class="p">:</span> <span class="s2">"pipeline"</span><span class="p">,</span>
       <span class="na">metric</span><span class="p">:</span> <span class="s2">"pipeline_duration"</span><span class="p">,</span>
+      <span class="na">pipeline_name</span><span class="p">:</span> <span class="s2">"my_pipeline"</span><span class="p">,</span>
 
-      <span class="na">user_defined_param1</span><span class="p">:</span> <span class="s2">"my_pipeline"</span><span class="p">,</span>
+      <span class="na">user_defined_param1</span><span class="p">:</span> <span class="s2">"something"</span><span class="p">,</span>
       <span class="na">user_defined_param2</span><span class="p">:</span> <span class="s2">"something_else"</span>
     <span class="p">})</span>
       <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -1204,6 +1205,10 @@ to the <code class="prettyprint">fetch-analytics</code> call.</p>
 <tr>
 <td><code class="prettyprint">metric</code></td>
 <td>The ID of the metric as defined by the plugin in its <a href="#get-plugin-capabilities">capabilities</a>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline_name</code></td>
+<td>The name of the pipeline that analytics need to be fetched for. Required only if metric type is <code class="prettyprint">pipeline</code>.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">user_defined_param1</code></td>
