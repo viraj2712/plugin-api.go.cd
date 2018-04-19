@@ -8,7 +8,7 @@
     <meta name ="keywords" content="gocd plugins, plugins for gocd, extension points, open source gocd, open source continuous delivery" />
     <link href="../images/gocd.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="../images/gocd.png" rel="apple-touch-icon" type="image/png" size="192x192" />
-    <title>GoCD Notification Plugin API Reference</title>
+    <title>GoCD Analytics Plugin API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -103,7 +103,7 @@
       </script>
   </head>
 
-  <body class="notifications notifications_index" data-languages="[]">
+  <body class="analytics analytics_index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -133,17 +133,19 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="notification-plugins">Notification Plugins</h1>
+        <h1 id="analytics-plugins">Analytics Plugins</h1>
 
 <h2 id="current-version">Current Version</h2>
 
-<p>This document is for version 3.0 (the latest) of the notification endpoint.</p>
+<p>This document is for version 1.0 of the analytics endpoint.</p>
 
 <h2 id="introduction">Introduction</h2>
 
-<p>Notification extension endpoint allows GoCD to send notifications about builds and agent state changes over various channels.</p>
+<p>The Analytics endpoints are GoCD extensions which allow plugins to embed external analytics directly into GoCD. The Analytics endpoint complements the <a href="../notifications/">Notification endpoint</a>, allowing visualizations and insights into the metrics collected using the Notification endpoint and from other sources.</p>
 
-<p>If you&rsquo;re looking to start away with a basic template for notification plugins, we recommend forking this <a href="https://github.com/gocd-contrib/notification-skeleton-plugin">github repository</a>.</p>
+<p>GoCD provides a placeholder on the pipeline dashboard for plugins to display their pipeline level analytics. Apart from this, GoCD also provides a global analytics dashboard which can be leveraged by plugins to visualize analytics at a global level.</p>
+
+<p>If you&rsquo;re looking to start right away with a basic template for analytics plugins, we recommend forking this <a href="https://github.com/gocd-contrib/analytics-skeleton-plugin">GitHub repository</a>.</p>
 
 <h1 id="getting-started">Getting started</h1>
 
@@ -162,7 +164,7 @@
 |   \-- example
 |       \-- go
 |           \-- testplugin
-|               \-- ConsoleOutNotificationPlugin.class
+|               \-- ConsoleOutAnalyticsPlugin.class
 |               \-- x.class
 |               \-- y.class
 \-- lib
@@ -174,7 +176,7 @@
 
 <ul>
 <li><code class="prettyprint">plugin.xml</code> — the <a href="#the-plugin-metadata">metadata</a> of your plugin</li>
-<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutNotificationPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
+<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">ConsoleOutAnalyticsPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
 <li>any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>)</li>
 </ul>
 
@@ -199,7 +201,7 @@
     <span class="c">&lt;!--  The version of your plugin --&gt;</span>
     <span class="nt">&lt;version&gt;</span>0.0.1<span class="nt">&lt;/version&gt;</span>
     <span class="c">&lt;!-- The minimum version of GoCD that this plugin requires --&gt;</span>
-    <span class="nt">&lt;target-go-version&gt;</span>15.1.0<span class="nt">&lt;/target-go-version&gt;</span>
+    <span class="nt">&lt;target-go-version&gt;</span>18.3.0<span class="nt">&lt;/target-go-version&gt;</span>
     <span class="c">&lt;!-- A longer description of your plugin  --&gt;</span>
     <span class="nt">&lt;description&gt;</span>Launches rockets, spaceships and other things to a destination of your choice.<span class="nt">&lt;/description&gt;</span>
 
@@ -256,7 +258,7 @@
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleOutNotificationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleOutAnalyticsPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
   <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
 
   <span class="c1">// this method is executed once at startup</span>
@@ -267,7 +269,7 @@
   <span class="c1">// a GoPluginIdentifier tells GoCD what kind of a plugin this is</span>
   <span class="c1">// and what version(s) of the request/response API it supports</span>
   <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"analytics"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="c1">// handle the request and return a response</span>
@@ -331,29 +333,331 @@
 
 <h1 id="requests-from-the-gocd-server">Requests from the GoCD server</h1>
 
-<p>In order to implement the notification extension point the following messages must be implemented by the plugin.</p>
+<p>In order to implement an analytics extension point the following messages must be implemented by the plugin.</p>
 
 <ul>
-<li><a href="#notifications-interested-in">Notifications Interested In</a></li>
-<li><a href="#stage-status-changed">Stage Status Changed</a></li>
-<li><a href="#agent-status-changed">Agent Status Changed</a></li>
+<li><a href="#get-plugin-capabilities">Get Capabilities</a></li>
+<li><a href="#get-static-assets">Get Static Assets</a></li>
+<li><a href="#get-analytics">Get Analytics</a></li>
+<li><a href="#plugin-settings-changed">Plugin Settings Changed</a></li>
 </ul>
 
-<p>These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.</p>
+<p>These are general purpose messages that a plugin must implement to allow users to configure the plugin through the browser.</p>
 
 <ul>
+<li><a href="#get-plugin-icon">Get Plugin Icon</a></li>
 <li><a href="#get-settings-view">Get Settings View</a></li>
 <li><a href="#get-plugin-configuration">Get Plugin Configuration</a></li>
 <li><a href="#validate-plugin-configuration">Validate Plugin Configuration</a></li>
 </ul>
 
-<h2 id="notifications-interested-in">Notifications Interested In</h2>
+<h2 id="get-plugin-capabilities">Get Plugin Capabilities</h2>
 
-<p>This message is a request to the plugin to check what sort of notifications the plugin is interested to receive.</p>
+<p>This message is a request to the plugin to provide plugin capabilities. The capabilities should be a list of analytics supported by the plugin. Based on the type of supported analytics, GoCD decides the page on which to render the analytics, e.g analytics of type <code class="prettyprint">pipeline</code> will show up on the GoCD pipeline dashboard.</p>
 
 <p class='request-name-heading'>Request name</p>
 
-<p><code class="prettyprint">notifications-interested-in</code></p>
+<p><code class="prettyprint">go.cd.analytics.get-capabilities</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Server sends request with <code class="prettyprint">Empty</code> request body.</p>
+
+<p class='response-code-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"supported_analytics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline_duration"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pipeline Duration"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipelines_with_longest_average_wait_time"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pipelines With The Longest Average Wait Times"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dashboard"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The response body should contain the <code>supported_analytics</code> field which is a collection of analytics metrics. Each analytics metric has following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>Unique identifier for an analytics. The id will be used by GoCD to fetch a specific metric from the plugin.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">title</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The title for analytics.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The type of the analytics which defines the position of analytics in GoCD. Analytics of type <code class="prettyprint">pipeline</code> are shown on pipeline dashboard and of type <code class="prettyprint">dashboard</code> are shown on the analytics dashboard.</td>
+</tr>
+</tbody></table>
+
+<p>Valid types of analytics metric are as follows:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Scope</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">dashboard</code></td>
+<td>Dashboard level analytics will be displayed at the global level in the GoCD application.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline</code></td>
+<td>Pipeline level analytics will be displayed on each pipeline in the GoCD application.</td>
+</tr>
+</tbody></table>
+
+<aside class="info">
+  <strong>Note</strong>: Any other analytics type apart from above mentioned types will be ignored.
+</aside>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<h2 id="get-static-assets">Get Static Assets</h2>
+
+<blockquote>
+<p>Example code snippet for generating the response:</p>
+</blockquote>
+
+<pre class="highlight java"><code>    <span class="kd">public</span> <span class="n">GoPluginApiResponse</span> <span class="nf">execute</span><span class="p">(</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">DefaultGoPluginApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setResponseBody</span><span class="o">(</span>
+                <span class="n">GSON</span><span class="o">.</span><span class="na">toJson</span><span class="o">(</span><span class="n">Collections</span><span class="o">.</span><span class="na">singletonMap</span><span class="o">(</span><span class="s">"assets"</span><span class="o">,</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span>
+                        <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span>
+                            <span class="n">IOUtils</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"assets.zip"</span><span class="o">))</span>
+                        <span class="o">),</span>
+                        <span class="n">StandardCharsets</span><span class="o">.</span><span class="na">ISO_8859_1</span>
+                <span class="o">)))</span>
+        <span class="o">);</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre>
+
+<blockquote>
+<p>An example response body:</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"assets"</span><span class="p">:</span><span class="w"> </span><span class="s2">"static assets which is a Base64 encoded zip file"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>An examples assets.zip file:</p>
+</blockquote>
+
+<pre class="highlight shell"><code><span class="gp">$ </span>unzip -l assets.zip
+Archive:  assets.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+      240  02-01-1980 00:00   pipeline_analytics.html
+        0  02-01-1980 00:00   js/
+     1350  02-01-1980 00:00   js/my-script.js
+---------                     -------
+   478394                     16 files
+<span class="gp">$ </span>unzip -p assets.zip pipeline_analytics.html
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;My chart!&lt;/title&gt;
+  &lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">"text/javascript"</span> <span class="nv">src</span><span class="o">=</span><span class="s2">"plugin-endpoint.js"</span>&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div <span class="nv">id</span><span class="o">=</span><span class="s2">"chart-container"</span>&gt;&lt;/div&gt;
+  &lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">"text/javascript"</span> <span class="nv">src</span><span class="o">=</span><span class="s2">"js/my-script.js"</span>&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>For building rich visualizations plugins might need to use multiple static assets like javascript libraries, images, css, HTML etc. GoCD provides an option for plugins to cache these static assets in GoCD. The plugin is free to decide on the type of static assets it wants to use.</p>
+
+<p>On plugin load GoCD sends this message to fetch the static assets. The plugin should zip all the assets and return the zipped assets as a Base64 encoded string. GoCD will unzip and store the contents in a path specific to the plugin. Every time a plugin is loaded GoCD will delete any existing plugin assets before storing the new assets.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.analytics.get-static-assets</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Server sends request with an empty request body.</p>
+
+<p class='response-code-heading'>Response Body</p>
+
+<p>The response body should contain the <code>assets</code> field which is the zipped static assets as a Base64 encoded string.</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">assets</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The zipped assets returned as a Base64 encoded string.</td>
+</tr>
+</tbody></table>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<h2 id="get-analytics">Get Analytics</h2>
+
+<p>This message is a request to the plugin to fetch analytics for display.</p>
+
+<p>Analytics is currently supported on the pipeline dashboard and the analytics dashboard. On a request to render analytics, GoCD sends a message to the plugin to fetch analytics. The plugin is expected to respond with a JSON which contains a path to an HTML which would render the analytics and the relevant data for rendering the analytics.</p>
+
+<p>The <code class="prettyprint">view_path</code> should refer to the HTML which should be part of the <a href="#get-static-assets">static assets</a> returned by the plugin. GoCD, on receiving the response, will load the HTML specified in the <code class="prettyprint">view_path</code> in an iframe and pass the relevant <code class="prettyprint">data</code>. The HTML is responsible for building the visualization using the provided data. See the <a href="#analytics-js-api">Analytics JS API</a> section below for more information.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.analytics.get-analytics</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>An example request body -</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"analytics_for_pipeline"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_pipeline"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The type of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a></td>
+</tr>
+<tr>
+<td><code class="prettyprint">id</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The id of the analytics as defined in the <a href="#get-plugin-capabilities">Plugin Capabilities</a></td>
+</tr>
+<tr>
+<td><code class="prettyprint">params</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>This is a hash of optional params the plugin would require to generate analytics. For analytics of type <code class="prettyprint">pipeline</code>, GoCD will send the pipeline name as a param <code class="prettyprint">pipeline_name</code>.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{\"failed_count\":10, \"passed_count\": 34}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"view_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline_analytics.html"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The response body should contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">data</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The data as <code class="prettyprint">json</code> string used to build the analytics.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">view_path</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The path to the HTML file which will render the requested analytics.</td>
+</tr>
+</tbody></table>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<h2 id="plugin-settings-changed">Plugin Settings Changed</h2>
+
+<p>This is a notification message to the plugin on update of plugin settings.</p>
+
+<p>Every time the plugin settings change, GoCD will send this message to the plugin with the updated plugin settings.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.plugin-settings.plugin-settings-changed</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>The request body will be a JSON which will be a map of the plugin settings.</p>
+
+<blockquote>
+<p>An example request body</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://build.go.cd"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>Can be left blank, the server does not parse any response body returned.</p>
+
+<h2 id="get-plugin-icon">Get Plugin Icon</h2>
+
+<p>This call is expected to return the icon for the plugin, so as to make it easy for users to identify the plugin.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">go.cd.authorization.get-icon</code></p>
 
 <p class='request-body-heading'>Request body</p>
 
@@ -365,297 +669,26 @@
 
 <p class='response-body-heading'>Response Body</p>
 
-<p>The plugin is expected to return a JSON object with the key <code class="prettyprint">notifications</code> that lists all notifications.</p>
-
-<p>Currently supported notifications include:</p>
-
-<ul>
-<li><code class="prettyprint">stage-status</code>. See <a href="#stage-status-changed">stage status changed</a> for the information that the plugin receives on stage status change.</li>
-</ul>
-
 <blockquote>
-<p>An example response body</p>
+<p>An example plugin response body</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"notifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"stage-status"</span><span class="p">]</span><span class="w">
+  </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h2 id="stage-status-changed">Stage Status Changed</h2>
+<p>The plugin is expected to return an <a href="#the-image-object">image object</a>.</p>
 
-<p>This message is sent by the server, when it wants to notify the plugin about a &ldquo;stage status change&rdquo;.</p>
-
-<p>Stage status changed notifications only get sent when a stage gets scheduled or when it completes.</p>
-
-<aside class="info">
-  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp&rsquo;s are in `UTC` with the DateTime format <strong>&ldquo;yyyy-MM-dd&rsquo;T'HH:mm:ss.SSSZ&rdquo;</strong>
+<aside class="notice">
+  <strong>It is recommended that:</strong>
+  <ul>
+    <li>The image be an SVG image, since it scales well. Using other types like PNG/JPEG/GIF/BMP will work too, but is not recommended.</li>
+    <li>The image be a square image.</li>
+    <li>The base-64 encoded data is &lt;= 100KB. Bigger sizes will work too, but may take a long time to render.</li>
+  </ul>
 </aside>
-
-<p><a id='stage-start-body'></a></p>
-
-<h3 id="request-response-basics">Request-Response basics</h3>
-
-<p class='request-name-heading'>Request name</p>
-
-<p><code class="prettyprint">stage-status</code></p>
-
-<p class='response-code-heading'>Response code</p>
-
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
-<p class='response-body-heading'>Response Body</p>
-
-<blockquote>
-<p>An example response body if the plugin could send the notification successfully</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<blockquote>
-<p>An example response body if the plugin could not send the notification</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Could not send email for build/1/compile/1"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The plugin is expected to return a JSON object to indicate if the notifications could be processed.</p>
-
-<aside class="warning">
-  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in &ldquo;server health messages&rdquo;.
-</aside>
-
-<p><a id='stage-start-body'></a></p>
-
-<h3 id="stage-start-notifications">Stage start notifications</h3>
-
-<blockquote>
-<p>A sample body when a stage with three jobs gets scheduled.</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-name"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"defaultGroup"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"build-cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"git-configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"shallow-clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.x"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/organization/repository"</span><span class="w">
-          </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"changed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"modifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-          </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"revision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8f60b12439840e5a0a4d464379dd3a48881008b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T17:27:58.000+0000"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
-          </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stageOne"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"approval-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timer"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Building"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job3"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scheduled"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>These notifications get sent out when a stage starts. The request body will contain a JSON representing the stage that is starting.</p>
-
-<ul>
-<li><p>A stage start notification can be identified by the <code class="prettyprint">.pipeline.stage.state</code> attribute set to <code class="prettyprint">Building</code>.</p></li>
-<li><p>For a stage with multiple jobs, all jobs will be made available in the JSON document.</p></li>
-<li><p>Each job state <code class="prettyprint">.pipeline.stage.jobs[].state</code> will be set to <code class="prettyprint">Scheduled</code>.</p></li>
-<li><p>Since the jobs have not run yet, every <code class="prettyprint">.pipeline.stage.jobs[].result</code> will be set to <code class="prettyprint">Unknown</code>.</p></li>
-</ul>
-
-<aside class="note">
-In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
-</aside>
-
-<p><a id='stage-complete-body'></a></p>
-
-<h3 id="stage-completion-notifications">Stage completion notifications</h3>
-
-<blockquote>
-<p>A sample body when a stage with one job completes successfully.</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-name"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-label"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline-group"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"build-cause"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"material"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"git-configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"shallow-clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"branch"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://user:******@gitrepo.com"</span><span class="w">
-          </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"changed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"modifications"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-          </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"revision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"modified-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-04-06T12:50:03.317+0000"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
-          </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-name"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"approval-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"changes"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100+0000"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"last-transition-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100+0000"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job-name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"schedule-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"assign-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:38.100+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"complete-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:39.100+0000"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Completed"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"agent-uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uuid"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>These notifications get sent out after a stage completes. The request body will contain a JSON representing the stage that completed.</p>
-
-<ul>
-<li><p>Stage completion notifications can be identified when the <code class="prettyprint">.pipeline.stage.state</code> is something other than <code class="prettyprint">Building</code>. Valid values are <code class="prettyprint">Passed</code>, <code class="prettyprint">Failed</code> and <code class="prettyprint">Cancelled</code>.</p></li>
-<li><p>For a stage with multiple jobs, all jobs will be made available in the JSON document.</p></li>
-<li><p>Each job state <code class="prettyprint">.pipeline.stage.jobs[].state</code> will be set to <code class="prettyprint">Completed</code>.</p></li>
-<li><p>Every <code class="prettyprint">.pipeline.stage.jobs[].result</code> will one of <code class="prettyprint">&#39;Passed&#39;</code>, <code class="prettyprint">&#39;Failed&#39;</code> or <code class="prettyprint">&#39;Cancelled&#39;</code>.</p></li>
-</ul>
-
-<aside class="note">
-In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
-</aside>
-
-<h2 id="agent-status-changed">Agent Status Changed</h2>
-
-<p>This message is sent by the server, when it wants to notify the plugin about any change in agent state.</p>
-
-<p>Agent status changed notifications only get sent when the the state of the agent has changed.</p>
-
-<aside class="info">
-  <strong>Note</strong>: As part of notification plugin endpoint V3, all timestamp&rsquo;s are in `UTC` with the DateTime format <strong>&ldquo;yyyy-MM-dd&rsquo;T'HH:mm:ss.SSSZ&rdquo;</strong>
-</aside>
-
-<h3 id="request-response-basics">Request-Response basics</h3>
-
-<p class='request-name-heading'>Request name</p>
-
-<p><code class="prettyprint">agent-status</code></p>
-
-<p class='response-code-heading'>Response code</p>
-
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
-<p class='response-body-heading'>Response Body</p>
-
-<blockquote>
-<p>An example response body if the plugin could send the notification successfully</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<blockquote>
-<p>An example response body if the plugin could not send the notification</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Could not send email for agent agent_hostname"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The plugin is expected to return a JSON object to indicate if the notifications could be processed.</p>
-
-<aside class="warning">
-  <strong>Note</strong>: If plugin responds with error messages Go Server shows those in &ldquo;server health messages&rdquo;.
-</aside>
-
-<h3 id="agent-state-change-notifications">Agent state change notifications</h3>
-
-<blockquote>
-<p>A sample body when the agent state changes building.</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"agent_config_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enabled"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"agent_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"building"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"build_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"building"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"is_elastic"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"free_space"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"host_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent_hostname"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ip_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"operating_system"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rh"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"transition_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-15T06:31:28.998+0000"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent_uuid"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The agent status notifications is sent out when the state of an agent changes. The change of state can be either to <code class="prettyprint">agent_config_state</code>, <code class="prettyprint">build_state</code> or the <code class="prettyprint">agent_state</code>. The request body will contain a JSON representing the agent.</p>
-
-<ul>
-<li><code class="prettyprint">agent_config_state</code> - can be either <code class="prettyprint">Pending</code>, <code class="prettyprint">Enabled</code>, <code class="prettyprint">Disabled</code></li>
-<li><code class="prettyprint">agent_state</code> - can be either <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">LostContact</code>, <code class="prettyprint">Missing</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code></li>
-<li><code class="prettyprint">build_state</code> - can be either <code class="prettyprint">Idle</code>, <code class="prettyprint">Building</code>, <code class="prettyprint">Cancelled</code>, <code class="prettyprint">Unknown</code></li>
-</ul>
 
 <h2 id="get-settings-view">Get Settings View</h2>
 
@@ -763,7 +796,6 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 
 <ul>
 <li><a href="#get-plugin-settings">Get Plugin Settings</a></li>
-<li><a href="#get-server-info">Get Server Info</a></li>
 <li><a href="#add-server-health-messages">Add Server Health Messages</a></li>
 </ul>
 
@@ -778,16 +810,16 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleLogNotificationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnalyticsPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
   <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">ConsoleLogNotificationPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">AnalyticsPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
   <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"analytics"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="kd">private</span> <span class="n">PluginSettings</span> <span class="n">getSettings</span><span class="o">()</span> <span class="o">{</span>
@@ -856,45 +888,6 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 
 <p>The server will send a map of settings.</p>
 
-<h2 id="get-server-info">Get Server Info</h2>
-
-<p>This messages allows a plugin to query the server to get some metadata about the server.</p>
-
-<p class='available-since'>
-  Available since v17.9.0.
-</p>
-
-<p class='request-name-heading'>Request name</p>
-
-<p><code class="prettyprint">go.processor.server-info.get</code></p>
-
-<p class='request-body-heading'>Request version</p>
-
-<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
-
-<p class='request-body-heading'>Request body</p>
-
-<p>The plugin should not provide a request body.</p>
-
-<p class='response-code-heading'>Response code</p>
-
-<p>The server is expected to return status <code class="prettyprint">200</code> if it could process the request.</p>
-
-<p class='response-body-heading'>Response Body</p>
-
-<p>The plugin will provide a <a href="#the-server-info-object">server info</a> object.</p>
-
-<blockquote>
-<p>An example response body</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
 <h2 id="add-server-health-messages">Add Server Health Messages</h2>
 <pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
@@ -905,16 +898,16 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleLogNotificationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AnalyticsPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
   <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">ConsoleLogNotificationPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">AnalyticsPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
   <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"notification"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">));</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"analytics"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">));</span>
   <span class="o">}</span>
 
   <span class="kd">private</span> <span class="kt">void</span> <span class="n">addErrorsAndWarnings</span><span class="o">()</span> <span class="o">{</span>
@@ -1023,6 +1016,406 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 
 <p>The server will respond with a single JSON object with an error message with the key <code class="prettyprint">message</code>, if it is unable to process the request. If
 successful, the response body will be empty.</p>
+
+<h1 id="analytics-js-api">Analytics JS API</h1>
+
+<blockquote>
+<p>Example HTML:</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+      <span class="c1">// Your script here</span>
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  ...
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+
+<blockquote>
+<p>Example load using a Javascript module loading system:</p>
+</blockquote>
+
+<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">AnalyticsEndpoint</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"analytics-endpoint.js"</span><span class="p">);</span>
+
+<span class="c1">// The rest of your script here...</span>
+</code></pre>
+
+<p>GoCD renders analytics plugin content in <a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe'
+target='_blank'>sandboxed</a> iframes. Within these sandboxed iframes, the plugin content may only execute its own JS code; it has no access
+to the parent window context or cookies, and is therefore unable to make authenticated requests on the user&rsquo;s behalf.</p>
+
+<p>Because of this isolation, all communication between the parent GoCD window and the plugin iframe is via the <a
+href='https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage' target='_blank'>window.postMessage()</a> mechanism. To make the
+communication easier between GoCD and the sandboxed plugin iframes, GoCD provides the <code class="prettyprint">AnalyticsEndpoint</code> JS client to provide simple
+request-response semantics as an abstraction over the cross-origin/sandbox communication details. Please see examples in the <a href="https://github.com/gocd-contrib/analytics-skeleton-plugin/blob/master/assets/pipeline-chart.html">Analytics
+Skeleton Plugin</a> to see a usage of the
+analytics-endpoint.js API&rsquo;s.</p>
+
+<p><strong>The JS client script is automatically injected into your plugin&rsquo;s static asset root after your plugin is loaded.</strong> Loading the <code class="prettyprint">AnalyticsEndpoint</code> client in plugin scripts merely involves requiring the file <code class="prettyprint">analytics-endpoint.js</code>.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p class='request-body-heading'>AnalyticsEndpoint.onInit(callback)</p>
+
+<blockquote>
+<p>Example setup:</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script&gt;</span>
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Your code goes here to render your initial data and</span>
+    <span class="c1">// any further interactions with the GoCD parent page.</span>
+  <span class="p">});</span>
+
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">ensure</span><span class="p">(</span><span class="s2">"v1"</span><span class="p">);</span> <span class="c1">// Finally, set up receiving endpoint</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  ...
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+
+<p>This is the entry point to all plugin code, and will execute once the frame is loaded and <code class="prettyprint">AnalyticsEndpoint.ensure()</code> has set up the receiving endpoint. The <code class="prettyprint">callback</code> argument is an initializer function that receives the following parameters:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>data</strong></td>
+<td>The initial data from the <a href="#get-analytics"><code class="prettyprint">go.cd.analytics.get-analytics</code></a> JSON payload.</td>
+</tr>
+<tr>
+<td><strong>transport</strong></td>
+<td>A <a href="#the-transport-object">Transport instance</a> to provide a way to send further communication to the parent GoCD frame.</td>
+</tr>
+</tbody></table>
+
+<p class='request-body-heading'>AnalyticsEndpoint.ensure(version)</p>
+
+<p>This sets up the receiving endpoint for messages from GoCD. The <code class="prettyprint">version</code> parameter is required, and must be a supported version string. Currently, this is only <code class="prettyprint">&quot;v1&quot;</code>.</p>
+
+<h2 id="the-transport-object">The Transport Object</h2>
+
+<p>The <code class="prettyprint">Transport</code> object provides an AJAX-like API to facilitate communication with GoCD. It provides a chainable callback setup, similar to
+<code class="prettyprint">jQuery.ajax</code> handlers. It has a <code class="prettyprint">request</code> method, which takes two parameters:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>requestKey</td>
+<td>The request that needs to be sent to the GoCD iframe. Needs to be one of <code class="prettyprint">fetch-analytics</code>, <code class="prettyprint">link-to</code> or <code class="prettyprint">link-external</code>.</td>
+</tr>
+<tr>
+<td>parameters</td>
+<td>A parameter object which depends on the <code class="prettyprint">requestKey</code> used.</td>
+</tr>
+</tbody></table>
+
+<p>The <code class="prettyprint">request method</code>returns a chainable object to set up <code class="prettyprint">done</code>, <code class="prettyprint">fail</code>, and <code class="prettyprint">always</code> callbacks:</p>
+
+<ol>
+<li><code class="prettyprint">done(function(data) {})</code>: fires upon successful response from GoCD. Similar to <a href="https://api.jquery.com/deferred.done/">done() in jQuery</a>.</li>
+<li><code class="prettyprint">fail(function(errors) {})</code>: fires upon error response from GoCD. Similar to <a href="https://api.jquery.com/deferred.fail/">fail() in jQuery</a></li>
+<li><code class="prettyprint">always(function() {})</code>: fires after response is received, regardless of success/failure. executes after <code class="prettyprint">done()</code> or <code class="prettyprint">fail()</code>. Similar to
+<a href="https://api.jquery.com/deferred.always/">always() in jQuery</a>.</li>
+</ol>
+
+<h3 id="request-key-fetch-analytics">Request key: <code class="prettyprint">fetch-analytics</code></h3>
+
+<blockquote>
+<p>An example message from iframe to parent window to fetch analytics:</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script&gt;</span>
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"fetch-analytics"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span> <span class="s2">"pipeline"</span><span class="p">,</span>
+      <span class="na">metric</span><span class="p">:</span> <span class="s2">"pipeline_duration"</span><span class="p">,</span>
+
+      <span class="na">user_defined_param1</span><span class="p">:</span> <span class="s2">"my_pipeline"</span><span class="p">,</span>
+      <span class="na">user_defined_param2</span><span class="p">:</span> <span class="s2">"something_else"</span>
+    <span class="p">})</span>
+      <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">dataObject</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Done! Got: "</span> <span class="o">+</span> <span class="nx">dataObject</span><span class="p">);</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Something failed: "</span> <span class="o">+</span> <span class="nx">errors</span><span class="p">);</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">ensure</span><span class="p">(</span><span class="s2">"v1"</span><span class="p">);</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  ...
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+
+<blockquote>
+<p>The API request to GoCD to fetch the analytics (for above example):</p>
+</blockquote>
+
+<pre class="highlight plaintext"><code>https://ci.example.com/go/analytics/plugin_id/pipeline/pipeline_duration?user_defined_param1=my_pipeline&amp;user_defined_param2=something_else
+</code></pre>
+
+<p>The plugin front-end in the iframe can send a message with key <code class="prettyprint">fetch-analytics</code> to <a href="#get-analytics">get analytics</a>
+from its plugin back-end in the GoCD server. This message can be used to implement drill-downs and other navigation between charts.</p>
+
+<p>Upon receiving this message, the parent window will make a GoCD API request to the plugin&rsquo;s <a href="#get-analytics">get analytics</a> API to fetch the
+specified analytics from the plugin. Upon receiving the response data, it will be passed to the plugin front-end in the iframe as a response
+to the <code class="prettyprint">fetch-analytics</code> call.</p>
+
+<aside class='notice'>
+  <strong>Note:</strong> The response will only contain the <code>data</code> part, and will not contain the <code>view_path</code> parameter, if sent by the plugin as a response to <a href="#get-analytics">the get-analytics</a> call.
+</aside>
+
+<p>The parameter object should contain these keys:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">type</code></td>
+<td>Type of the metric. Usually <code class="prettyprint">pipeline</code> or <code class="prettyprint">dashboard</code>. Depends on the <a href="#get-plugin-capabilities">capabilities</a> of the plugin.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">metric</code></td>
+<td>The ID of the metric as defined by the plugin in its <a href="#get-plugin-capabilities">capabilities</a>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">user_defined_param1</code></td>
+<td>Any plugin-author-defined parameters (optional).</td>
+</tr>
+<tr>
+<td><code class="prettyprint">user_defined_param2</code></td>
+<td>Any plugin-author-defined parameters (optional).</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-key-link-to-job-details-page">Request key: <code class="prettyprint">link-to</code> job details page</h3>
+
+<blockquote>
+<p>An example message from iframe to parent window to link to job details page -</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script&gt;</span>
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"link-to"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">link_to</span><span class="p">:</span> <span class="s2">"job_details_page"</span><span class="p">,</span>
+      <span class="na">pipeline_name</span><span class="p">:</span> <span class="s2">"my_pipeline"</span><span class="p">,</span>
+      <span class="na">pipeline_counter</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="na">stage_name</span><span class="p">:</span> <span class="s2">"my_stage"</span><span class="p">,</span>
+      <span class="na">stage_counter</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">job_name</span><span class="p">:</span> <span class="s2">"job1"</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Done! Navigated to job details page!"</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Something failed: "</span> <span class="o">+</span> <span class="nx">errors</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">ensure</span><span class="p">(</span><span class="s2">"v1"</span><span class="p">);</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  ...
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+}
+</code></pre>
+
+<blockquote>
+<p>This will be the equivalent of opening a new tab with the URL: <code class="prettyprint">http://ci.example.com/go/tab/build/detail/my_pipeline/10/my_stage/1/job1</code>.</p>
+</blockquote>
+
+<p>Any links opened directly from the plugin&rsquo;s front-end will open inside the iframe. For security reasons, the iframe cannot affect the
+navigation of the parent GoCD window directly. Instead, the iframe can send a message with the key <code class="prettyprint">link-to</code> to the
+parent window to link to one of a specific set of GoCD pages.</p>
+
+<p>The version <code class="prettyprint">v1</code> of the message supports linking to the job details page. Upon receiving this message with correct parameters the parent
+window will open the linked page in a new tab.</p>
+
+<p>To link to the job details page, the parameter object should contain these keys:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">link_to</code></td>
+<td>The value should be <code class="prettyprint">job_details_page</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline_name</code></td>
+<td>The name of the pipeline the job is in.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline_counter</code></td>
+<td>The counter of the pipeline.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">stage_name</code></td>
+<td>The stage name the job is in.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">stage_counter</code></td>
+<td>The stage counter.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">job_name</code></td>
+<td>The name of the job.</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-key-link-to-pipeline-instance-page">Request key: <code class="prettyprint">link-to</code> pipeline instance page</h3>
+
+<blockquote>
+<p>An example message from iframe to parent window to link to pipeline instance page -</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script&gt;</span>
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"link-to"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">link_to</span><span class="p">:</span> <span class="s2">"pipeline_instance_page"</span><span class="p">,</span>
+      <span class="na">pipeline_name</span><span class="p">:</span> <span class="s2">"my_pipeline"</span><span class="p">,</span>
+      <span class="na">pipeline_counter</span><span class="p">:</span> <span class="mi">10</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Done! Navigated to pipeline instance page!"</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Something failed: "</span> <span class="o">+</span> <span class="nx">errors</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">ensure</span><span class="p">(</span><span class="s2">"v1"</span><span class="p">);</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  ...
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+}
+</code></pre>
+
+<blockquote>
+<p>This will be the equivalent of opening a new tab with the URL: <code class="prettyprint">http://ci.example.com/go/pipelines/my_pipeline/10/my_first_stage/1</code>.</p>
+</blockquote>
+
+<p>Any links opened directly from the plugin&rsquo;s front-end will open inside the iframe. For security reasons, the iframe cannot affect the
+navigation of the parent GoCD window directly. Instead, the iframe can send a message with the key <code class="prettyprint">link-to</code> to the
+parent window to link to one of a specific set of GoCD pages.</p>
+
+<p>The version <code class="prettyprint">v1</code> of the message supports linking to first stage of a Pipeline Instance. Upon receiving this message
+with correct parameters the parent window will open the linked page in a new tab.</p>
+
+<p>To link to the pipeline instance page, the parameter object should contain these keys:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">link_to</code></td>
+<td>The value should be <code class="prettyprint">pipeline_instance_page</code>.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline_name</code></td>
+<td>The name of the pipeline to link to.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">pipeline_counter</code></td>
+<td>The counter of the pipeline.</td>
+</tr>
+</tbody></table>
+
+<h3 id="request-key-link-external">Request key: <code class="prettyprint">link-external</code></h3>
+
+<p>Any links opened directly from the plugin&rsquo;s front-end will open inside the iframe. For security reasons, the iframe cannot affect the
+navigation of the parent GoCD window directly. Instead, the iframe can send a message with the key <code class="prettyprint">link-external</code> to the parent window to
+link to a page outside of GoCD. The parent window will open the page in a new tab.</p>
+
+<blockquote>
+<p>An example message from iframe to parent window to link to an external page:</p>
+</blockquote>
+
+<pre class="highlight html"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"analytics-endpoint.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script&gt;</span>
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">onInit</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">initialData</span><span class="p">,</span> <span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">transport</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="s2">"link-external"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s2">"https://url.link.to.external.page"</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Navigated to the specified URL!"</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Something failed: "</span> <span class="o">+</span> <span class="nx">errors</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">AnalyticsEndpoint</span><span class="p">.</span><span class="nx">ensure</span><span class="p">(</span><span class="s2">"v1"</span><span class="p">);</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  ...
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+}
+</code></pre>
+
+<p>The parameter object should contain:</p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">url</code></td>
+<td>The URL that should be navigated to.</td>
+</tr>
+</tbody></table>
 
 <h1 id="request-response-json-objects">Request/Response JSON Objects</h1>
 
@@ -1228,18 +1621,17 @@ any server side errors</p>
 </tr>
 </tbody></table>
 
-<p><a id='the-server-info-object'></a></p>
+<p><a id='the-image-object'></a></p>
 
-<h3 id="the-server-info-object">The server info object</h3>
+<h3 id="the-image-object">The Image Object</h3>
 
 <blockquote>
-<p>Here&rsquo;s an example of the server info object</p>
+<p>Here&rsquo;s an example of the image object</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+  </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1253,19 +1645,14 @@ any server side errors</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">server_id</code></td>
+<td><code class="prettyprint">content_type</code></td>
 <td>String</td>
-<td>This contains a unique identifier for this server.</td>
+<td>A valid <a href="http://www.iana.org/assignments/media-types/media-types.xhtml#image">content type</a> for the image. Please make sure the content type is supported by most browsers.</td>
 </tr>
 <tr>
-<td><code class="prettyprint">site_url</code></td>
+<td><code class="prettyprint">data</code></td>
 <td>String</td>
-<td>This contains the site url configured for this server.</td>
-</tr>
-<tr>
-<td><code class="prettyprint">secure_site_url</code></td>
-<td>String</td>
-<td>This contains the secure site url configured for this server.</td>
+<td>A <a href="https://en.wikipedia.org/wiki/Base64">base-64</a> encoded (single-line non-chunking) byte array of the byte-sequence that composes the image.</td>
 </tr>
 </tbody></table>
 

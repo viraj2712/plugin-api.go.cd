@@ -250,7 +250,7 @@
 
 <ul>
 <li><code class="prettyprint">plugin.xml</code> — the <a href="#the-plugin-metadata">metadata</a> of your plugin</li>
-<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">LdapAuthorizationPlugin.class</code> in the example shown) and any other classes that form your plugin </li>
+<li>the <a href="#the-plugin-extension-class">plugin extension class</a> (<code class="prettyprint">LdapAuthorizationPlugin.class</code> in the example shown) and any other classes that form your plugin</li>
 <li>any optional <a href="#the-plugin-dependencies">dependencies</a> your plugin may requires (inside the <code class="prettyprint">lib</code>)</li>
 </ul>
 
@@ -296,7 +296,7 @@
 
 <p>This is an XML file that should be present in the plugin jar file at the top level.</p>
 
-<p>You can find the XML Schema for the plugins in the  <a href="https://github.com/gocd/gocd/blob/master/plugin-infra/go-plugin-api/resources/plugin-descriptor.xsd">main repository</a>.</p>
+<p>You can find the XML Schema for the plugins in the  <a href="https://github.com/gocd/gocd/blob/master/plugin-infra/go-plugin-api/src/main/resources/plugin-descriptor.xsd">main repository</a>.</p>
 
 <p><a name='the-plugin-extension-class'></a></p>
 
@@ -307,9 +307,9 @@
 </blockquote>
 
 <pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>cd.go.plugin<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>go-plugin-api<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>18.3.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>cd.go.plugin<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>go-plugin-api<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>18.3.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre>
 
@@ -396,7 +396,7 @@
 <p>If you&rsquo;re familiar with http request/responses handled by a web application, you will find this very familiar.</p>
 
 <aside class="notice">
-  GoCD has built in support for allowing plugins to enhance their capabilities in the future without having to break compatibility. This is achieved by ensuring that each extension-point and messages that are sent to the plugin are versioned.
+  GoCD has built in support for allowing plugins to enhance their capabilities in the future without having to break compatibility. This is achieved by ensuring that each extension-point and messages that is sent to the plugin is versioned.
 </aside>
 
 <p><a id='the-plugin-dependencies'></a></p>
@@ -1342,8 +1342,8 @@ GoCD would pass the returned json as credentials for the <a href="#authenticate-
     <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"A warning message from the plugin."</span><span class="o">);</span>
 
     <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">message2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
-    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"error"</span><span class="o">);</span>
-    <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"An error message from the plugin."</span><span class="o">);</span>
+    <span class="n">message2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"error"</span><span class="o">);</span>
+    <span class="n">message2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"An error message from the plugin."</span><span class="o">);</span>
 
     <span class="n">messages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">message1</span><span class="o">);</span>
     <span class="n">messages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">message2</span><span class="o">);</span>
