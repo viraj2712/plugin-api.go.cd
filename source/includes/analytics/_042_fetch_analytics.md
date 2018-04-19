@@ -12,8 +12,9 @@
     transport.request("fetch-analytics", {
       type: "pipeline",
       metric: "pipeline_duration",
+      pipeline_name: "my_pipeline",
 
-      user_defined_param1: "my_pipeline",
+      user_defined_param1: "something",
       user_defined_param2: "something_else"
     })
       .done(function(data) {
@@ -56,6 +57,7 @@ The parameter object should contain these keys:
 | Key                   | Description                                                                                                                   |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | `type`                | Type of the metric. Usually `pipeline` or `dashboard`. Depends on the [capabilities](#get-plugin-capabilities) of the plugin. |
-| `metric`              | The ID of the metric as defined by the plugin in its [capabilities](#get-plugin-capabilities).                        |
+| `metric`              | The ID of the metric as defined by the plugin in its [capabilities](#get-plugin-capabilities).                                |
+| `pipeline_name`       | The name of the pipeline that analytics need to be fetched for. Required only if metric type is `pipeline`.                   |
 | `user_defined_param1` | Any plugin-author-defined parameters (optional).                                                                              |
 | `user_defined_param2` | Any plugin-author-defined parameters (optional).                                                                              |
