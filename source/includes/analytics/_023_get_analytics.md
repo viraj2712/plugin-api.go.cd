@@ -13,7 +13,7 @@ The `view_path` should refer to the HTML which should be part of the [static ass
 
 <p class='request-body-heading'>Request body</p>
 
-> An example request body -
+> An example request body:
 
 ```json
 {
@@ -27,16 +27,16 @@ The `view_path` should refer to the HTML which should be part of the [static ass
 
 <p class='attributes-table-follows'></p>
 
-| Key            | Type     | Description                                                                                |
-|----------------|----------|--------------------------------------------------------------------------------------------|
-| `type`         | `String` | The type of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities)|
-| `id`           | `String` | The id of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities)  |
+| Key            | Type     | Description                                                                                 |
+|----------------|----------|---------------------------------------------------------------------------------------------|
+| `type`         | `String` | The type of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities).|
+| `id`           | `String` | The id of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities).  |
 | `params`       | `Object` | This is a hash of optional params the plugin would require to generate analytics. For analytics of type `pipeline`, GoCD will send the pipeline name as a param `pipeline_name`. |
 
 
 <p class='response-code-heading'>Response Body</p>
 
-> An example response body —
+> An example response body:
 
 ```json
 {

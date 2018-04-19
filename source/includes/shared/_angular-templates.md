@@ -8,7 +8,7 @@ GoCD uses Angular JS as its template engine for the plugin UI. This allows plugi
 
 #### Getting started with AngularJS based templates
 
-> Given a configuration —
+> Given a configuration:
 
 ```xml
 <configuration>
@@ -19,7 +19,7 @@ GoCD uses Angular JS as its template engine for the plugin UI. This allows plugi
 </configuration>
 ```
 
-> This gets converted into the following JSON representation in the browser —
+> This gets converted into the following JSON representation in the browser:
 
 ```json
 {
@@ -27,7 +27,7 @@ GoCD uses Angular JS as its template engine for the plugin UI. This allows plugi
 }
 ```
 
-> The AngularJS template is expected to bind to the JSON object shown above —
+> The AngularJS template is expected to bind to the JSON object shown above:
 
 ```html
 <div class="form_item_block">

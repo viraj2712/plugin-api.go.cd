@@ -12,7 +12,7 @@ Every time the plugin settings change, GoCD will send this message to the plugin
 
 The request body will be a JSON which will be a map of the plugin settings.
 
-> An example request body
+> An example request body:
 
 ```json
 {

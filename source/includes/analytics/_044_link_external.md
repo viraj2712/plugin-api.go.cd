@@ -36,6 +36,6 @@ link to a page outside of GoCD. The parent window will open the page in a new ta
 
 The parameter object should contain:
 
-| Key   | Description                          |
-|-------|--------------------------------------|
-| `url` | The URL that should be navigated to. |
+| Key   | Description             |
+|-------|-------------------------|
+| `url` | The URL to navigate to. |

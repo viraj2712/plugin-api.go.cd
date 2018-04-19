@@ -35,7 +35,7 @@ This is a message that a web based plugin should implement. A web based plugin u
 
 <p class='response-code-heading'>Response Body</p>
 
-> An example response body —
+> An example response body:
 
 
 ```json

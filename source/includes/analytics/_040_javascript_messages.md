@@ -75,6 +75,18 @@ This sets up the receiving endpoint for messages from GoCD. The `version` parame
 
 ## The Transport Object
 
+> Example snippet:
+
+```javascript
+AnalyticsEndpoint.onInit(function(initialData, transport) {
+  var params = { url: "https://google.com" };
+  transport.request("link-external", params).
+    done(function(data) { console.log("success! received: " + JSON.stringify(data)); }).
+    fail(function(errors) { console.log("failed due to: " + JSON.stringify(errors)); }).
+    always(function() { console.log("all done here."); });
+});
+```
+
 The `Transport` object provides an AJAX-like API to facilitate communication with GoCD. It provides a chainable callback setup, similar to
 `jQuery.ajax` handlers. It has a `request` method, which takes two parameters:
 
@@ -84,9 +96,9 @@ The `Transport` object provides an AJAX-like API to facilitate communication wit
 | parameters | A parameter object which depends on the `requestKey` used.                                                                |
 
 
-The `request method `returns a chainable object to set up `done`, `fail`, and `always` callbacks:
+The `request() method` returns a chainable object to set up `done`, `fail`, and `always` callbacks:
 
-1. `done(function(data) {})`: fires upon successful response from GoCD. Similar to [done() in jQuery](https://api.jquery.com/deferred.done/).
-2. `fail(function(errors) {})`: fires upon error response from GoCD. Similar to [fail() in jQuery](https://api.jquery.com/deferred.fail/)
-3. `always(function() {})`: fires after response is received, regardless of success/failure. executes after `done()` or `fail()`. Similar to
+1. `done(function(data) {})`: Fires upon successful response from GoCD. Similar to [done() in jQuery](https://api.jquery.com/deferred.done/).
+2. `fail(function(errors) {})`: Fires upon error response from GoCD. Similar to [fail() in jQuery](https://api.jquery.com/deferred.fail/)
+3. `always(function() {})`: Fires after response is received, regardless of success/failure. Executes after `done()` or `fail()`. Similar to
    [always() in jQuery](https://api.jquery.com/deferred.always/).

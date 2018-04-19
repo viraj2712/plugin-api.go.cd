@@ -1,6 +1,6 @@
 ## Execute Task
 
-> An example request body
+> An example request body:
 
 ```json
 {

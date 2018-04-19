@@ -59,7 +59,7 @@ GoCD forces a perodic re-authentication of users, this is to ensure any changes 
 
 <p class='response-code-heading'>Response Body</p>
 
-> An example response body —
+> An example response body:
 
 ```json
 {

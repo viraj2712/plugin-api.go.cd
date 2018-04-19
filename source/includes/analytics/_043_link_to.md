@@ -58,7 +58,7 @@ To link to the job details page, the parameter object should contain these keys:
 
 ### Request key: `link-to` pipeline instance page
 
-> An example message from iframe to parent window to link to pipeline instance page -
+> An example message from iframe to parent window to link to pipeline instance page:
 
 ```html
 <html>

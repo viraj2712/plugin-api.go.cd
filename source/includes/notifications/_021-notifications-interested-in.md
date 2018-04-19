@@ -23,7 +23,7 @@ Currently supported notifications include:
 
 * `stage-status`. See [stage status changed](#stage-status-changed) for the information that the plugin receives on stage status change.
 
-> An example response body
+> An example response body:
 
 ```json
 {

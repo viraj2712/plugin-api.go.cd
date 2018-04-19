@@ -4,7 +4,7 @@ Plugins in GoCD are implemented in Java and packaged as a JAR file.
 
 ## Structure of a GoCD Plugin
 
-> A plugin for GoCD is a JAR file with the following structure
+> A plugin for GoCD is a JAR file with the following structure:
 
 ```
 plugin.jar
@@ -22,17 +22,17 @@ plugin.jar
     \-- dependency-2.jar
 ```
 
-The plugin jar is a self contained-jar, it is expected to contain the following inside it —
+The plugin jar is a self contained-jar. It is expected to contain the following inside it:
 
-* `plugin.xml` — the [metadata](#the-plugin-metadata) of your plugin
-* the [plugin extension class](#the-plugin-extension-class) (`<%= plugin_class %>.class` in the example shown) and any other classes that form your plugin
-* any optional [dependencies](#the-plugin-dependencies) your plugin may requires (inside the `lib`)
+* `plugin.xml` — The [metadata](#the-plugin-metadata) of your plugin.
+* The [plugin extension class](#the-plugin-extension-class) (`<%= plugin_class %>.class` in the example shown) and any other classes that form your plugin.
+* Any optional [dependencies](#the-plugin-dependencies) your plugin may requires (inside the `lib`).
 
 <a id='the-plugin-metadata'></a>
 
 ### The plugin metadata `plugin.xml`
 
-> Here is an example `plugin.xml`
+> Here is an example `plugin.xml`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -75,7 +75,7 @@ You can find the XML Schema for the plugins in the  [main repository](https://gi
 
 ### The plugin extension class
 
-> Add this to your maven `pom.xml`
+> Add this to your maven `pom.xml`:
 
 ```xml
 <dependency>
@@ -89,7 +89,7 @@ In order to use the plugin extension class, you must add the following to your m
 
 <div style='clear: both;'></div>
 
-> An example plugin class implementation
+> An example plugin class implementation:
 
 ```java
 package com.example.go.testplugin;
@@ -136,7 +136,7 @@ public class <%= plugin_class %> implements GoPlugin {
 
 The plugin extension class is a Java class that implements the `GoPlugin` interface.
 
-The other types in the example are —
+The other types in the example are:
 
 <p class='attributes-table-follows'></p>
 

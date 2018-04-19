@@ -1,6 +1,6 @@
 ## Task View
 
-> An example response body
+> An example response body:
 
 ```json
 {
