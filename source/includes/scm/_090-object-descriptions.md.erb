@@ -1,0 +1,47 @@
+# Request/Response JSON Objects
+
+<%
+json = {
+    'SCM_URL'=> {
+        'display-name'=> 'SCM URL',
+        'display-order'=> '0'
+    },
+    'USERNAME'=> {
+        'part-of-identity'=> false,
+        'required'=> false,
+        'display-name'=> 'User',
+        'display-order'=> '1'
+    },
+    'PASSWORD'=> {
+        'secure'=> true,
+        'part-of-identity'=> false,
+        'required'=> false,
+        'display-name'=> 'Password',
+        'display-order'=> '2'
+    }
+}
+%>
+
+<%=
+describe_sub_object 'The SCM Configuration Response Object', json: json, html_id: 'the-scm-configuration-response-object' do
+  __add_property('default-value', 'String', 'A value to be used as the default if the user provides no value.')
+  __add_property('secure', 'Boolean', 'If the value should be stored in an encrypted form in the `cruise-config.xml` file.')
+  __add_property('required', 'Boolean', 'Whether the field is required.')
+end
+%>
+
+<%
+json = {
+  displayValue: 'SCM name',
+  template: '<div class="form_item_block">...</div>'
+}
+%>
+
+<%=
+describe_sub_object 'The SCM View Response Object', json: json, html_id: 'the-scm-view-response-object' do
+  displayValue String, 'The name of the scm that should be rendered in the view'
+  template 'String',   'A string containing an HTML AngularJS based view.'
+end
+%>
+
+<%= partial 'includes/shared/angular-templates.md' %>
