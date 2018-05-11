@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name ="description" content="Extend GoCD's functionality. Implement GoCD plugins for SCMs, tasks, notifications, authentication, package repositories, elastic agents and authorization." />
+    <meta name ="keywords" content="gocd plugins, plugins for gocd, extension points, open source gocd, open source continuous delivery" />
+    <link href="images/gocd.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="images/gocd.png" rel="apple-touch-icon" type="image/png" size="192x192" />
+    <title>GoCD Plugin API Reference</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+
+      <script src="javascripts/all.js"></script>
+
+
+      <script>
+        $(function() {
+          setupLanguages([]);
+        });
+      </script>
+  </head>
+
+  <body class="index" data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="Logo" />
+        <div class="lang-selector">
+        </div>
+      <div class="version-switcher">
+        <span class="version-label">Switch version:</span>
+        <select class="version"></select>
+      </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/gocd/plugin-api.go.cd'>Edit this guide on GitHub</a></li>
+            <li><a href='https://api.gocd.org'>GoCD API Documentation</a></li>
+            <li><a href='https://docs.gocd.org'>GoCD User Documentation</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        
+          <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to the GoCD Plugin API! You can use this API to implement GoCD plugins for:</p>
+
+<ul>
+<li><a href="analytics">Analytics</a></li>
+<li><a href="https://developer.gocd.org/current/writing_go_plugins/authentication/json_message_based_authentication_extension.html" target="_blank">Authentication (old documentation)</a></li>
+<li><a href="authorization">Authorization</a></li>
+<li><a href="config-repo">Config repositories</a></li>
+<li><a href="elastic-agents">Elastic agents</a></li>
+<li><a href="notifications">Notifications</a></li>
+<li><a href="https://developer.gocd.org/current/writing_go_plugins/package_material/json_message_based_package_material_extension.html" target="_blank">Package repositories (old documentation)</a></li>
+<li><a href="scm">SCMs</a></li>
+<li><a href="tasks">Tasks</a></li>
+</ul>
+
+<p>Plugins, as the name implies, help in extending the functionality of GoCD. GoCD publishes a list of extension points for
+which plugins can be provided. An extension point published by the GoCD - defines the interface and the lifecycle that
+governs the respective plugin. At present only Java based extension points and plugins are supported by GoCD, but the
+interface is simple enough for anyone to build plugins in other languages using a simple HTTP bridge.</p>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+          </div>
+      </div>
+    </div>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48357651-2', 'auto');
+  ga('send', 'pageview');
+</script>
+  </body>
+</html>
