@@ -5,6 +5,4 @@
 This document is for version 1.0 (the latest) of the artifact stores endpoint.
 
 ## Background
-
-## How will it help you?
-
+By default, GoCD internally manages and stores artifacts. The Artifact Store extension allows GoCD to make use of an external artifact store for storing artifacts while retaining traceability. For example, by using the [Docker artifact registry](https://github.com/gocd/docker-registry-artifact-plugin) plugin, a user can publish an image to a docker registry, and subsequently fetch it in another pipeline. Since GoCD is "aware" of the artifact store with this extension, it can still maintain the Value Stream between the publish and fetch tasks.
