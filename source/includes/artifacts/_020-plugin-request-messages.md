@@ -24,6 +24,6 @@ These are messages that a plugin must implement in order to allow users to confi
 
 These are messages that a plugin must implement in order to allow users to configure fetching an artifact through the browser.
 
-* [Get Fetch Artifact Metadata](#get-publish-artifact-metadata)
-* [Get Fetch Artifact View](#get-publish-artifact-view)
+* [Get Fetch Artifact Metadata](#get-fetch-artifact-metadata)
+* [Get Fetch Artifact View](#get-fetch-artifact-view)
 * [Validate Fetch Artifact Configuration](#validate-fetch-artifact-config) 

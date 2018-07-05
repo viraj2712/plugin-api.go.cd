@@ -1,0 +1,27 @@
+## Get Store Config View
+
+This is a message that the plugin should, to allow users to configure artifact stores from the Artifact Stores View in GoCD.
+
+<p class='request-name-heading'>Request name</p>
+
+`cd.go.artifact.store.get-view`
+
+<p class='request-body-heading'>Request body</p>
+
+The server will not provide a request body.
+
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` if it can understand the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+A JSON [settings view object](#the-get-settings-view-object)
+
+> An example response body:
+
+```json
+{
+  "template": "<div>some html</div>"
+}
+```
