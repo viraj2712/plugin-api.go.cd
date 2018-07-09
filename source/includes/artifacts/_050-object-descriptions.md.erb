@@ -1,0 +1,37 @@
+# Request/Response JSON Objects
+
+<%= partial 'includes/shared/plugin-settings-request-response-json-objects.md.erb' %>
+
+<%
+image = {
+  'content_type' => 'image/svg+xml',
+  'data' => '....'
+}
+%>
+
+
+<%
+metadata = {
+  'key' => {
+    'required' => 'true',
+    'secure' => 'true'
+  }
+}
+%>
+
+<%=
+describe_sub_object 'The Image Object', json: image, html_id: 'the-image-object' do
+  content_type 'String', 'A valid [content type](http://www.iana.org/assignments/media-types/media-types.xhtml#image) for the image. Please make sure the content type is supported by most browsers.'
+  data         'String', "A [base-64](https://en.wikipedia.org/wiki/Base64) encoded (single-line non-chunking) byte array of the byte-sequence that composes the image."
+end
+%>
+
+<%=
+describe_sub_object 'The Metadata Object', json: metadata, html_id: 'the-metadata-object' do
+  key      'String', 'The name of the configuration property supported by an elastic profile'
+  metadata 'Object', 'The metadata associated with the key used in the elastic profile. Valid keys are `required` and `secure`.'
+end
+%>
+
+
+<%= partial 'includes/shared/get-server-info-response-object.md.erb' %>

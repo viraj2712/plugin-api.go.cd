@@ -1,0 +1,39 @@
+## Validate Store Config
+
+This call is expected to validate the user inputs that form a part of the artifact store.
+
+<p class='request-name-heading'>Request name</p>
+
+`cd.go.artifact.store.validate`
+
+<p class='request-body-heading'>Request body</p>
+
+The request body will contain a JSON object with the keys and values that form part of the profile.
+
+> An example validation request body for the docker elastic agent plugin
+
+```json
+{
+  "RegistryURL": "https://index.docker.io/v1/",
+  "Username": "boohoo"
+}
+```
+
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` if it can understand the request.
+
+<p class='response-body-heading'>Response Body</p>
+
+> The plugin should respond with JSON array response for each configuration key that has a validation error
+
+```json
+[
+  {
+   "key": "RegistryURL",
+   "message": "'RegistryURL is invalid'"
+  }
+]
+```
+
+If any of the input keys have a validation error on them, the plugin is expected to return a list of [validation error objects](#the-validation-error-object). If the profile is valid, the plugin should return an empty JSON array.

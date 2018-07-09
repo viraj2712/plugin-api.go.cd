@@ -1,0 +1,18 @@
+# Artifact Stores
+
+## Current Version
+
+This document is for version 1.0 (the latest) of the artifacts endpoint.
+
+## Background
+
+By default, GoCD internally manages and stores artifacts. The Artifact extension allows GoCD to make use of an external artifact store for storing artifacts while retaining traceability between pipelines. For example, by using the [Docker artifact registry](https://github.com/gocd/docker-registry-artifact-plugin) plugin, a user can publish an image to a docker registry, and subsequently fetch it in a downstream pipeline. Since GoCD is "aware" of the artifact store with this extension, it can still maintain the Value Stream between the upstream and downstream pipelines even if the artifact is stored outside of GoCD.
+
+Developers can start building their own elastic-agent plugins by forking the
+[docker plugin](https://github.com/gocd/docker-registry-artifact-plugin) as an example reference implementation.
+
+
+## How will it help you?
+
+A feature like this will allow for artifacts to be uploaded and stored outside of GoCD. Previously, the artifacts were only managed on the GoCD server.
+
