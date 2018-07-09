@@ -96,7 +96,7 @@ The request body will contain the following JSON elements:
 
 | Key                             | Type     | Description                                                                                                                                               |
 | ------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fetch_artifact_configuration`  | `Object` | A map of the environment variable that were available at the time the job was triggered.                                                                  |
+| `fetch_artifact_configuration`  | `Object` | This mainly contains the configuration properties that inform the plugin about the specific artifact that needs to be fetched.                                                                  |
 | `artifact_metadata`             | `Object` | This is the information that was uploaded as a json file to the GoCD server at publish time. The json file is parsed and its contents are passed to the plugin at fetch time so that the plugin can fetch the right artifact.                             |
 | `store_configuration`           | `Object` | This section contains the details about the artifact store from which the plugin has to fetch the artifact.                                               |
 | `agent_working_directory`       | `String` | Since the artifact download happens on the go-agent side, the working directory is also passed along in the request in case the plugin wants to use it.   |
