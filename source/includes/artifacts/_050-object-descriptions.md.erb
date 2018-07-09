@@ -1,29 +1,21 @@
 # Request/Response JSON Objects
 
-<%
-agent = {
-  agent_id: "i-283432d4",
-  agent_state: "Idle",
-  build_state: "Idle",
-  config_state: "Enabled"
-}
-%>
-
-<%=
-describe_sub_object 'The Elastic Agent Object', json: agent, html_id: 'elastic-agent-object' do
-  agent_id      'String', 'The elastic agent ID. This is the value of the `elasticAgentId` attribute of the `<agent/>` element in the config XML'
-  agent_state   'String', 'The state that an agent is in.', one_of: %w(Idle Building LostContact Missing Unknown)
-  build_state   'String', 'The state the build is in.', one_of: %w(Idle Building Cancelled Unknown)
-  config_state  'String', 'The state of the agent in the config file. This is the value of the `isDisabled` attribute of the `<agent/>` element in the config XML', one_of: %w(Pending Enabled Disabled)
-end
-%>
-
 <%= partial 'includes/shared/plugin-settings-request-response-json-objects.md.erb' %>
 
 <%
 image = {
   'content_type' => 'image/svg+xml',
   'data' => '....'
+}
+%>
+
+
+<%
+metadata = {
+  'key' => {
+    'required' => 'true',
+    'secure' => 'true'
+  }
 }
 %>
 
@@ -35,7 +27,7 @@ end
 %>
 
 <%=
-describe_sub_object 'The Metadata Object', html_id: 'the-metadata-object' do
+describe_sub_object 'The Metadata Object', json: metadata, html_id: 'the-metadata-object' do
   key      'String', 'The name of the configuration property supported by an elastic profile'
   metadata 'Object', 'The metadata associated with the key used in the elastic profile. Valid keys are `required` and `secure`.'
 end

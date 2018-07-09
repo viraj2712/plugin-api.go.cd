@@ -1,6 +1,6 @@
 # Requests from the GoCD server
 
-In order to implement an artifact store extension point the following messages must be implemented by the plugin.
+In order to implement an artifact extension point the following messages must be implemented by the plugin.
 
 * [Publish Artifact](#publish-artifact)
 * [Fetch Artifact](#fetch-artifact)
