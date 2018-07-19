@@ -143,7 +143,7 @@
 
 <p>By default, GoCD internally manages and stores artifacts. The Artifact extension allows GoCD to make use of an external artifact store for storing artifacts while retaining traceability between pipelines. For example, by using the <a href="https://github.com/gocd/docker-registry-artifact-plugin">Docker artifact registry</a> plugin, a user can publish an image to a docker registry, and subsequently fetch it in a downstream pipeline. Since GoCD is &ldquo;aware&rdquo; of the artifact store with this extension, it can still maintain the Value Stream between the upstream and downstream pipelines even if the artifact is stored outside of GoCD.</p>
 
-<p>Developers can start building their own elastic-agent plugins by forking the
+<p>Developers can start building their own artifact plugins by forking the
 <a href="https://github.com/gocd/docker-registry-artifact-plugin">docker plugin</a> as an example reference implementation.</p>
 
 <h2 id="how-will-it-help-you">How will it help you?</h2>
@@ -603,7 +603,7 @@
 <p>The request body will contain a JSON object with the keys and values that form part of the profile.</p>
 
 <blockquote>
-<p>An example validation request body for the docker elastic agent plugin</p>
+<p>An example validation request body</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -651,7 +651,7 @@
 <p class='response-body-heading'>Response Body</p>
 
 <blockquote>
-<p>An example response body for a docker registry plugin</p>
+<p>An example response body</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
@@ -716,7 +716,7 @@
 <p>The request body will contain a JSON object with the keys and values that form part of the profile.</p>
 
 <blockquote>
-<p>An example validation request body for the docker elastic agent plugin</p>
+<p>An example validation request body</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -833,7 +833,7 @@
 <p>The request body will contain a JSON object with the keys and values that form part of the profile.</p>
 
 <blockquote>
-<p>An example validation request body for the docker elastic agent plugin</p>
+<p>An example validation request body</p>
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -1142,12 +1142,12 @@ any server side errors</p>
 <tr>
 <td><code class="prettyprint">key</code></td>
 <td>String</td>
-<td>The name of the configuration property supported by an elastic profile.</td>
+<td>The name of the configuration property supported by an artifact store, publish artifact config and fetch artifact config.</td>
 </tr>
 <tr>
 <td><code class="prettyprint">metadata</code></td>
 <td>Object</td>
-<td>The metadata associated with the key used in the elastic profile. Valid keys are <code class="prettyprint">required</code> and <code class="prettyprint">secure</code>.</td>
+<td>The metadata associated with the key. Valid keys are <code class="prettyprint">required</code> and <code class="prettyprint">secure</code>.</td>
 </tr>
 </tbody></table>
 
