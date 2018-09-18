@@ -31,8 +31,29 @@ The `view_path` should refer to the HTML which should be part of the [static ass
 |----------------|----------|---------------------------------------------------------------------------------------------|
 | `type`         | `String` | The type of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities).|
 | `id`           | `String` | The id of the analytics as defined in the [Plugin Capabilities](#get-plugin-capabilities).  |
-| `params`       | `Object` | This is a hash of optional params the plugin would require to generate analytics. For analytics of type `pipeline`, GoCD will send the pipeline name as a param `pipeline_name`. |
+| `params`       | `Object` | This is a hash of optional params the plugin would require to generate analytics.           |
 
+
+Request `params` for analytics of type `pipeline`:
+
+<p class='attributes-table-follows'></p>
+
+| Param            | Description                              |
+|------------------|------------------------------------------|
+| `pipeline_name`  |  Name of pipeline to view analytics for. |
+
+
+Request `params` for analytics of type `vsm`:
+
+The Value Stream Map(VSM) visualize the entire workflow of a pipeline or material with its upstream and downstream dependencies laid out as graph. For plugins which support VSM analytics, GoCD allows users to choose a sub-workflow by providing an ability to select a `source` and `destination` from the Graph.
+
+<p class='attributes-table-follows'></p>
+
+| Param          | Description                                                                                  |
+|----------------|----------------------------------------------------------------------------------------------|
+| `source`       |  Name of pipeline/material which will be the source of the workflow.                         |
+| `destination`  |  Name of pipeline which will be the destination of the workflow.                             |
+| `vsm_graph`    |  The entire VSM Graph for a pipeline/material with its upstream and downstream dependencies. |
 
 <p class='response-code-heading'>Response Body</p>
 
