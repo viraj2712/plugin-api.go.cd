@@ -1,7 +1,5 @@
 # Go CD API Documentation
 
-[![Build Status](https://snap-ci.com/gocd/plugin-api.go.cd/branch/master/build_image)](https://snap-ci.com/gocd/plugin-api.go.cd/branch/master)
-
 Checkout the live documentation at https://plugin-api.gocd.org
 
 # Contributing to the API Documentation
