@@ -137,7 +137,7 @@
 
 <h2 id="current-version">Current Version</h2>
 
-<p>This document is for version 1.0 of the analytics endpoint.</p>
+<p>This document is for version 2.0 of the analytics endpoint.</p>
 
 <h2 id="introduction">Introduction</h2>
 
@@ -409,7 +409,7 @@
 <tr>
 <td><code class="prettyprint">type</code></td>
 <td><code class="prettyprint">String</code></td>
-<td>The type of the analytics which defines the position of analytics in GoCD. Analytics of type <code class="prettyprint">pipeline</code> are shown on pipeline dashboard and of type <code class="prettyprint">dashboard</code> are shown on the analytics dashboard.</td>
+<td>The type of the analytics which defines the position of analytics in GoCD.</td>
 </tr>
 </tbody></table>
 
@@ -430,6 +430,14 @@
 <tr>
 <td><code class="prettyprint">pipeline</code></td>
 <td>Pipeline level analytics will be displayed on each pipeline in the GoCD application.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">agent</code></td>
+<td>Agent level analytics can be viewed on the agents page in the GoCD application for each agent.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">vsm</code></td>
+<td>VSM analytics can be viewed on the Value Stream Map(VSM) page in the GoCD application.</td>
 </tr>
 </tbody></table>
 
@@ -577,7 +585,49 @@ Archive:  assets.zip
 <tr>
 <td><code class="prettyprint">params</code></td>
 <td><code class="prettyprint">Object</code></td>
-<td>This is a hash of optional params the plugin would require to generate analytics. For analytics of type <code class="prettyprint">pipeline</code>, GoCD will send the pipeline name as a param <code class="prettyprint">pipeline_name</code>.</td>
+<td>This is a hash of optional params the plugin would require to generate analytics.</td>
+</tr>
+</tbody></table>
+
+<p>Request <code class="prettyprint">params</code> for analytics of type <code class="prettyprint">pipeline</code>:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">pipeline_name</code></td>
+<td>Name of pipeline to view analytics for.</td>
+</tr>
+</tbody></table>
+
+<p>Request <code class="prettyprint">params</code> for analytics of type <code class="prettyprint">vsm</code>:</p>
+
+<p>The Value Stream Map(VSM) visualize the entire workflow of a pipeline or material with its upstream and downstream dependencies laid out as graph. For plugins which support VSM analytics, GoCD allows users to choose a sub-workflow by providing an ability to select a <code class="prettyprint">source</code> and <code class="prettyprint">destination</code> from the Graph.</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Param</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">source</code></td>
+<td>Name of pipeline/material which will be the source of the workflow.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">destination</code></td>
+<td>Name of pipeline which will be the destination of the workflow.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">vsm_graph</code></td>
+<td>The entire VSM Graph for a pipeline/material with its upstream and downstream dependencies.</td>
 </tr>
 </tbody></table>
 

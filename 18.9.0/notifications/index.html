@@ -137,7 +137,7 @@
 
 <h2 id="current-version">Current Version</h2>
 
-<p>This document is for version 3.0 (the latest) of the notification endpoint.</p>
+<p>This document is for version 4.0 (the latest) of the notification endpoint.</p>
 
 <h2 id="introduction">Introduction</h2>
 
@@ -465,10 +465,12 @@
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stageOne"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-2"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"approval-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timer"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"previous-stage-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"previous-stage-counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
       </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Building"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unknown"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-23T20:44:02.119+0000"</span><span class="p">,</span><span class="w">
@@ -504,6 +506,8 @@
 <li><p>For a stage with multiple jobs, all jobs will be made available in the JSON document.</p></li>
 <li><p>Each job state <code class="prettyprint">.pipeline.stage.jobs[].state</code> will be set to <code class="prettyprint">Scheduled</code>.</p></li>
 <li><p>Since the jobs have not run yet, every <code class="prettyprint">.pipeline.stage.jobs[].result</code> will be set to <code class="prettyprint">Unknown</code>.</p></li>
+<li><p>From version 4.0 of Notification Endpoint the stage status notification message includes details of <code class="prettyprint">previous-stage-name</code> and <code class="prettyprint">previous-stage-counter</code>
+The subsequent stages in a pipeline are scheduled upon completion of the preceding stage or on manual trigger. The <code class="prettyprint">previous-stage-name</code> and <code class="prettyprint">previous-stage-counter</code> gives details of the preceding stage in the pipeline responsible for scheduling the current stage.</p></li>
 </ul>
 
 <aside class="note">
@@ -545,10 +549,12 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-name"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-2"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"approval-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"approved-by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"changes"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"previous-stage-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage-1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"previous-stage-counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
       </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"create-time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-07-13T19:43:37.100+0000"</span><span class="p">,</span><span class="w">
