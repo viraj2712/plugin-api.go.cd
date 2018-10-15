@@ -1,14 +1,6 @@
 ## Job Completion
 
-This message is a request to the plugin to terminate the agent of the job that has been completed.
-
-<aside class="notice">
-  <strong>Important:</strong> A plugin may, at its discretion, choose to not actually terminate an agent. This could be because the same agent can be used for another job configuration.
-</aside>
-
-<aside class="warning">
-  <strong>Important:</strong> Since this call may potentially make network requests to terminate the agent, the server will, in order to improve performance, use multiple threads to deliver the this message. It is important that plugin implementors ensure that their code is thread-safe.
-</aside>
+The intent on this message is to notify the plugin on completion of the job. The plugin may choose to terminate the elastic agent or keep it running in case the same agent can be used for another job configuration.
 
 <p class='request-name-heading'>Request name</p>
 
