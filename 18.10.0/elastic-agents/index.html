@@ -137,7 +137,7 @@
 
 <h2 id="current-version">Current Version</h2>
 
-<p>This document is for version 3.0 (the latest) of the elastic agent endpoint.</p>
+<p>This document is for version 4.0 (the latest) of the elastic agent endpoint.</p>
 
 <h2 id="background">Background</h2>
 
@@ -565,6 +565,7 @@ $(function() {
 <li><a href="#should-assign-work">Should Assign Work</a></li>
 <li><a href="#server-ping">Server Ping</a></li>
 <li><a href="#get-plugin-capabilities">Capabilities</a></li>
+<li><a href="#job-completion">Job Completion</a></li>
 </ul>
 
 <p>These are general purpose messages that a plugin must implement to allow users to configure the plugin through the browser.</p>
@@ -1116,6 +1117,82 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 </span></code></pre>
 
 <p>A JSON <a href="#the-profile-metadata-object">profile metadata object</a>.</p>
+<h2 id="job-completion">Job Completion</h2>
+
+<p>The intent on this message is to notify the plugin on completion of the job. The plugin may choose to terminate the elastic agent or keep it running in case the same agent can be used for another job configuration.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">cd.go.elastic-agent.job-completion</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>Given the following config XML snippet —</p>
+</blockquote>
+<pre class="highlight xml"><code><span class="nt">&lt;server</span> <span class="na">agentAutoRegisterKey=</span><span class="s">"1e0e05fc-eb45-11e5-bc83-93882adfccf6"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;pipelines</span> <span class="na">group=</span><span class="s">"first"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"up42"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;stage</span> <span class="na">name=</span><span class="s">"up42_stage"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;jobs&gt;</span>
+            <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"up42_job"</span> <span class="na">elasticProfileId=</span><span class="s">"profile1"</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;/jobs&gt;</span>
+        <span class="nt">&lt;/stage&gt;</span>
+      <span class="nt">&lt;/pipeline&gt;</span>
+<span class="nt">&lt;/pipelines&gt;</span>
+<span class="nt">&lt;agents&gt;</span>
+  <span class="nt">&lt;agent</span> <span class="na">hostname=</span><span class="s">"1697e6b164f7"</span> <span class="na">ipaddress=</span><span class="s">"172.17.0.6"</span> <span class="na">uuid=</span><span class="s">"a45e3ca1-4419-4bd5-b18b-882f75ffd4c2"</span> <span class="na">elasticAgentId=</span><span class="s">"GoCD18efbeef995e40f688cd92dc22a4d332"</span> <span class="na">elasticPluginId=</span><span class="s">"cd.exmaple.elastic-agent"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/agents&gt;</span>
+
+</code></pre>
+
+<blockquote>
+<p>The plugin will receive the following JSON body —</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"elastic_agent_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GoCD18efbeef995e40f688cd92dc22a4d332"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"job_identifier"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"job_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up42_job"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_counter"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up42"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up42"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stage_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"up42_stage"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">elastic_agent_id</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The Elastic agent ID of the agent on which the job has completed.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">job_identifier</code></td>
+<td><code class="prettyprint">Object</code></td>
+<td>Job identifier of the job for which this call is being made.</td>
+</tr>
+</tbody></table>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response Body</p>
+
+<p>Can be left blank, the server does not parse any response body returned.</p>
 <h2 id="get-agent-status-report">Get agent status report</h2>
 
 <p>If plugin supports status report, this message must be implemented to report the status of a particular elastic agent brought up by the plugin to run a job. The purpose of this call is to provide specific information about the current state of the elastic agent.</p>
