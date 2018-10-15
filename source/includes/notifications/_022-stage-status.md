@@ -79,10 +79,12 @@ The plugin is expected to return a JSON object to indicate if the notifications 
       }
     ],
     "stage": {
-      "name": "stageOne",
+      "name": "stage-2",
       "counter": "1",
       "approval-type": "success",
       "approved-by": "timer",
+      "previous-stage-name": "stage-1",
+      "previous-stage-counter": 1,
       "state": "Building",
       "result": "Unknown",
       "create-time": "2017-03-23T20:44:02.119+0000",
@@ -120,6 +122,9 @@ These notifications get sent out when a stage starts. The request body will cont
 * Each job state `.pipeline.stage.jobs[].state` will be set to `Scheduled`.
 
 * Since the jobs have not run yet, every `.pipeline.stage.jobs[].result` will be set to `Unknown`.
+
+* From version 4.0 of Notification Endpoint the stage status notification message includes details of `previous-stage-name` and `previous-stage-counter`
+The subsequent stages in a pipeline are scheduled upon completion of the preceding stage or on manual trigger. The `previous-stage-name` and `previous-stage-counter` gives details of the preceding stage in the pipeline responsible for scheduling the current stage.
 
 <aside class="note">
 In the bullets above, all JSON paths use the jq syntax documented here: https://stedolan.github.io/jq/manual/v1.5/
@@ -159,10 +164,12 @@ In the bullets above, all JSON paths use the jq syntax documented here: https://
       }
     ],
     "stage": {
-      "name": "stage-name",
+      "name": "stage-2",
       "counter": "1",
       "approval-type": "success",
       "approved-by": "changes",
+      "previous-stage-name": "stage-1",
+      "previous-stage-counter": 1,
       "state": "Passed",
       "result": "Passed",
       "create-time": "2011-07-13T19:43:37.100+0000",
