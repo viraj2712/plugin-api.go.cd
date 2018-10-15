@@ -35,20 +35,22 @@ The response body should contain the <code>supported_analytics</code> field whic
 
 <p class='attributes-table-follows'></p>
 
-| Key     | Type     | Description                                                                                                                                                                                           |
-|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`    | `String` | Unique identifier for an analytics. The id will be used by GoCD to fetch a specific metric from the plugin.                                                                                           |
-| `title` | `String` | The title for analytics.                                                                                                                                                                              |
-| `type`  | `String` | The type of the analytics which defines the position of analytics in GoCD. Analytics of type `pipeline` are shown on pipeline dashboard and of type `dashboard` are shown on the analytics dashboard. |
+| Key     | Type     | Description                                                                                                 |
+|---------|----------|-------------------------------------------------------------------------------------------------------------|
+| `id`    | `String` | Unique identifier for an analytics. The id will be used by GoCD to fetch a specific metric from the plugin. |
+| `title` | `String` | The title for analytics.                                                                                    |
+| `type`  | `String` | The type of the analytics which defines the position of analytics in GoCD.                                  |
 
 Valid types of analytics metric are as follows:
 
 <p class='attributes-table-follows'></p>
 
-| Type        | Scope                                                                                    |
-|-------------|------------------------------------------------------------------------------------------|
-| `dashboard` | Dashboard level analytics will be displayed at the global level in the GoCD application. |
-| `pipeline`  | Pipeline level analytics will be displayed on each pipeline in the GoCD application.     |
+| Type        | Scope                                                                                          |
+|-------------|------------------------------------------------------------------------------------------------|
+| `dashboard` | Dashboard level analytics will be displayed at the global level in the GoCD application.       |
+| `pipeline`  | Pipeline level analytics will be displayed on each pipeline in the GoCD application.           |
+| `agent`     | Agent level analytics can be viewed on the agents page in the GoCD application for each agent. |
+| `vsm`       | VSM analytics can be viewed on the Value Stream Map(VSM) page in the GoCD application.         |
 
 <aside class="info">
   <strong>Note</strong>: Any other analytics type apart from above mentioned types will be ignored.
