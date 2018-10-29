@@ -1,13 +1,5 @@
 ## Fetch Artifact
 
-This message is a request to the plugin to fetch an artifact from the specified artifact store.
-
-<p class='request-name-heading'>Request name</p>
-
-`cd.go.artifact.fetch-artifact`
-
-<p class='request-body-heading'>Request body</p>
-
 > Given the following config XML snippet —
 
 ```xml
@@ -90,6 +82,14 @@ This message is a request to the plugin to fetch an artifact from the specified 
 }
 ```
 
+This message is a request to the plugin to fetch an artifact from the specified artifact store.
+
+<p class='request-name-heading'>Request name</p>
+
+`cd.go.artifact.fetch-artifact`
+
+<p class='request-body-heading'>Request body</p>
+
 The request body will contain the following JSON elements:
 
 <p class='attributes-table-follows'></p>
@@ -107,4 +107,31 @@ The plugin is expected to return status `200` if it can understand the request.
 
 <p class='response-body-heading'>Response Body</p>
 
-Can be left blank, the server does not parse any response body returned.
+The plugin can respond with a list of environment variables which will be set on the job, for all further tasks in that job to use. It can also return an empty list (`[]`). Existing environment variables will be overridden, if they are returned as a part of this response.
+
+> Example response body:
+
+```json
+[
+  {
+    "name": "IMAGE_ID",
+    "value": "image1/v23",
+    "secure": false
+  },
+  {
+    "name": "MY_SECRET_ENV_VAR",
+    "value": "some-password",
+    "secure": true
+  }
+]
+```
+
+The response body will contain the following JSON elements:
+
+<p class='attributes-table-follows'></p>
+
+| Key      | Type      | Description                                         |
+|----------|-----------|-----------------------------------------------------|
+| `name`   | `String`  | The key or name of the environment variable to set. |
+| `value`  | `String`  | The value of the environment variable to set.       |
+| `secure` | `Boolean` | Should it be a secure environment variable or not?  |
