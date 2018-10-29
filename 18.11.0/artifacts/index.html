@@ -347,14 +347,6 @@
 
 <h2 id="fetch-artifact">Fetch Artifact</h2>
 
-<p>This message is a request to the plugin to fetch an artifact from the specified artifact store.</p>
-
-<p class='request-name-heading'>Request name</p>
-
-<p><code class="prettyprint">cd.go.artifact.fetch-artifact</code></p>
-
-<p class='request-body-heading'>Request body</p>
-
 <blockquote>
 <p>Given the following config XML snippet —</p>
 </blockquote>
@@ -439,6 +431,14 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+<p>This message is a request to the plugin to fetch an artifact from the specified artifact store.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">cd.go.artifact.fetch-artifact</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
 <p>The request body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -478,7 +478,53 @@
 
 <p class='response-body-heading'>Response Body</p>
 
-<p>Can be left blank, the server does not parse any response body returned.</p>
+<p>The plugin can respond with a list of environment variables which will be set on the job, for all further tasks in that job to use. It can also return an empty list (<code class="prettyprint">[]</code>). Existing environment variables will be overridden, if they are returned as a part of this response.</p>
+
+<blockquote>
+<p>Example response body:</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IMAGE_ID"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image1/v23"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MY_SECRET_ENV_VAR"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-password"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>The response body will contain the following JSON elements:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">name</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The key or name of the environment variable to set.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">value</code></td>
+<td><code class="prettyprint">String</code></td>
+<td>The value of the environment variable to set.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">secure</code></td>
+<td><code class="prettyprint">Boolean</code></td>
+<td>Should it be a secure environment variable or not?</td>
+</tr>
+</tbody></table>
 
 <h2 id="get-plugin-capabilities">Get Plugin Capabilities</h2>
 
