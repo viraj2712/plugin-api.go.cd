@@ -1,6 +1,6 @@
 ## Pipeline export
 
-This message is a request to the plugin to convert a pipeline configuration into the plugin's native language. It is
+This message is a request to the plugin to convert a pipeline configuration into the plugin's native format. It is
 essentially the reverse of the [`parse-directory` request](#parse-directory).
 
 <p class='request-name-heading'>Request name</p>
@@ -31,7 +31,7 @@ essentially the reverse of the [`parse-directory` request](#parse-directory).
 </pipeline>
 ```
 
-The request body will contain a JSON object with an attribute `pipeline`, which contains a JSON representation of a full pipeline configuration.
+The request body will contain a JSON object with an attribute `pipeline`, which contains a JSON representation of a full pipeline configuration. For a more detailed example showing, see the [`parse-directory` request body](#parse-directory).
 
 > The plugin will receive the following JSON body —
 
@@ -102,6 +102,20 @@ The request body will contain a JSON object with an attribute `pipeline`, which 
 
 <h3><!-- Force a break/clear --></h3>
 
+<p class="response-example-heading">Response example</p>
+
+Here is an example response from the GoCD YAML Configuration Plugin:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/x-yaml; charset=utf-8
+X-Export-Filename: my-pipeline.gocd.yaml
+
+{
+  "pipeline": "\"format_version: 3\\npipelines:\\n  my-pipeline:\\n    group: my-group\\n    label_template: ${COUNT}\\n    lock_behavior: none\\n    materials:\\n      git:\\n        git: https://my.repo/path/to.git\\n        shallow_clone: false\\n        auto_update: true\\n        branch: master\\n    stages:\\n    - first-stage:\\n        fetch_materials: true\\n        keep_artifacts: false\\n        clean_workspace: false\\n        approval:\\n          type: success\\n        jobs:\\n          first-job:\\n            tasks:\\n            - exec:\\n                arguments:\\n                - hello\\n                command: /bin/echo\\n                run_if: passed\\n\""
+}
+```
+
 <p class='response-code-heading'>Response code</p>
 
 The plugin is expected to return status `200` if it can understand the request.
@@ -113,7 +127,7 @@ The plugin is expected to return a JSON object (corresponding to
 
 #### `pipeline`
 
-This `pipeline` element is a string representation of the exported pipeline configuration in the native language supported by the plugin. The value of this element must deserialize to a `string`.
+This `pipeline` element is a string representation of the exported pipeline configuration in the native format supported by the plugin. The value of this element must deserialize to a `string`.
 
 <p class="response-headers-heading">Response headers</p>
 
