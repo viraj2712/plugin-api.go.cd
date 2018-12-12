@@ -327,7 +327,6 @@
 
 <ul>
 <li><a href="#parse-directory">Parse directory</a></li>
-<li><a href="#pipeline-export">Pipeline export</a></li>
 </ul>
 
 <p>These are general purpose messages that a plugin may implement to allow users to configure the plugin through the browser.</p>
@@ -382,7 +381,7 @@ been defined in the external configuration.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>The request body will contain a JSON object with an attribute <code class="prettyprint">directory</code>, which points to a local checkout of the specified
+<p>The request body will contain a JSON with an attribute <code class="prettyprint">directory</code>, which points to a local checkout of the specified
 material repository. It will also contain an attribute <code class="prettyprint">configuration</code> which contains the specified configuration. Note:
 This is not the configuration in the plugin settings page.</p>
 
@@ -390,7 +389,7 @@ This is not the configuration in the plugin settings page.</p>
 
 <p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
 
-<p class='response-body-heading'>Response body</p>
+<p class='response-body-heading'>Response Body</p>
 
 <blockquote>
 <p>An example response body of a problematic config:</p>
@@ -817,156 +816,6 @@ is most useful when the config repo definition and the rest of the source code a
 
 <p>The GoCD server clones the material configuration of the current repository (<strong>as is in XML</strong>) and replaces <strong>name,
 destination and filters (whitelist/blacklist)</strong>. Then, it uses the modified clone in place of <code class="prettyprint">configrepo</code> material.</p>
-
-<h2 id="pipeline-export">Pipeline export</h2>
-
-<p>This message is a request to the plugin to convert a pipeline configuration into the plugin&rsquo;s native format. It is
-essentially the reverse of the <a href="#parse-directory"><code class="prettyprint">parse-directory</code> request</a>.</p>
-
-<p class='request-name-heading'>Request name</p>
-
-<p><code class="prettyprint">pipeline-export</code></p>
-
-<p class='request-body-heading'>Request body</p>
-
-<blockquote>
-<p>Given the following config XML snippet (assume this pipeline is in a group named <code class="prettyprint">my-group</code>) —</p>
-</blockquote>
-
-<pre class="highlight xml"><code><span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"my-pipeline"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;materials&gt;</span>
-    <span class="nt">&lt;git</span> <span class="na">url=</span><span class="s">"https://my.repo/path/to.git"</span> <span class="nt">/&gt;</span>
-  <span class="nt">&lt;/materials&gt;</span>
-  <span class="nt">&lt;stage</span> <span class="na">name=</span><span class="s">"first-stage"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;jobs&gt;</span>
-      <span class="nt">&lt;job</span> <span class="na">name=</span><span class="s">"first-job"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;tasks&gt;</span>
-          <span class="nt">&lt;exec</span> <span class="na">command=</span><span class="s">"/bin/echo"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;arg&gt;</span>hello<span class="nt">&lt;/arg&gt;</span>
-            <span class="nt">&lt;runif</span> <span class="na">status=</span><span class="s">"passed"</span> <span class="nt">/&gt;</span>
-          <span class="nt">&lt;/exec&gt;</span>
-        <span class="nt">&lt;/tasks&gt;</span>
-      <span class="nt">&lt;/job&gt;</span>
-    <span class="nt">&lt;/jobs&gt;</span>
-  <span class="nt">&lt;/stage&gt;</span>
-<span class="nt">&lt;/pipeline&gt;</span>
-</code></pre>
-
-<p>The request body will contain a JSON object with an attribute <code class="prettyprint">pipeline</code>, which contains a JSON representation of a full pipeline configuration. For a more detailed example showing, see the <a href="#parse-directory"><code class="prettyprint">parse-directory</code> request body</a>.</p>
-
-<blockquote>
-<p>The plugin will receive the following JSON body —</p>
-</blockquote>
-
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-group"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-pipeline"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${COUNT}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mingle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"mql_grouping_conditions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"\"\""</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="nt">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://my.repo/path/to.git"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"shallow_clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-          </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"stages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-stage"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"fetch_materials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"never_cleanup_artifacts"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"clean_working_directory"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"approval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-          </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-          </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-job"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"tabs"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"artifacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"run_instance_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-              </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/bin/echo"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                  </span><span class="s2">"hello"</span><span class="w">
-                </span><span class="p">],</span><span class="w">
-                </span><span class="nt">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"exec"</span><span class="w">
-              </span><span class="p">}</span><span class="w">
-            </span><span class="p">]</span><span class="w">
-          </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<h3><!-- Force a break/clear --></h3>
-
-<p class="response-example-heading">Response example</p>
-
-<p>Here is an example response from the GoCD YAML Configuration Plugin:</p>
-
-<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-yaml; charset=utf-8</span>
-<span class="na">X-Export-Filename</span><span class="p">:</span> <span class="s">my-pipeline.gocd.yaml</span>
-
-{
-  "pipeline": "\"format_version: 3\\npipelines:\\n  my-pipeline:\\n    group: my-group\\n    label_template: ${COUNT}\\n    lock_behavior: none\\n    materials:\\n      git:\\n        git: https://my.repo/path/to.git\\n        shallow_clone: false\\n        auto_update: true\\n        branch: master\\n    stages:\\n    - first-stage:\\n        fetch_materials: true\\n        keep_artifacts: false\\n        clean_workspace: false\\n        approval:\\n          type: success\\n        jobs:\\n          first-job:\\n            tasks:\\n            - exec:\\n                arguments:\\n                - hello\\n                command: /bin/echo\\n                run_if: passed\\n\""
-}
-</code></pre>
-
-<p class='response-code-heading'>Response code</p>
-
-<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
-
-<p class='response-body-heading'>Response body</p>
-
-<p>The plugin is expected to return a JSON object (corresponding to
-<a href="https://github.com/gocd/gocd/blob/b8cbce628afca8b20726e5fbd81ebea1e20091fe/plugin-infra/go-plugin-access/src/main/java/com/thoughtworks/go/plugin/access/configrepo/v2/messages/PipelineExportResponseMessage.java"><code class="prettyprint">PipelineExportResponseMessage</code></a>. The response body contains a single attribute:</p>
-
-<h4 id="pipeline"><code class="prettyprint">pipeline</code></h4>
-
-<p>This <code class="prettyprint">pipeline</code> element is a string representation of the exported pipeline configuration in the native format supported by the plugin. The value of this element must deserialize to a <code class="prettyprint">string</code>.</p>
-
-<p class="response-headers-heading">Response headers</p>
-
-<p>The plugin response must also set the following headers:</p>
-
-<h4 id="content-type"><code class="prettyprint">Content-Type</code></h4>
-
-<p>Plugin responses are expected to provide a MIME type to indicate how to treat the content of the <code class="prettyprint">pipeline</code> attribute. Here are some examples of common MIME types:</p>
-
-<ul>
-<li><code class="prettyprint">text/plain; charset=utf-8</code></li>
-<li><code class="prettyprint">application/json; charset=utf-8</code></li>
-<li><code class="prettyprint">application/x-yaml; charset=utf-8</code></li>
-</ul>
-
-<h4 id="x-export-filename"><code class="prettyprint">X-Export-Filename</code></h4>
-
-<p>Plugin responses must also suggest a filename for the exported content. This is used by GoCD to construct a <code class="prettyprint">Content-Disposition</code> header for REST API responses.</p>
 
 <h2 id="get-settings-view">Get Settings View</h2>
 
