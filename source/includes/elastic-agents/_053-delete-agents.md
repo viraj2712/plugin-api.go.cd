@@ -64,6 +64,10 @@ Before the delete-agent message is sent to the server, the plugin MUST ensure th
 
 `go.processor.elastic-agents.delete-agents`
 
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
 <p class='request-body-heading'>Request body</p>
 
 The body must contain a list of [agents](#elastic-agent-object) that should be removed from the config XML.
