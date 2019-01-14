@@ -1380,6 +1380,10 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 
 <p><code class="prettyprint">go.processor.elastic-agents.list-agents</code></p>
 
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+
 <p class='request-body-heading'>Request body</p>
 
 <p>Can be left blank, the server does not parse the request body.</p>
@@ -1442,6 +1446,10 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='request-name-heading'>Request name</p>
 
 <p><code class="prettyprint">go.processor.elastic-agents.disable-agents</code></p>
+
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
 
 <p class='request-body-heading'>Request body</p>
 
@@ -1517,6 +1525,10 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 
 <p><code class="prettyprint">go.processor.elastic-agents.delete-agents</code></p>
 
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+
 <p class='request-body-heading'>Request body</p>
 
 <p>The body must contain a list of <a href="#elastic-agent-object">agents</a> that should be removed from the config XML.</p>
@@ -1584,6 +1596,10 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 <p class='request-name-heading'>Request name</p>
 
 <p><code class="prettyprint">go.processor.plugin-settings.get</code></p>
+
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
 
 <p class='request-body-heading'>Request body</p>
 
@@ -1725,7 +1741,9 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 
 <p>Name: <code class="prettyprint">go.processor.server-health.add-messages</code></p>
 
-<p>Version: <code class="prettyprint">1.0</code></p>
+<p class='request-body-heading'>Request version</p>
+
+<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
 
 <p class='request-body-heading'>Request body</p>
 
