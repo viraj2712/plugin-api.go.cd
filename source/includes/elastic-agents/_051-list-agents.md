@@ -51,6 +51,10 @@ This messages allows a plugin to query the server for a list of elastic agents t
 
 `go.processor.elastic-agents.list-agents`
 
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
 <p class='request-body-heading'>Request body</p>
 
 Can be left blank, the server does not parse the request body.

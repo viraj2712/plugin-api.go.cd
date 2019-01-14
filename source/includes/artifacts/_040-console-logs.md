@@ -6,6 +6,10 @@ The plugin can send console logs to the server while fetching or publishing arti
 
 `go.processor.artifact.console-log`
 
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
 <p class='request-name-heading'>Request body</p>
 
 The request body must contain the logLevel and a message string. The logLevel must be `INFO` or `ERROR`.

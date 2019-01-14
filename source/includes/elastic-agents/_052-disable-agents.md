@@ -52,6 +52,10 @@ Agents in any state can be disabled, this will prevent jobs from being assigned 
 
 `go.processor.elastic-agents.disable-agents`
 
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
 <p class='request-body-heading'>Request body</p>
 
 The body must contain a list of [agents](#elastic-agent-object).

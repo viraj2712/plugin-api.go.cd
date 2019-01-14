@@ -8,6 +8,10 @@ With authorization plugins a user is authenticated using an external authorizati
 
 `go.processor.authorization.invalidate-cache`
 
+<p class='request-body-heading'>Request version</p>
+
+The request version must be set to `1.0`.
+
 <p class='request-body-heading'>Request body</p>
 
 The server will not parse a request body.
