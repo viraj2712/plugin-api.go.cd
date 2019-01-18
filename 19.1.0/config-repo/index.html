@@ -327,6 +327,7 @@
 
 <ul>
 <li><a href="#parse-directory">Parse directory</a></li>
+<li><a href="#parse-content">Parse content</a></li>
 <li><a href="#pipeline-export">Pipeline export</a></li>
 </ul>
 
@@ -817,6 +818,59 @@ is most useful when the config repo definition and the rest of the source code a
 
 <p>The GoCD server clones the material configuration of the current repository (<strong>as is in XML</strong>) and replaces <strong>name,
 destination and filters (whitelist/blacklist)</strong>. Then, it uses the modified clone in place of <code class="prettyprint">configrepo</code> material.</p>
+
+<h2 id="parse-content">Parse content</h2>
+
+<p>This message is a request to the plugin to parse the provided content containing one or more pipeline configurations. GoCD will send this request to the plugin in order to validate the pipeline configurations as part of a preflight check. It is very similar to the <a href="#parse-directory"><code class="prettyprint">parse-directory</code></a> request except that it is not dependent on an existing config repo or a specific directory of files.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">parse-content</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<blockquote>
+<p>Given this yaml content -</p>
+</blockquote>
+
+<pre class="highlight yaml"><code><span class="s">pipelines</span><span class="pi">:</span>
+  <span class="s">mypipeline</span><span class="pi">:</span>
+    <span class="s">group</span><span class="pi">:</span> <span class="s">simple</span>
+    <span class="s">materials</span><span class="pi">:</span>
+      <span class="s">mygit</span><span class="pi">:</span>
+        <span class="s">git</span><span class="pi">:</span> <span class="s">http://my.example.org/mygit.git</span>
+    <span class="s">stages</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">mystage</span><span class="pi">:</span>
+          <span class="s">jobs</span><span class="pi">:</span>
+            <span class="s">myjob</span><span class="pi">:</span>
+              <span class="s">tasks</span><span class="pi">:</span>
+               <span class="pi">-</span> <span class="s">exec</span><span class="pi">:</span>
+                   <span class="s">command</span><span class="pi">:</span> <span class="s">make</span>
+</code></pre>
+
+<blockquote>
+<p>The plugin will receive the following JSON body —</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"ci.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipelines:\n  mypipeline:\n    group: simple\n    materials:\n      mygit:\n        git: http://my.example.org/mygit.git\n    stages:\n      - mystage:\n          jobs:\n            myjob:\n              tasks:\n               - exec:\n                   command: make"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The request body will contain a JSON object with an attribute <code class="prettyprint">contents</code>, which contains a list of labeled content. Each object in the list will consist of a label and the content to be parsed by the plugin.</p>
+
+<p class='response-code-heading'>Response code</p>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
+<p class='response-body-heading'>Response body</p>
+
+<p>The plugin is expected to return a JSON object (corresponding to
+<a href="https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/messages/ParseDirectoryResponseMessage.java">ParseDirectoryResponseMessage</a>). Please reference to <a href="#parse-directory"><code class="prettyprint">parse-drectory</code></a> for details and examples of the response body.</p>
 
 <h2 id="pipeline-export">Pipeline export</h2>
 
