@@ -1,0 +1,50 @@
+## Parse content
+
+This message is a request to the plugin to parse the provided content containing one or more pipeline configurations. GoCD will send this request to the plugin in order to validate the pipeline configurations as part of a preflight check. It is very similar to the [`parse-directory`](#parse-directory) request except that it is not dependent on an existing config repo or a specific directory of files.
+
+<p class='request-name-heading'>Request name</p>
+
+`parse-content`
+
+<p class='request-body-heading'>Request body</p>
+
+> Given this yaml content -
+
+```yml
+pipelines:
+  mypipeline:
+    group: simple
+    materials:
+      mygit:
+        git: http://my.example.org/mygit.git
+    stages:
+      - mystage:
+          jobs:
+            myjob:
+              tasks:
+               - exec:
+                   command: make
+```
+
+> The plugin will receive the following JSON body —
+
+```json
+{
+  "contents": [
+    {
+      "ci.gocd.yml": "pipelines:\n  mypipeline:\n    group: simple\n    materials:\n      mygit:\n        git: http://my.example.org/mygit.git\n    stages:\n      - mystage:\n          jobs:\n            myjob:\n              tasks:\n               - exec:\n                   command: make"
+    }
+  ]
+}
+```
+
+The request body will contain a JSON object with an attribute `contents`, which contains a list of labeled content. Each object in the list will consist of a label and the content to be parsed by the plugin.
+
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` if it can understand the request.
+
+<p class='response-body-heading'>Response body</p>
+
+The plugin is expected to return a JSON object (corresponding to
+[ParseDirectoryResponseMessage](https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/messages/ParseDirectoryResponseMessage.java)). Please reference to [`parse-drectory`](#parse-directory) for details and examples of the response body.
