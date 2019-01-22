@@ -1160,6 +1160,55 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
   </ul>
 </aside>
 
+<h2 id="get-plugin-capabilities">Get Plugin Capabilities</h2>
+
+<p>This message is a request to the plugin to provide plugin capabilities. Based on these capabilities GoCD would enable or disable the plugin features for a user.</p>
+
+<p class='request-name-heading'>Request name</p>
+
+<p><code class="prettyprint">get-capabilities</code></p>
+
+<p class='request-body-heading'>Request body</p>
+
+<p>Server sends request with <code class="prettyprint">Empty</code> request body.</p>
+
+<p class='response-code-heading'>Response Body</p>
+
+<blockquote>
+<p>An example response body:</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"supports_pipeline_export"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"supports_parse_content"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The response body will contain the following JSON attributes:</p>
+
+<p class='attributes-table-follows'></p>
+
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">supports_pipeline_export</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether this plugin supports the <a href="#pipeline-export"><code class="prettyprint">pipeline-export</code></a> request.</td>
+</tr>
+<tr>
+<td><code class="prettyprint">supports_parse_content</code></td>
+<td><code class="prettyprint">boolean</code></td>
+<td>Whether this plugin supports the <a href="#parse-content"><code class="prettyprint">parse-content</code></a> request.</td>
+</tr>
+</tbody></table>
+
+<p>The plugin is expected to return status <code class="prettyprint">200</code> if it can understand the request.</p>
+
 <h1 id="requests-to-the-gocd-server">Requests to the GoCD server</h1>
 
 <p>The plugin may make the following requests to the server using <code class="prettyprint">GoApplicationAccessor#submit(GoApiRequest)</code></p>
