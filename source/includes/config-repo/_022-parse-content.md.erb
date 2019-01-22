@@ -30,15 +30,14 @@ pipelines:
 
 ```json
 {
-  "contents": [
-    {
-      "ci.gocd.yml": "pipelines:\n  mypipeline:\n    group: simple\n    materials:\n      mygit:\n        git: http://my.example.org/mygit.git\n    stages:\n      - mystage:\n          jobs:\n            myjob:\n              tasks:\n               - exec:\n                   command: make"
-    }
-  ]
+  "contents": {
+    "build.gocd.yml": "contents of build.gocd.yml",
+    "deploy.gocd.yml": "contents of deploy.gocd.yml"
+  }
 }
 ```
 
-The request body will contain a JSON object with an attribute `contents`, which contains a list of labeled content. Each object in the list will consist of a label and the content to be parsed by the plugin.
+The request body will contain a JSON object with an attribute `contents`, which contains a map of filenames and the content of each file.
 
 <p class='response-code-heading'>Response code</p>
 
