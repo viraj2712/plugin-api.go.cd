@@ -853,15 +853,14 @@ destination and filters (whitelist/blacklist)</strong>. Then, it uses the modifi
 </blockquote>
 
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"ci.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipelines:\n  mypipeline:\n    group: simple\n    materials:\n      mygit:\n        git: http://my.example.org/mygit.git\n    stages:\n      - mystage:\n          jobs:\n            myjob:\n              tasks:\n               - exec:\n                   command: make"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"build.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of build.gocd.yml"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"deploy.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of deploy.gocd.yml"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>The request body will contain a JSON object with an attribute <code class="prettyprint">contents</code>, which contains a list of labeled content. Each object in the list will consist of a label and the content to be parsed by the plugin.</p>
+<p>The request body will contain a JSON object with an attribute <code class="prettyprint">contents</code>, which contains a map of filenames and the content of each file.</p>
 
 <p class='response-code-heading'>Response code</p>
 
