@@ -579,6 +579,32 @@ This is not the configuration in the plugin settings page.</p>
           </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"plugin_configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-plugin-id"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+              </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git@github.com:gocd/plugin-api.go.cd.git"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"encrypted_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encryptedValue1"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">],</span><span class="w">
+          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scmDestinationDir"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"dir2"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myNewPluggableGitDefinition"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
           </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dependency"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline2"</span><span class="p">,</span><span class="w">
           </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
