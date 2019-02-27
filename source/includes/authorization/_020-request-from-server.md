@@ -12,6 +12,7 @@ All Authorization plugins should implement the following messages to support aut
 * [Authenticate User](#authenticate-user)
 * [Authorization Server URL](#authorization-server-url)
 * [Verify Connection](#verify-connection)
+* [Is Valid User](#is-valid-user)
 
 If a plugin supports web based authentication, apart from the above, the plugin must implement the following messages. The plugin should use the `supported_auth_type` [capability](#get-plugin-capabilities) to expose this feature.
 
@@ -27,3 +28,7 @@ For a plugin to support authorization, the following messages must be implemente
 If a plugin supports search, the following message must be implemented in order to serve search request from server. The plugin should use the `can_search` [capability](#get-plugin-capabilities) to expose this feature.
 
 * [Search user](#search-users)
+
+If a plugin supports get roles, the plugin must implement the following messages. The plugin should use the `can_get_user_roles` [capability](#get-plugin-capabilities) to expose this feature.
+
+* [Get User Roles](#get-user-roles)
