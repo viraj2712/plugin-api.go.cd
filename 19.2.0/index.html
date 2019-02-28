@@ -155,6 +155,55 @@ which plugins can be provided. An extension point published by the GoCD - define
 governs the respective plugin. At present only Java based extension points and plugins are supported by GoCD, but the
 interface is simple enough for anyone to build plugins in other languages using a simple HTTP bridge.</p>
 
+          <h1 id="api-changelog">API Changelog</h1>
+
+<p>The changelog is maintained starting from version 19.2.0 of GoCD. For changes from previous versions, see the release notes at <a href="https://gocd.org/releases">https://gocd.org/releases</a>.</p>
+
+<h2 id="changes-in-19-2-0">Changes in 19.2.0</h2>
+
+<h3 class="changelog-header">Added</h3>
+
+<h3 id="config-repositories">Config repositories</h3>
+
+<ul>
+<li>This version adds support for v2 for <a href="config-repo">Config repositories</a>. v2 of Config repositories adds the following new messages,
+
+<ul>
+<li><a href="config-repo#parse-content">Parse Content</a> </li>
+<li><a href="config-repo#pipeline-export">Pipeline Export</a> </li>
+<li><a href="config-repo#get-plugin-icon">Plugin Icon</a></li>
+<li><a href="config-repo#get-plugin-capabilities">Plugin Capabilities</a></li>
+</ul></li>
+</ul>
+
+<h3 id="authorization">Authorization</h3>
+
+<ul>
+<li>This version adds support for v2 for <a href="authorization">Authorization Extension</a>. v2 of authorization extension adds the following new messages,
+
+<ul>
+<li><a href="authorization#is-valid-user">Is Valid User</a></li>
+<li><a href="authorization#get-user-roles">Get User Roles</a></li>
+</ul></li>
+</ul>
+
+<p>Plugins <a href="authorization#get-plugin-capabilities">Capabilities</a> message is enhanced to add a new capablity <code class="prettyprint">can_get_user_roles</code>.</p>
+
+<h3 class="changelog-header">Removed</h3>
+
+<p>No removals this release.</p>
+
+<h3 class="changelog-header">Deprecations</h3>
+
+<ul>
+<li>The elastic agent plugin extension version 3 has been deprecated. This version will be removed in a release scheduled for Mar 2019. Plugin developers should use version 4 of the elastic agent plugin api to allow adding support for job completion request. The docker, docker swarm, kubernetes and ecs plugins have been migrated to the new versions, and users should upgrade their plugins to the latest version to see these new features.</li>
+<li>The notification plugin extension version 3 has been deprecated. This version will be removed in a release scheduled for Mar 2019. Plugin developers should use version 4 of the notification plugin api.</li>
+<li>The analytics plugin extension version 1 has been deprecated. This version will be removed in a release scheduled for Mar 2019. Plugin developers should use version 2 of the analytics plugin api.</li>
+<li>The Get Server Info processor version 1 has been deprecated. This version will be removed in a release scheduled for April 2019. Plugin developers should use version 2 of the Get Server Info processor.</li>
+<li>The authorization extension v1 has been deprecated. This version will be removed in a release scheduled for September 2019. Plugin developers should upgrade their plugins to the latest version.</li>
+<li>The config repositories extension v1 has been deprecated. This version will be removed in a release scheduled for September 2019. Plugin developers should upgrade their plugins to the latest version.</li>
+</ul>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
