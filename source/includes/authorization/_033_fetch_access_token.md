@@ -34,7 +34,7 @@ This is a message that a web based plugin should implement. In case of web based
 
 <p class='request-body-heading'>Request parameters</p>
 
-Request paramters would contain all request parameters sent by the external authorization server to GoCD.
+Request parameters would contain all request parameters sent by the external authorization server to GoCD.
 
 <p class='request-body-heading'>Request headers</p>
 

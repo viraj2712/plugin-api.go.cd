@@ -18,7 +18,8 @@ Server sends request with `Empty` request body.
 {
   "supported_auth_type": "password",
   "can_search": true,
-  "can_authorize": true
+  "can_authorize": true,
+  "can_get_user_roles": true
 }
 ```
 
@@ -26,10 +27,11 @@ The response body will contain the following JSON elements:
 
 <p class='attributes-table-follows'></p>
 
-| Key                   | Type      | Description                                                                             |
-|-----------------------|-----------|-----------------------------------------------------------------------------------------|
-| `supported_auth_type` | `String`  | This key determines plugin authentication method. It can be one of `password` or `web`. |
-| `can_search`          | `Boolean` | Whether Plugin supports search or not, depends on this `boolean` value.                 |
-| `can_authorize`       | `Boolean` | Whether Plugin supports authorization, depends on this `boolean` value.                 |
+| Key                     | Type      | Description                                                                             |
+|-------------------------|-----------|-----------------------------------------------------------------------------------------|
+| `supported_auth_type`   | `String`  | This key determines plugin authentication method. It can be one of `password` or `web`. |
+| `can_search`            | `Boolean` | Whether Plugin supports search or not, depends on this `boolean` value.                 |
+| `can_authorize`         | `Boolean` | Whether Plugin supports authorization, depends on this `boolean` value.                 |
+| `can_get_user_roles`    | `Boolean` | Whether Plugin supports get roles or not, depends on this `boolean` value.              |
 
 The plugin is expected to return status `200` if it can understand the request.
