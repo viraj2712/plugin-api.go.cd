@@ -444,6 +444,7 @@ This is not the configuration in the plugin settings page.</p>
     </span><span class="p">{</span><span class="w">
       </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"group1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"display_order_weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
       </span><span class="nt">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"labelTemplate1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lockOnFailure"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"tracking_tool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -798,6 +799,8 @@ mandatory. Some noteworthy properties of this element are:</p>
 
 <p>- Most top-level attributes of a pipeline <em>can</em> have a <code class="prettyprint">location</code> defined. If defined, that value will be used to
       show more meaningful error messages, if the GoCD server detects errors during its parsing and validation.</p>
+
+<p>- The <code class="prettyprint">display_order_weight</code> property will be used to decide the order in which the pipelines will be shown on the GoCD dashboard. If not provided, it defaults to <code class="prettyprint">-1</code>.</p>
 
 <p>- See this note about the <a href="#the-special-material-type-configrepo">special material type: <code class="prettyprint">configrepo</code></a>.</p>
 
