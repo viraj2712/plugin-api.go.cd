@@ -12,7 +12,55 @@ Each elastic agent plugin will receive a periodic signal at regular intervals fo
 
 <p class='request-body-heading'>Request body</p>
 
-The server will not provide a request body.
+> Given the following config XML snippet —
+
+```xml
+<elastic>
+  <clusterProfiles>
+    <clusterProfile id="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+      <property>
+        <key>DockerURI</key>
+        <value>https://docker-uri/</value>
+      </property>
+    </clusterProfile>
+    <clusterProfile id="ecs" pluginId="cd.go.contrib.elastic-agent.ecs">
+      <property>
+        <key>AWS_ACCESS_KEY</key>
+        <value>AMSDKFSDOFSFSI</value>
+      </property>
+      <property>
+        <key>AWS_SECRET_KEY</key>
+        <value>yshfksdfasd,fmsldgjdflgjgdflgjdlfgjdfl</value>
+      </property>
+      <property>
+        <key>CLUSTER_NAME</key>
+        <value>Dev</value>
+      </property>
+    </clusterProfile>
+  </clusterProfiles>
+</elastic>
+```
+
+> The plugin will receive the following JSON body —
+
+```json
+{
+  "all_cluster_profile_properties": [
+    {
+      "DockerURI": "https://docker-uri/"
+    },
+    {
+      "AWS_ACCESS_KEY": "AMSDKFSDOFSFSI",
+      "AWS_SECRET_KEY": "yshfksdfasd,fmsldgjdflgjgdflgjdlfgjdfl",
+      "CLUSTER_NAME"  : "Dev"
+    }
+  ]
+}
+```
+
+| Key                              | Type     | Description                                                       |
+| -------------------------------- | -------- | -----------                                                       |
+| `all_cluster_profile_properties` | `Array`  | The field represents the list of cluster profiles for the plugin. |
 
 <p class='response-code-heading'>Response code</p>
 

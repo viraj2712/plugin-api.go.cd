@@ -19,30 +19,41 @@ This message is a request to the plugin to create an agent for a job that has be
 > Given the following config XML snippet —
 
 ```xml
-<server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6" />
-<elastic>
-  <profiles>
-    <profile id="gocd-dev-build" pluginId="plugin-id">
-      <property>
-        <key>Image</key>
-        <value>gocd/gocd-agent-alpine-3.5:v18.1.0</value>
-      </property>
-      <property>
-        <key>MaxMemory</key>
-        <value>500Mb</value>
-      </property>
-    </profile>
-  </profiles>
-</elastic>
-<pipelines group="first">
-  <pipeline name="build">
-    ...
-    <job name="test-job" elasticProfileId="gocd-dev-build">
+<cruise>
+  <server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6" />
+  <elastic>
+    <clusterProfiles>
+      <clusterProfile id="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+        <property>
+          <key>DockerURI</key>
+          <value>https://docker-uri/</value>
+        </property>
+      </clusterProfile>
+    </clusterProfiles>
+    <profiles>
+      <profile  id="docker.unit-test" clusterProfileId="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+        <property>
+          <!--
+            The plugin currently only supports the `Image` property,
+            which allows you to select the docker image that the build should run with
+          -->
+          <key>Image</key>
+          <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
+        </property>
+      </profile>
+    </profiles>
+  </elastic>
+  <pipelines group="first">
+    <pipeline name="build">
       ...
-    </job>
-    ...
-  </pipeline>
-</pipelines>
+      <job name="test-job" elasticProfileId="docker.unit-test">
+        ...
+      </job>
+      ...
+    </pipeline>
+  </pipelines>
+  ...
+</cruise>
 ```
 
 > The plugin will receive the following JSON body —
@@ -50,6 +61,14 @@ This message is a request to the plugin to create an agent for a job that has be
 ```json
 {
   "auto_register_key": "1e0e05fc-eb45-11e5-bc83-93882adfccf6",
+  "elastic_agent_profile_properties": {
+    "Image": "gocd/gocd-agent-alpine-3.5:v18.1.0",
+    "MaxMemory": "https://docker-uri/"
+  },
+  "cluster_profile_properties": {
+    "Image": "DockerURI",
+    "MaxMemory": "500Mb"
+  },
   "environment": "prod",
   "job_identifier": {
     "job_id": 100,
@@ -59,10 +78,6 @@ This message is a request to the plugin to create an agent for a job that has be
     "pipeline_name": "build",
     "stage_counter": "1",
     "stage_name": "test-stage"
-  },
-  "properties": {
-    "Image": "gocd/gocd-agent-alpine-3.5:v18.1.0",
-    "MaxMemory": "500Mb"
   }
 }
 ```
@@ -71,12 +86,13 @@ The request body will contain the following JSON elements:
 
 <p class='attributes-table-follows'></p>
 
-| Key                 | Type     | Description |
-| ------------------- | -------- | ----------- |
-| `auto_register_key` | `String` | The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate `autoregister.properties` file on the agent instance, before it starts the agent process. See the [auto-register documentation](https://docs.gocd.org/current/advanced_usage/agent_auto_register.html) for more information. |
-| `environment`       | `String` | The `environment` that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the [environments section](https://docs.gocd.org/current/introduction/concepts_in_go.html#environment) to know more about environments. |
-| `properties`        | `Object` | Jobs that require elastic agents, will have an `<agentConfig/>` element on it. This object represents the key value pairs that form this configuration. |
-| `job_identifier`    | `Object` | Job identifier of the job for which this call is being made. |
+| Key                                | Type     | Description                                                                                                                                                                                                                                                                                                                                                                    |
+| -------------------                | -------- | -----------                                                                                                                                                                                                                                                                                                                                                                    |
+| `auto_register_key`                | `String` | The key that an agent should use, if it should be auto-registered with the server. The plugin is expected to use the key to create an appropriate `autoregister.properties` file on the agent instance, before it starts the agent process. See the [auto-register documentation](https://docs.gocd.org/current/advanced_usage/agent_auto_register.html) for more information. |
+| `environment`                      | `String` | The `environment` that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the [environments section](https://docs.gocd.org/current/introduction/concepts_in_go.html#environment) to know more about environments.                                                                           |
+| `elastic_agent_profile_properties` | `Object` | Elastic agent profile associated with the job. It represents the elastic agent configuration for the job  in form of key value pairs.                                                                                                                                                                                                                                          |
+| `cluster_profile_properties`       | `Object` | The field represents the cluster profile associated with elastic profile.                                                                                                                                                                                                                                                                                                      |
+| `job_identifier`                   | `Object` | Job identifier of the job for which this call is being made.                                                                                                                                                                                                                                                                                                                   |
 
 <p class='response-code-heading'>Response code</p>
 
