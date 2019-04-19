@@ -38,7 +38,6 @@ a plugin to perform the migration on the existing config in order to support the
     {
       "id": "profile_id",
       "cluster_profile_id": "cluster_profile_id",
-      "plugin_id": "plugin_id",
       "properties": {
         "some_key": "some_value",
         "some_key2": "some_value2"
@@ -88,7 +87,6 @@ a plugin to perform the migration on the existing config in order to support the
     {
       "id": "profile_id",
       "cluster_profile_id": "cluster_profile_id",
-      "plugin_id": "plugin_id",
       "properties": {
         "some_key": "some_value",
         "some_key2": "some_value2"

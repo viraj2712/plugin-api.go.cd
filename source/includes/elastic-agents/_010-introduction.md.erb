@@ -66,8 +66,8 @@ See the image below to help make this a little more clear.
       </property>
     </clusterProfile>
   </clusterProfiles>
-  <profiles>
-    <profile  id="docker.unit-test" clusterProfileId="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+  <agentProfiles>
+    <agentProfile  id="docker.unit-test" clusterProfileId="docker-local">
       <property>
         <!--
           The plugin currently only supports the `Image` property,
@@ -76,8 +76,8 @@ See the image below to help make this a little more clear.
         <key>Image</key>
         <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
       </property>
-    </profile>
-  </profiles>
+    </agentProfile>
+  </agentProfiles>
 </elastic>
 ...
 <job name="defaultJob" elasticProfileId="docker.unit-test">

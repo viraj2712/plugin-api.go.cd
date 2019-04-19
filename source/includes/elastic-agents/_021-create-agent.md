@@ -30,8 +30,8 @@ This message is a request to the plugin to create an agent for a job that has be
         </property>
       </clusterProfile>
     </clusterProfiles>
-    <profiles>
-      <profile  id="docker.unit-test" clusterProfileId="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+    <agentProfiles>
+      <agentProfile  id="docker.unit-test" clusterProfileId="docker-local">
         <property>
           <!--
             The plugin currently only supports the `Image` property,
@@ -40,8 +40,8 @@ This message is a request to the plugin to create an agent for a job that has be
           <key>Image</key>
           <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
         </property>
-      </profile>
-    </profiles>
+      </agentProfile>
+    </agentProfiles>
   </elastic>
   <pipelines group="first">
     <pipeline name="build">

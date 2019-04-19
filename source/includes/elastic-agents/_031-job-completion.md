@@ -22,8 +22,8 @@ The intent on this message is to notify the plugin on completion of the job. The
         </property>
       </clusterProfile>
     </clusterProfiles>
-    <profiles>
-      <profile  id="docker.unit-test" clusterProfileId="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+    <agentProfiles>
+      <agentProfile  id="docker.unit-test" clusterProfileId="docker-local">
         <property>
           <!--
             The plugin currently only supports the `Image` property,
@@ -32,8 +32,8 @@ The intent on this message is to notify the plugin on completion of the job. The
           <key>Image</key>
           <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
         </property>
-      </profile>
-    </profiles>
+      </agentProfile>
+    </agentProfiles>
   </elastic>
   <pipelines group="first">
     <pipeline name="build">

@@ -23,8 +23,8 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
         </property>
       </clusterProfile>
     </clusterProfiles>
-    <profiles>
-      <profile id="ec2.small-us-east" pluginId="com.example.ec2">
+    <agentProfiles>
+      <agentProfile id="ec2.small-us-east" clusterProfileId="docker-local">
         <property>
           <key>ami-id</key>
           <value>ami-6ac7408f</value>
@@ -33,8 +33,8 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
           <key>region</key>
           <value>us-east-1</value>
         </property>
-      </profile>
-    </profiles>
+      </agentProfile>
+    </agentProfiles>
   </elastic>
   <pipelines>
     <pipeline name='build'>
