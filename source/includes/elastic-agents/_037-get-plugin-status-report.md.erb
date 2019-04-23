@@ -1,0 +1,94 @@
+## Get plugin status report
+
+If plugin supports the plugin status report, this message must be implemented to provide the overall status of the environment.
+
+<p class='request-name-heading'>Request name</p>
+
+`cd.go.elastic-agent.plugin-status-report`
+
+<p class='request-body-heading'>Request body</p>
+
+> Given the following config XML snippet —
+
+```xml
+<cruise>
+  <server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6" />
+  <elastic>
+    <clusterProfiles>
+      <clusterProfile id="Dev" pluginId="cd.go.contrib.elastic-agent.ecs">
+        <property>
+          <key>AWS_ACCESS_KEY</key>
+          <value>developer-access-key</value>
+        </property>
+        <property>
+          <key>AWS_SECRET_KEY</key>
+          <value>developer-secret-key</value>
+        </property>
+        <property>
+          <key>CLUSTER_NAME</key>
+          <value>Dev</value>
+        </property>
+      </clusterProfile>
+      <clusterProfile id="Prod" pluginId="cd.go.contrib.elastic-agent.ecs">
+        <property>
+          <key>AWS_ACCESS_KEY</key>
+          <value>prod-access-key</value>
+        </property>
+        <property>
+          <key>AWS_SECRET_KEY</key>
+          <value>prod-secret-key</value>
+        </property>
+        <property>
+          <key>CLUSTER_NAME</key>
+          <value>Production</value>
+        </property>
+      </clusterProfile>
+    </clusterProfiles>
+  </elastic>
+</cruise>
+```
+
+> The plugin will receive the following JSON body —
+
+```json
+{
+  "all_cluster_profiles_properties": [
+    {
+      "AWS_ACCESS_KEY": "developer-access-key",
+      "AWS_SECRET_KEY": "developer-secret-key",
+      "CLUSTER_NAME": "Dev"
+    },
+    {
+      "AWS_ACCESS_KEY": "prod-access-key",
+      "AWS_SECRET_KEY": "prod-secret-key",
+      "CLUSTER_NAME": "Production"
+    }
+  ]
+}
+```
+
+| Key                              | Type     | Description                                                       |
+| -------------------------------- | -------- | -----------                                                       |
+| `all_cluster_profile_properties` | `Array`  | The field represents the list of cluster profiles for the plugin. |
+
+<p class='response-code-heading'>Response code</p>
+
+The plugin is expected to return status `200` JSON object of view and in following format.
+
+<p class='response-body-heading'>Response Body</p>
+
+> An example response body:
+
+```json
+{
+  "view": "plugin-status-report-html-view"
+}
+```
+
+The request body will contain the following JSON elements:
+
+<p class='attributes-table-follows'></p>
+
+| Key       | Type     | Description                                                                                  |
+|-----------|----------|----------------------------------------------------------------------------------------------|
+| `view`    | `String` | Plugin should return html view containing information about elastic agents.                  |

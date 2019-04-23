@@ -12,36 +12,50 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
 > Given the following config XML snippet —
 
 ```xml
-<server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6" />
-<profile id="ec2.small-us-east" pluginId="com.example.ec2">
-  <property>
-    <key>ami-id</key>
-    <value>ami-6ac7408f</value>
-  </property>
-  <property>
-    <key>region</key>
-    <value>us-east-1</value>
-  </property>
-</profile>
-<pipelines>
-  <pipeline name='build'>
-    <job name="run-upgrade" runOnAllAgents="true" timeout='30' elasticProfileId="ec2.small-us-east">
-      <tasks>
-        <ant target="upgrade" />
-      </tasks>
-    </job>
-  </pipeline>
-</pipelines>
-<environments>
-  <environment name="staging">
-    <pipelines>
-      <pipeline name="build" />
-    </pipelines>
-  </environment>
-</environment>
-<agents>
-  <agent elasticAgentId='i-283432d4' elasticPluginId='com.example.go.testplugin' />
-</agents>
+<cruise>
+  <server agentAutoRegisterKey="1e0e05fc-eb45-11e5-bc83-93882adfccf6"/>
+  <elastic>
+    <clusterProfiles>
+      <clusterProfile id="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+        <property>
+          <key>DockerURI</key>
+          <value>https://docker-uri/</value>
+        </property>
+      </clusterProfile>
+    </clusterProfiles>
+    <agentProfiles>
+      <agentProfile id="ec2.small-us-east" clusterProfileId="docker-local">
+        <property>
+          <key>ami-id</key>
+          <value>ami-6ac7408f</value>
+        </property>
+        <property>
+          <key>region</key>
+          <value>us-east-1</value>
+        </property>
+      </agentProfile>
+    </agentProfiles>
+  </elastic>
+  <pipelines>
+    <pipeline name='build'>
+      <job name="run-upgrade" runOnAllAgents="true" timeout='30' elasticProfileId="ec2.small-us-east">
+        <tasks>
+          <ant target="upgrade"/>
+        </tasks>
+      </job>
+    </pipeline>
+  </pipelines>
+  <environments>
+    <environment name="staging">
+      <pipelines>
+        <pipeline name="build"/>
+      </pipelines>
+    </environment>
+  </environments>
+  <agents>
+    <agent elasticAgentId='i-283432d4' elasticPluginId='com.example.go.testplugin'/>
+  </agents>
+</cruise>
 ```
 
 > The plugin will receive the following JSON body —
@@ -64,9 +78,13 @@ This allows plugin to decide if proposed agent is suitable to schedule a job on 
     "stage_counter": "1",
     "stage_name": "test-stage"
   },
-  "properties": {
-    "ami-id": "ami-6ac7408f",
-    "region": "us-east-1"
+  "elastic_agent_profile_properties": {
+      "Image": "gocd/gocd-agent-alpine-3.5:v18.1.0",
+      "MaxMemory": "https://docker-uri/"
+  },
+  "cluster_profile_properties": {
+    "Image": "DockerURI",
+    "MaxMemory": "500Mb"
   }
 }
 ```
@@ -75,12 +93,13 @@ The request body will contain the following JSON elements:
 
 <p class='attributes-table-follows'></p>
 
-| Key                 | Type     | Description |
-| ------------------- | -------- | ----------- |
-| `environment`       | `String` | The `environment` that this job belongs to. See the [environments section](https://docs.gocd.org/current/introduction/concepts_in_go.html#environment) to know more about environments. |
-| `agent`             | `Object` | An object describing the [elastic agent](#elastic-agent-object). |
-| `properties`        | `Object` | Jobs that require elastic agents, will have an `elasticPluginId` attribute on it, which refers to elastic `<profile/>` element. This object represents the key value pairs from the `<profile/>` element. |
-| `job_identifier`    | `Object` | Job identifier of the job for which this call is being made. |
+| Key                                | Type     | Description                                                                                                                                                                                                                                                                                          |
+| -------------------                | -------- | -----------                                                                                                                                                                                                                                                                                          |
+| `agent`                            | `Object` | An object describing the [elastic agent](#elastic-agent-object).                                                                                                                                                                                                                                     |
+| `environment`                      | `String` | The `environment` that this job belongs to. Agents are expected to auto-register using this environment so that they can be assigned to the correct job. See the [environments section](https://docs.gocd.org/current/introduction/concepts_in_go.html#environment) to know more about environments. |
+| `elastic_agent_profile_properties` | `Object` | Elastic agent profile associated with the job. It represents the elastic agent configuration for the job  in form of key value pairs.                                                                                                                                                                |
+| `cluster_profile_properties`       | `Object` | The field represents the cluster profile associated with elastic profile.                                                                                                                                                                                                                            |
+| `job_identifier`                   | `Object` | Job identifier of the job for which this call is being made.                                                                                                                                                                                                                                         |
 
 <p class='response-code-heading'>Response code</p>
 

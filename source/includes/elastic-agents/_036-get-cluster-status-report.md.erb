@@ -1,14 +1,27 @@
-## Get plugin status report
+## Get cluster status report
 
-If plugin supports status report, this message must be implemented to provide the overall status of the environment.
+If plugin supports cluster status report, this message must be implemented to provide the overall status of the cluster.
 
 <p class='request-name-heading'>Request name</p>
 
-`cd.go.elastic-agent.status-report`
+`cd.go.elastic-agent.cluster-status-report`
 
 <p class='request-body-heading'>Request body</p>
 
-Server sends request with `Empty` request body.
+> An example request body for a docker plugin
+
+```json
+{
+  "cluster_profile_properties": {
+    "Image": "DockerURI",
+    "MaxMemory": "500Mb"
+  }
+}
+```
+
+| Key                           | Type     | Description                                                           |
+|-------------------------------|----------|-----------------------------------------------------------------------|
+| `cluster_profile_properties`  | `Object` | This key cluster profile for which the status report request is made. |
 
 <p class='response-code-heading'>Response code</p>
 
@@ -20,7 +33,7 @@ The plugin is expected to return status `200` JSON object of view and in followi
 
 ```json
 {
-  "view": "status-report-html-view"
+  "view": "plugin-status-report-html-view"
 }
 ```
 

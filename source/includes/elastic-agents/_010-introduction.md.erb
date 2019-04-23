@@ -2,7 +2,7 @@
 
 ## Current Version
 
-This document is for version 4.0 (the latest) of the elastic agent endpoint.
+This document is for version 5.0 (the latest) of the elastic agent endpoint.
 
 ## Background
 
@@ -51,15 +51,23 @@ See the image below to help make this a little more clear.
 
 ## Process of handling elastic agents
 
-> Here is an example elastic profile configuration and a Job configured to use the profile for the [docker plugin](https://github.com/gocd-contrib/docker-elastic-agents)
+> Here is an example cluster profile, elastic profile configuration and a Job configured to use the profile for the [docker plugin](https://github.com/gocd-contrib/docker-elastic-agents)
 
 ```xml
 <server>
 ...
 </server>
 <elastic>
-  <profiles>
-    <profile  id="docker.unit-test" pluginId="cd.go.contrib.elastic-agent.docker">
+  <clusterProfiles>
+    <clusterProfile id="docker-local" pluginId="cd.go.contrib.elastic-agent.docker">
+      <property>
+        <key>DockerURI</key>
+        <value>https://docker-uri/</value>
+      </property>
+    </clusterProfile>
+  </clusterProfiles>
+  <agentProfiles>
+    <agentProfile  id="docker.unit-test" clusterProfileId="docker-local">
       <property>
         <!--
           The plugin currently only supports the `Image` property,
@@ -68,8 +76,8 @@ See the image below to help make this a little more clear.
         <key>Image</key>
         <value>gocdcontrib/ubuntu-docker-elastic-agent</value>
       </property>
-    </profile>
-  </profiles>
+    </agentProfile>
+  </agentProfiles>
 </elastic>
 ...
 <job name="defaultJob" elasticProfileId="docker.unit-test">
@@ -80,7 +88,7 @@ See the image below to help make this a little more clear.
 </job>
 ```
 
-User creates an elastic agent profile specific to a plugin, a profile represents the configuration to be used to create an elastic-agent instance. Depending on the type of the plugin and the capabilities it provides, a profile configuration could contain the AMI ID, or docker image name, size of the machine,
+Cluster profile represents the cluster where a user wants to start an elastic agent. An elastic agent profile represents the configuration to be used to create an elastic-agent instance. Depending on the type of the plugin and the capabilities it provides, a profile configuration could contain the AMI ID, or docker image name, size of the machine,
 volumes to be mounted etc.
 
 The plugin decides whether to assign an agent to a job, or to start another agent, when consulted by Go.
