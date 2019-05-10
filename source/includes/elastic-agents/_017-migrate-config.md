@@ -37,6 +37,7 @@ a plugin to perform the migration on the existing config in order to support the
   "elastic_agent_profiles": [
     {
       "id": "profile_id",
+      "plugin_id": "plugin_id",
       "cluster_profile_id": "cluster_profile_id",
       "properties": {
         "some_key": "some_value",
@@ -86,6 +87,7 @@ a plugin to perform the migration on the existing config in order to support the
   "elastic_agent_profiles": [
     {
       "id": "profile_id",
+      "plugin_id": "plugin_id",
       "cluster_profile_id": "cluster_profile_id",
       "properties": {
         "some_key": "some_value",
