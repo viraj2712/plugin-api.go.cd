@@ -181,10 +181,11 @@ the scheduled and waiting job.</li>
 <a href="#glossary-suitable">suitable</a> job to be scheduled and assigned to it.</li>
 </ol>
 
-<p>See the image below to help make this a little more clear.</p>
+<p>Watch the video linked below to help make this a little more clear.</p>
 
-<div class='image-object' data="../images/elastic-agents/normal-agent-job-assignment.svg" type="image/svg+xml">
-</div>
+<p><a href="https://drive.google.com/a/thoughtworks.com/file/d/1kUMOqhifJYsMLz-rQ5m7vYFbg41mXcHb/view?usp=sharing" target="_blank">
+  <img src="../images/elastic-agents/normal-agent-job-assignment.png" title="Job assignment with normal agents" alt="Job assignment with normal agents" />
+</a></p>
 
 <h2 id="process-of-handling-elastic-agents">Process of handling elastic agents</h2>
 
@@ -340,46 +341,11 @@ profile configuration for which this assignment needs to be made.</li>
 </table>
 </div>
 
-<p>See this image to help make this a little more clear.</p>
+<p>See the video linked below to help make this a little more clear.</p>
 
-<div class='image-object' data="../images/elastic-agents/new-job-assignment.svg" type="image/svg+xml">
-  <aside style="display: none;" class="warning"><strong>Important:</strong> This animation is not visible in chrome. Please use firefox instead.</aside>
-</div>
-
-<script>
-$(function() {
-  var showAnimationWarning = function(i, elem) {
-    var template = '<aside class="warning">This animation is not visible in chrome. Please use firefox instead.</aside>';
-    $(elem).replaceWith($(template));
-  }
-
-  var showAnimation = function(i, elem) {
-    var newElem = document.createElement('object')
-    $(elem).append($(newElem).attr({
-      data: $(elem).attr('data'),
-      type: 'image/svg+xml'
-    }))
-  }
-
-  var isChromium = window.chrome,
-      winNav = window.navigator,
-      vendorName = winNav.vendor,
-      isOpera = winNav.userAgent.indexOf("OPR") > -1,
-      isIEedge = winNav.userAgent.indexOf("Edge") > -1,
-      isIOSChrome = winNav.userAgent.match("CriOS");
-
-  if(isIOSChrome){
-     // is Google Chrome on IOS
-     $('.image-object').each(showAnimationWarning);
-  } else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
-     // is Google Chrome
-     $('.image-object').each(showAnimationWarning);
-  } else {
-     // not Google Chrome
-     $('.image-object').each(showAnimation);
-  }
-});
-</script>
+<p><a href="https://drive.google.com/a/thoughtworks.com/file/d/1dv7uql2bsG9BdbPwecQReDm3tcqqLRyV/view?usp=sharing" target="_blank">
+  <img src="../images/elastic-agents/new-job-assignment.png" title="Job assignment with elastic agents" alt="Job assignment with elastic agents" />
+</a></p>
 
 <h1 id="getting-started">Getting started</h1>
 
