@@ -100,7 +100,7 @@ The plugin is expected to return status `200` if it can understand the request.
 
 <p class='response-body-heading'>Response Body</p>
 
-The plugin is expected to return a json as shown. This json is written into a file called `<plugin-id>.json` on the agent and uploaded as a `Build Artifact` to the GoCD server to a directory called `pluggable_metadata_folder`
+The plugin is expected to return a json as shown. This json is written into a file called `<plugin-id>.json` on the agent and uploaded as a `Build Artifact` to the GoCD server to a directory called `pluggable-artifact-metadata`. This directory is never removed as part of cleaning GoCD artifacts.
 
 > Plugin response body
 
