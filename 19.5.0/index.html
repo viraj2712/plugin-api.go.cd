@@ -159,17 +159,38 @@ interface is simple enough for anyone to build plugins in other languages using 
 
 <p>The changelog is maintained starting from version 19.2.0 of GoCD. For changes from previous versions, see the release notes at <a href="https://gocd.org/releases">https://gocd.org/releases</a>.</p>
 
-<h2 id="changes-in-19-3-0">Changes in 19.3.0</h2>
+<h2 id="changes-in-gocd-19-5-0">Changes in GoCD 19.5.0</h2>
 
-<h3 class="changelog-header">Added</h3>
+<h3 id="elastic-agents-additions">Elastic Agents (Additions)</h3>
 
-<h3 id="elastic-agents">Elastic Agents</h3>
+<p>A new message which can be sent from the plugin to the GoCD server has been added:</p>
 
 <ul>
-<li>We have released a new version v5 of the <a href="elastic-agents">Elastic Agents</a> extension. It introduces a new feature of multi cluster.</li>
+<li><a href="elastic-agents#log-messages-to-job-console">Log Message to Job Console</a>: This allows an elastic agent plugin to log messages to the current job&rsquo;s console.</li>
 </ul>
 
-<h4 id="new-messages">New messages</h4>
+<h3 id="deprecations-across-extensions">Deprecations (across extensions)</h3>
+
+<p>No deprecations in this release.</p>
+
+<h2 id="changes-in-gocd-19-4-0">Changes in GoCD 19.4.0</h2>
+
+<p>No additions and removals in this release.</p>
+
+<h3 id="deprecations-across-extensions">Deprecations (across extensions)</h3>
+
+<ul>
+<li>The notification plugin extension version 3 has been deprecated. This version will be removed in an upcoming release. Plugin developers should use version 4 of the notification plugin api.</li>
+<li>The analytics plugin extension version 1 has been deprecated. This version will be removed in an upcoming release. Plugin developers should use version 2 of the analytics plugin api.</li>
+</ul>
+
+<h2 id="changes-in-gocd-19-3-0">Changes in GoCD 19.3.0</h2>
+
+<h3 id="elastic-agents-additions">Elastic Agents (Additions)</h3>
+
+<p>We have released a new version v5 of the <a href="elastic-agents">Elastic Agents</a> extension. It introduces a new feature of multi cluster support.</p>
+
+<p>The new messages added are:</p>
 
 <ul>
 <li><a href="elastic-agents#get-cluster-status-report">Get Cluster Status Report</a></li>
@@ -179,7 +200,9 @@ interface is simple enough for anyone to build plugins in other languages using 
 <li><a href="elastic-agents#migrate-config">Migrate Config</a></li>
 </ul>
 
-<h4 id="changes-in-existing-message">Changes in existing message</h4>
+<h3 id="elastic-agents-changes">Elastic Agents (Changes)</h3>
+
+<p>Endpoints defined in previous versions of this API have been enhanced, in the new version:</p>
 
 <ul>
 <li><a href="elastic-agents#create-agent">Create Agent</a></li>
@@ -192,11 +215,7 @@ interface is simple enough for anyone to build plugins in other languages using 
 <li><a href="elastic-agents#get-plugin-status-report">Plugin Status Report</a></li>
 </ul>
 
-<h3 class="changelog-header">Removed</h3>
-
-<p>No removals this release.</p>
-
-<h3 class="changelog-header">Deprecations</h3>
+<h3 id="deprecations-across-extensions">Deprecations (across extensions)</h3>
 
 <ul>
 <li>The elastic agent plugin extension version 4 has been deprecated. This version will be removed in a release scheduled for Mar 2019. Plugin developers should use version 5 of the elastic agent plugin api to allow adding support for multi cluster. The docker, docker swarm, kubernetes and ecs plugins have been migrated to the new versions, and users should upgrade their plugins to the latest version to see these new features.</li>
@@ -207,27 +226,25 @@ interface is simple enough for anyone to build plugins in other languages using 
 <li>The config repositories extension v1 has been deprecated. This version will be removed in a release scheduled for September 2019. Plugin developers should upgrade their plugins to the latest version.</li>
 </ul>
 
-<h2 id="changes-in-19-2-0">Changes in 19.2.0</h2>
+<h2 id="changes-in-gocd-19-2-0">Changes in GoCD 19.2.0</h2>
 
-<h3 class="changelog-header">Added</h3>
-
-<h3 id="config-repositories">Config repositories</h3>
+<h3 id="config-repositories-additions">Config repositories (Additions)</h3>
 
 <ul>
-<li>This version adds support for v2 for <a href="config-repo">Config repositories</a>. v2 of Config repositories adds the following new messages,
+<li>Supports version 2 of <a href="config-repo">Config repositories</a> extension API. Version 2 adds the following new messages:
 
 <ul>
-<li><a href="config-repo#parse-content">Parse Content</a> </li>
-<li><a href="config-repo#pipeline-export">Pipeline Export</a> </li>
+<li><a href="config-repo#parse-content">Parse Content</a></li>
+<li><a href="config-repo#pipeline-export">Pipeline Export</a></li>
 <li><a href="config-repo#get-plugin-icon">Plugin Icon</a></li>
 <li><a href="config-repo#get-plugin-capabilities">Plugin Capabilities</a></li>
 </ul></li>
 </ul>
 
-<h3 id="authorization">Authorization</h3>
+<h3 id="authorization-additions">Authorization (Additions)</h3>
 
 <ul>
-<li>This version adds support for v2 for <a href="authorization">Authorization Extension</a>. v2 of authorization extension adds the following new messages,
+<li>Supports version 2 of <a href="authorization">Authorization</a> extension API. Version 2 adds the following new messages:
 
 <ul>
 <li><a href="authorization#is-valid-user">Is Valid User</a></li>
@@ -235,13 +252,13 @@ interface is simple enough for anyone to build plugins in other languages using 
 </ul></li>
 </ul>
 
-<p>Plugins <a href="authorization#get-plugin-capabilities">Capabilities</a> message is enhanced to add a new capablity <code class="prettyprint">can_get_user_roles</code>.</p>
+<h3 id="authorization-changes">Authorization (Changes)</h3>
 
-<h3 class="changelog-header">Removed</h3>
+<ul>
+<li>Plugins <a href="authorization#get-plugin-capabilities">Capabilities</a> message is enhanced to add a new capablity <code class="prettyprint">can_get_user_roles</code>.</li>
+</ul>
 
-<p>No removals this release.</p>
-
-<h3 class="changelog-header">Deprecations</h3>
+<h3 id="deprecations-across-extensions">Deprecations (across extensions)</h3>
 
 <ul>
 <li>The elastic agent plugin extension version 3 has been deprecated. This version will be removed in a release scheduled for Mar 2019. Plugin developers should use version 4 of the elastic agent plugin api to allow adding support for job completion request. The docker, docker swarm, kubernetes and ecs plugins have been migrated to the new versions, and users should upgrade their plugins to the latest version to see these new features.</li>
