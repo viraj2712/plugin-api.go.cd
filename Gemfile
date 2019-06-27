@@ -7,7 +7,7 @@ gem 'middleman-syntax', '~> 2.1.0'
 gem 'middleman-autoprefixer', '~> 2.10.1'
 gem "middleman-sprockets", "~> 4.0.0"
 gem 'rouge', '~> 1.11.1'
-gem 'redcarpet', '~> 3.3.4'
+gem 'redcarpet', '~> 3.4.0'
 
 gem "middleman-livereload", "~> 3.4.0"
 gem 'rake', '~> 12.3.2'
