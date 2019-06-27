@@ -18,11 +18,11 @@
   background-color: #272822;
 }
 .highlight .err {
-  color: #151515;
-  background-color: #ac4142;
+  color: #272822;
+  background-color: #f92672;
 }
 .highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
-  color: #505050;
+  color: #75715e;
 }
 .highlight .cp {
   color: #f4bf75;
@@ -31,45 +31,45 @@
   color: #f4bf75;
 }
 .highlight .o, .highlight .ow {
-  color: #d0d0d0;
+  color: #f8f8f2;
 }
 .highlight .p, .highlight .pi {
-  color: #d0d0d0;
+  color: #f8f8f2;
 }
 .highlight .gi {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .gd {
-  color: #ac4142;
+  color: #f92672;
 }
 .highlight .gh {
-  color: #6a9fb5;
-  background-color: #151515;
+  color: #66d9ef;
+  background-color: #272822;
   font-weight: bold;
 }
 .highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #aa759f;
+  color: #ae81ff;
 }
 .highlight .kc {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .kt {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .kd {
-  color: #d28445;
+  color: #fd971f;
 }
 .highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .sr {
-  color: #75b5aa;
+  color: #a1efe4;
 }
 .highlight .si {
-  color: #8f5536;
+  color: #cc6633;
 }
 .highlight .se {
-  color: #8f5536;
+  color: #cc6633;
 }
 .highlight .nn {
   color: #f4bf75;
@@ -81,13 +81,13 @@
   color: #f4bf75;
 }
 .highlight .na {
-  color: #6a9fb5;
+  color: #66d9ef;
 }
 .highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
-  color: #90a959;
+  color: #a6e22e;
 }
 .highlight .ss {
-  color: #90a959;
+  color: #a6e22e;
 }
     </style>
     <link href="../stylesheets/screen.css" rel="stylesheet" media="screen" />
@@ -254,28 +254,28 @@
   <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
 
   <span class="c1">// this method is executed once at startup</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="n">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="c1">// a GoPluginIdentifier tells GoCD what kind of a plugin this is</span>
   <span class="c1">// and what version(s) of the request/response API it supports</span>
-  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="n">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">GoPluginIdentifier</span><span class="o">(</span><span class="s">"task"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"task"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="c1">// handle the request and return a response</span>
   <span class="c1">// the response is very much like a HTTP response —</span>
   <span class="c1">// it has a status code, a response body and optional headers</span>
-  <span class="kd">public</span> <span class="n">GoPluginApiResponse</span> <span class="n">handle</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnhandledRequestTypeException</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">GoPluginApiResponse</span> <span class="nf">handle</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnhandledRequestTypeException</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.get-view"</span><span class="o">))</span> <span class="o">{</span>
       <span class="n">String</span> <span class="n">viewHtml</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"/plugin-settings.template.html"</span><span class="o">));</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="n">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">viewHtml</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">viewHtml</span><span class="o">);</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.validate-configuration"</span><span class="o">))</span> <span class="o">{</span>
       <span class="n">List</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="n">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-      <span class="k">throw</span> <span class="k">new</span> <span class="n">UnhandledRequestTypeException</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">());</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnhandledRequestTypeException</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">());</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -529,7 +529,7 @@
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PluginExecutor</span> <span class="o">{</span>
-  <span class="kd">public</span> <span class="n">DefaultGoPluginApiResponse</span> <span class="n">execute</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">DefaultGoPluginApiResponse</span> <span class="nf">execute</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
     <span class="n">JobConsoleLogger</span> <span class="n">console</span> <span class="o">=</span> <span class="n">JobConsoleLogger</span><span class="o">.</span><span class="na">getConsoleLogger</span><span class="o">();</span>
 
     <span class="c1">// create the process with the right cli args environment variables and working directory</span>
@@ -553,10 +553,10 @@
 
     <span class="k">if</span> <span class="o">(</span><span class="n">exitCode</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
       <span class="c1">// send error response</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="n">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="s">"..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="s">"..."</span><span class="o">);</span>
     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
       <span class="c1">// send success response</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="n">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="s">"..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="s">"..."</span><span class="o">);</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
