@@ -21,7 +21,7 @@
   color: #272822;
   background-color: #f92672;
 }
-.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
   color: #75715e;
 }
 .highlight .cp {
@@ -59,7 +59,7 @@
 .highlight .kd {
   color: #fd971f;
 }
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
   color: #a6e22e;
 }
 .highlight .sr {
@@ -83,7 +83,7 @@
 .highlight .na {
   color: #66d9ef;
 }
-.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
   color: #a6e22e;
 }
 .highlight .ss {
@@ -161,7 +161,7 @@
 <p>An example authorization configuration</p>
 </blockquote>
 
-<pre class="highlight xml"><code>  <span class="nt">&lt;security&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code>  <span class="nt">&lt;security&gt;</span>
     <span class="nt">&lt;authConfigs&gt;</span>
       <span class="nt">&lt;authConfig</span> <span class="na">id=</span><span class="s">"profile-id"</span> <span class="na">pluginId=</span><span class="s">"cd.go.authentication.ldap"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;property&gt;</span>
@@ -199,7 +199,7 @@
       <span class="nt">&lt;/authConfig&gt;</span>
     <span class="nt">&lt;/authConfigs&gt;</span>
   <span class="nt">&lt;/security&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>Authorization configuration will usually allow administrators to configure the connection settings for your authorization plugin, and may include configuration like URLs and credentials, among others.</p>
 
@@ -211,7 +211,7 @@
 <p>An example plugin role configuration</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;pluginRole</span> <span class="na">name=</span><span class="s">"spacetiger"</span> <span class="na">authConfigId=</span><span class="s">"ldap"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;pluginRole</span> <span class="na">name=</span><span class="s">"spacetiger"</span> <span class="na">authConfigId=</span><span class="s">"ldap"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;property&gt;</span>
     <span class="nt">&lt;key&gt;</span>MemberOfAttribute<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;value&gt;</span>memberOf<span class="nt">&lt;/value&gt;</span>
@@ -221,7 +221,7 @@
     <span class="nt">&lt;value&gt;</span>CN=Dev,OU=Groups,DC=some,DC=enterprise,DC=com<span class="nt">&lt;/value&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/pluginRole&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>This is used to define roles in GoCD, unlike the current roles which contains a list of users pluginRole provides configuration to map a GoCD role to a role defined in an external authorization service. e.g pluginRole can be used to define mappings between LDAP group and GoCD roles.</p>
 
@@ -235,7 +235,7 @@
 <p>A plugin for GoCD is a JAR file with the following structure:</p>
 </blockquote>
 
-<pre class="highlight plaintext"><code>plugin.jar
+<div class="highlight"><pre class="highlight plaintext"><code>plugin.jar
 |
 |-- plugin.xml
 |-- com
@@ -248,7 +248,7 @@
 \-- lib
     \-- dependency-1.jar
     \-- dependency-2.jar
-</code></pre>
+</code></pre></div>
 
 <p>The plugin jar is a self contained-jar. It is expected to contain the following inside it:</p>
 
@@ -266,7 +266,7 @@
 <p>Here is an example <code class="prettyprint">plugin.xml</code>:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <span class="c">&lt;!-- Your plugin id and version
      of this XML document, the
      version must be set to "1" --&gt;</span>
@@ -296,7 +296,7 @@
     <span class="nt">&lt;/target-os&gt;</span>
   <span class="nt">&lt;/about&gt;</span>
 <span class="nt">&lt;/go-plugin&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>This is an XML file that should be present in the plugin jar file at the top level.</p>
 
@@ -310,12 +310,12 @@
 <p>Add this to your maven <code class="prettyprint">pom.xml</code>:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>cd.go.plugin<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>go-plugin-api<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>19.6.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>In order to use the plugin extension class, you must add the following to your maven dependencies. If you&rsquo;re using <a href="https://gradle.org">gradle</a>, then use <code class="prettyprint">cd.go.plugin:go-plugin-api:19.6.0</code>. You can find the latest version of the plugin in <a href="http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api">maven central</a>.</p>
 
@@ -325,7 +325,7 @@
 <p>An example plugin class implementation:</p>
 </blockquote>
 
-<pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
+<div class="highlight"><pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.*</span><span class="o">;</span>
@@ -336,36 +336,36 @@
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LdapAuthorizationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LdapAuthorizationPlugin</span> <span class="kd">implements</span> <span class="nc">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
 
   <span class="c1">// this method is executed once at startup</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="c1">// a GoPluginIdentifier tells GoCD what kind of a plugin this is</span>
   <span class="c1">// and what version(s) of the request/response API it supports</span>
-  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
+  <span class="kd">public</span> <span class="nc">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"2.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="c1">// handle the request and return a response</span>
   <span class="c1">// the response is very much like a HTTP response —</span>
   <span class="c1">// it has a status code, a response body and optional headers</span>
-  <span class="kd">public</span> <span class="n">GoPluginApiResponse</span> <span class="nf">handle</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnhandledRequestTypeException</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nc">GoPluginApiResponse</span> <span class="nf">handle</span><span class="o">(</span><span class="nc">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">UnhandledRequestTypeException</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.get-view"</span><span class="o">))</span> <span class="o">{</span>
-      <span class="n">String</span> <span class="n">viewHtml</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"/plugin-settings.template.html"</span><span class="o">));</span>
+      <span class="nc">String</span> <span class="n">viewHtml</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"/plugin-settings.template.html"</span><span class="o">));</span>
       <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">viewHtml</span><span class="o">);</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.validate-configuration"</span><span class="o">))</span> <span class="o">{</span>
-      <span class="n">List</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
+      <span class="nc">List</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
       <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnhandledRequestTypeException</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">());</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
+</code></pre></div>
 
 <p>The plugin extension class is a Java class that implements the <code class="prettyprint">GoPlugin</code> interface.</p>
 
@@ -476,11 +476,11 @@
 <p>An example plugin response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The plugin is expected to return an <a href="#the-image-object">image object</a>.</p>
 
@@ -511,13 +511,13 @@
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"supported_auth_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"can_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"can_authorize"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"can_get_user_roles"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"supported_auth_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"can_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"can_authorize"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"can_get_user_roles"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The response body will contain the following JSON elements:</p>
 
@@ -572,23 +572,23 @@
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ManagerDN"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ManagerDN"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The response body will contain the following JSON elements:</p>
 
@@ -637,10 +637,10 @@
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>A JSON <a href="#the-get-settings-view-object">settings view object</a></p>
 
@@ -658,16 +658,16 @@
 <p>An example validation request body for LDAP plugin</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any invalid Url"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ManagerDN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=admin,ou=system"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"SearchFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"DisplayNameAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"displayName"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"EmailAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mail"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Any invalid Url"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ManagerDN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=admin,ou=system"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"SearchFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"DisplayNameAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"displayName"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"EmailAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mail"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The request body will contain a configuration from authorization configuration, for which validation would have been called.</p>
 
@@ -681,13 +681,13 @@
 <p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url is invalid."</span><span class="w">
+   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Url is invalid."</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
 
@@ -708,40 +708,39 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body for password based authorization —</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"credentials"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"credentials"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internal_ldap"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://ldap1.example.com"</span><span class="w">
+  </span><span class="s2">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internal_ldap"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://ldap1.example.com"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"external_ldap"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://ldap2.example.com"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"external_ldap"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://ldap2.example.com"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}],</span><span class="w">
-  </span><span class="nt">"role_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internal_ldap"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"memberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=some-value"</span><span class="w">
+  </span><span class="s2">"role_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internal_ldap"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"memberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=some-value"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"external_ldap"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"memberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=some-value"</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"external_ldap"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"memberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=some-value"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p class='attributes-table-follows'></p>
 
 <table><thead>
@@ -773,16 +772,15 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe@example.com"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jdoe@example.com"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"blackbird"</span><span class="p">,</span><span class="w"> </span><span class="s2">"spacetiger"</span><span class="p">]</span><span class="w">
+  </span><span class="s2">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"blackbird"</span><span class="p">,</span><span class="w"> </span><span class="s2">"spacetiger"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The response body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -822,17 +820,16 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example LDAP plugin authorization configuration request body to verify connection</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.bar.com:389"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ManagerDN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dummy manager dn"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"UserLoginFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"(uid={0})"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"DisplayNameAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"displayName"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"EmailAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mail"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.bar.com:389"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"SearchBase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=users,ou=system"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ManagerDN"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dummy manager dn"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"UserLoginFilter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"(uid={0})"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"DisplayNameAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"displayName"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"EmailAttribute"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mail"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The request body will contain the authorization configuration for which verify connection is executed.</p>
 
 <p class='response-code-heading'>Response code</p>
@@ -844,36 +841,33 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>Example response body based on successful verification</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection passed"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection passed"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <blockquote>
 <p>Example response body based on verification failed</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection failed, unable to reach ldap://my_ldap_server"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failure"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Check connection failed, unable to reach ldap://my_ldap_server"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <blockquote>
 <p>Example response body based on validation failed</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"validation-failed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Validation failed for the given authorization config"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"validation-failed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Validation failed for the given authorization config"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ManagerDN"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Manager dn is invalid."</span><span class="w">
+      </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ManagerDN"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Manager dn is invalid."</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The response body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -918,17 +912,16 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The response body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -976,11 +969,10 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h2 id="validate-role-configuration">Validate Role Configuration</h2>
+</span></code></pre></div><h2 id="validate-role-configuration">Validate Role Configuration</h2>
 
 <p>If a plugin requires any authorization configuration, this message must be implemented in order to validate the configuration.</p>
 
@@ -993,11 +985,10 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example validation request body for LDAP plugin</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"MemberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=blackbird,ou=area51,dc=example,dc=com"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"MemberOf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ou=blackbird,ou=area51,dc=example,dc=com"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The request body will contain a role configuration, for which validation would have been called.</p>
 
 <p class='response-code-heading'>Response code</p>
@@ -1009,14 +1000,13 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf cannot be blank"</span><span class="w">
+   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MemberOf cannot be blank"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
 <h2 id="search-users">Search users</h2>
 
@@ -1031,19 +1021,18 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An search request body</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"search_term"</span><span class="p">:</span><span class="w"> </span><span class="s2">"queried string"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"foo-ldap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.url"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"search_term"</span><span class="p">:</span><span class="w"> </span><span class="s2">"queried string"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"foo-ldap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://foo.url"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"bar-ldap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://bar.url"</span><span class="w">
+    </span><span class="s2">"bar-ldap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"Url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap://bar.url"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The request body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -1076,20 +1065,19 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin should respond with JSON array of users</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbanks"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sarah Banks"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbanks@example.com"</span><span class="w">
+    </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbanks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sarah Banks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbanks@example.com"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbanks"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phillip Banks"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbanks@example.com"</span><span class="w">
+    </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbanks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phillip Banks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pbanks@example.com"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>Plugin should respond with JSON array of users and each user must have following JSON elements in it.</p>
 
 <p class='attributes-table-follows'></p>
@@ -1130,19 +1118,18 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}],</span><span class="w">
-  </span><span class="nt">"authorization_server_callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my_go_server/go/plugin/my_plugin_id/authenticate"</span><span class="w">
+  </span><span class="s2">"authorization_server_callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my_go_server/go/plugin/my_plugin_id/authenticate"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p class='attributes-table-follows'></p>
 
 <table><thead>
@@ -1169,11 +1156,10 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>An example response body:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"authorization_server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://external_auth_server_url/login?redirect_url=http://my_go_server/go/plugin/my_plugin_id/authenticate&amp;client_id=hdfjh3r&amp;client_secret=vbvdv1493"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"authorization_server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://external_auth_server_url/login?redirect_url=http://my_go_server/go/plugin/my_plugin_id/authenticate&amp;client_id=hdfjh3r&amp;client_secret=vbvdv1493"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The response body will contain the following JSON elements:</p>
 
 <p class='attributes-table-follows'></p>
@@ -1206,18 +1192,17 @@ is expected to try authenticating the user against each config until a successfu
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"auth_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github_oauth"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://git_hub.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jd9no0f"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0njfg8fgmfvufv"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p class='attributes-table-follows'></p>
 
 <table><thead>
@@ -1268,17 +1253,16 @@ access API(s) via access token created using the same plugin.</p>
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"auth_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"auth_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bob"</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bob"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p class='attributes-table-follows'></p>
 
 <table><thead>
@@ -1328,26 +1312,25 @@ access API(s) via access token created using the same plugin.</p>
 <blockquote>
 <p>The plugin will receive the following JSON body which is a list of all auth configs configured for the plugin —</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"auth_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"auth_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"key1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"role_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"role_configs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
+      </span><span class="s2">"auth_config_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"key2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value2"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"super-admin"</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"super-admin"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bob"</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bob"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p class='attributes-table-follows'></p>
 
 <table><thead>
@@ -1451,15 +1434,15 @@ access API(s) via access token created using the same plugin.</p>
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <h2 id="add-server-health-messages">Add Server Health Messages</h2>
-<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<div class="highlight"><pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
@@ -1468,35 +1451,35 @@ access API(s) via access token created using the same plugin.</p>
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LdapAuthorizationPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">LdapAuthorizationPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LdapAuthorizationPlugin</span> <span class="kd">implements</span> <span class="nc">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="no">LOG</span> <span class="o">=</span> <span class="nc">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="nc">LdapAuthorizationPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
-  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">));</span>
+  <span class="kd">public</span> <span class="nc">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"authorization"</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">));</span>
   <span class="o">}</span>
 
   <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addErrorsAndWarnings</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+    <span class="nc">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Gson</span><span class="o">();</span>
     <span class="c1">// create a request</span>
-    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+    <span class="nc">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultGoApiRequest</span><span class="o">(</span>
       <span class="s">"go.processor.server-health.add-messages"</span><span class="o">,</span>
       <span class="s">"1.0"</span><span class="o">,</span>
       <span class="n">pluginIdentifier</span><span class="o">()</span>
     <span class="o">);</span>
 
     <span class="c1">// set the request body</span>
-    <span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
 
-    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">message1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">message1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
     <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"warning"</span><span class="o">);</span>
     <span class="n">message1</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"A warning message from the plugin."</span><span class="o">);</span>
 
-    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">message2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">message2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
     <span class="n">message2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"type"</span><span class="o">,</span> <span class="s">"error"</span><span class="o">);</span>
     <span class="n">message2</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"An error message from the plugin."</span><span class="o">);</span>
 
@@ -1506,16 +1489,15 @@ access API(s) via access token created using the same plugin.</p>
     <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="n">gson</span><span class="o">.</span><span class="na">toJson</span><span class="o">(</span><span class="n">messages</span><span class="o">));</span>
 
     <span class="c1">// submit the request</span>
-    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+    <span class="nc">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
 
     <span class="c1">// check status</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+      <span class="no">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-
+</code></pre></div>
 <p>This message allows a plugin to add error and warning messages to be shown in
 GoCD. Any previous messages sent by the plugin will be cleared and replaced with
 the newly specified messages (or cleared if the body is an empty list).</p>
@@ -1537,18 +1519,17 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <blockquote>
 <p>An example request body:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A warning message from the plugin."</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A warning message from the plugin."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error message from the plugin."</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error message from the plugin."</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>Must be a JSON array made up of JSON objects as described below:</p>
 
 <p class='attributes-table-follows'></p>
@@ -1581,11 +1562,10 @@ the newly specified messages (or cleared if the body is an empty list).</p>
 <blockquote>
 <p>An example response body for a failure:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An error occurred ..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-
+</span></code></pre></div>
 <p>The server will respond with a single JSON object with an error message with the key <code class="prettyprint">message</code>, if it is unable to process the request. If
 successful, the response body will be empty.</p>
 
@@ -1599,10 +1579,10 @@ successful, the response body will be empty.</p>
 <p>Here&rsquo;s an example of the settings view object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=\"form_item_block\"&gt;...&lt;/div&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=</span><span class="se">\"</span><span class="s2">form_item_block</span><span class="se">\"</span><span class="s2">&gt;...&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1628,11 +1608,11 @@ successful, the response body will be empty.</p>
 <p>Here&rsquo;s an example of the image object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1663,17 +1643,17 @@ successful, the response body will be empty.</p>
 <p>Here&rsquo;s an example of the validation error object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1704,13 +1684,13 @@ successful, the response body will be empty.</p>
 <p>Here&rsquo;s an example of the verify connection error object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Failed to authenticate `ManagerDN`."</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Failed to authenticate `ManagerDN`."</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1741,12 +1721,12 @@ successful, the response body will be empty.</p>
 <p>Here&rsquo;s an example of the server info object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 

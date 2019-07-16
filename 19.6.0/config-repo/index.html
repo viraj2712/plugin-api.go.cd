@@ -21,7 +21,7 @@
   color: #272822;
   background-color: #f92672;
 }
-.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
   color: #75715e;
 }
 .highlight .cp {
@@ -59,7 +59,7 @@
 .highlight .kd {
   color: #fd971f;
 }
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
   color: #a6e22e;
 }
 .highlight .sr {
@@ -83,7 +83,7 @@
 .highlight .na {
   color: #66d9ef;
 }
-.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
   color: #a6e22e;
 }
 .highlight .ss {
@@ -153,7 +153,7 @@
 <p>A plugin for GoCD is a JAR file with the following structure:</p>
 </blockquote>
 
-<pre class="highlight plaintext"><code>plugin.jar
+<div class="highlight"><pre class="highlight plaintext"><code>plugin.jar
 |
 |-- plugin.xml
 |-- com
@@ -166,7 +166,7 @@
 \-- lib
     \-- dependency-1.jar
     \-- dependency-2.jar
-</code></pre>
+</code></pre></div>
 
 <p>The plugin jar is a self contained-jar. It is expected to contain the following inside it:</p>
 
@@ -184,7 +184,7 @@
 <p>Here is an example <code class="prettyprint">plugin.xml</code>:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span>
 <span class="c">&lt;!-- Your plugin id and version
      of this XML document, the
      version must be set to "1" --&gt;</span>
@@ -214,7 +214,7 @@
     <span class="nt">&lt;/target-os&gt;</span>
   <span class="nt">&lt;/about&gt;</span>
 <span class="nt">&lt;/go-plugin&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>This is an XML file that should be present in the plugin jar file at the top level.</p>
 
@@ -228,12 +228,12 @@
 <p>Add this to your maven <code class="prettyprint">pom.xml</code>:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>cd.go.plugin<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>go-plugin-api<span class="nt">&lt;/artifactId&gt;</span>
   <span class="nt">&lt;version&gt;</span>19.6.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>In order to use the plugin extension class, you must add the following to your maven dependencies. If you&rsquo;re using <a href="https://gradle.org">gradle</a>, then use <code class="prettyprint">cd.go.plugin:go-plugin-api:19.6.0</code>. You can find the latest version of the plugin in <a href="http://mvnrepository.com/artifact/cd.go.plugin/go-plugin-api">maven central</a>.</p>
 
@@ -243,7 +243,7 @@
 <p>An example plugin class implementation:</p>
 </blockquote>
 
-<pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
+<div class="highlight"><pre class="highlight java"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">go</span><span class="o">.</span><span class="na">testplugin</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.*</span><span class="o">;</span>
@@ -254,36 +254,36 @@
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleConfigRepositoryPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleConfigRepositoryPlugin</span> <span class="kd">implements</span> <span class="nc">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
 
   <span class="c1">// this method is executed once at startup</span>
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="c1">// a GoPluginIdentifier tells GoCD what kind of a plugin this is</span>
   <span class="c1">// and what version(s) of the request/response API it supports</span>
-  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"configrepo"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="kd">public</span> <span class="nc">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"configrepo"</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
   <span class="c1">// handle the request and return a response</span>
   <span class="c1">// the response is very much like a HTTP response —</span>
   <span class="c1">// it has a status code, a response body and optional headers</span>
-  <span class="kd">public</span> <span class="n">GoPluginApiResponse</span> <span class="nf">handle</span><span class="o">(</span><span class="n">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnhandledRequestTypeException</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nc">GoPluginApiResponse</span> <span class="nf">handle</span><span class="o">(</span><span class="nc">GoPluginApiRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">UnhandledRequestTypeException</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.get-view"</span><span class="o">))</span> <span class="o">{</span>
-      <span class="n">String</span> <span class="n">viewHtml</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"/plugin-settings.template.html"</span><span class="o">));</span>
+      <span class="nc">String</span> <span class="n">viewHtml</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">"/plugin-settings.template.html"</span><span class="o">));</span>
       <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="n">viewHtml</span><span class="o">);</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"go.plugin-settings.validate-configuration"</span><span class="o">))</span> <span class="o">{</span>
-      <span class="n">List</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
+      <span class="nc">List</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">validate</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultGoPluginApiResponse</span><span class="o">(</span><span class="mi">200</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Gson</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">errors</span><span class="o">));</span>
     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
       <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnhandledRequestTypeException</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">requestName</span><span class="o">());</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
+</code></pre></div>
 
 <p>The plugin extension class is a Java class that implements the <code class="prettyprint">GoPlugin</code> interface.</p>
 
@@ -362,7 +362,7 @@ been defined in the external configuration.</p>
 <p>Given the following config XML snippet —</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;config-repos&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;config-repos&gt;</span>
   <span class="nt">&lt;config-repo</span> <span class="na">pluginId=</span><span class="s">"your.plugin.id"</span> <span class="na">id=</span><span class="s">"some-unique-id"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;git</span> <span class="na">url=</span><span class="s">"https://some.repo"</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;configuration&gt;</span>
@@ -372,22 +372,22 @@ been defined in the external configuration.</p>
       <span class="nt">&lt;/property&gt;</span>
     <span class="nt">&lt;/configuration&gt;</span>
   <span class="nt">&lt;/config-repo&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <blockquote>
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/absolute/path/to/directory/with/configs"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/absolute/path/to/directory/with/configs"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some.key"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some.value"</span><span class="w">
+      </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some.key"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some.value"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The request body will contain a JSON object with an attribute <code class="prettyprint">directory</code>, which points to a local checkout of the specified
 material repository. It will also contain an attribute <code class="prettyprint">configuration</code> which contains the specified configuration. Note:
@@ -403,333 +403,333 @@ This is not the configuration in the plugin settings page.</p>
 <p>An example response body of a problematic config:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"target_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"environments"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="nt">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"target_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"environments"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.pipeline.json"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"There is an error here ..."</span><span class="w">
+      </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.pipeline.json"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"There is an error here ..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <blockquote>
 <p>A full response, with environments and pipelines:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"target_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"environments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"target_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"environments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"environmentName"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"environmentName"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"env1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"val1"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"env1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"val1"</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"agents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"agents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"agent-uuid-1"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"agent-uuid-2"</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"pipeline1"</span><span class="w">
       </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"pipelines"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"group1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_order_weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"labelTemplate1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lockOnFailure"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"tracking_tool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"link"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"regex"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regex"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"group1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"display_order_weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"labelTemplate1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lockOnFailure"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tracking_tool"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"link"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"regex"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regex"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"mingle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"base_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baseUrl"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"project_identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"projectId"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+      </span><span class="s2">"mingle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"base_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baseUrl"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"project_identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"projectId"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"timer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"spec"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timerSpec"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"only_on_changes"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+      </span><span class="s2">"timer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"spec"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timerSpec"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"only_on_changes"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"param1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"param1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gitrepo"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"feature12"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"shallow_clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gitrepo"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"feature12"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"shallow_clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"externals"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"tools"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gitMaterial1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gitMaterial1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hg"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"repos/myhg"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hg"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"repos/myhg"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"externals"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"tools"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hgMaterial1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hgMaterial1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.18.3.102:1666"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"use_tickets"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"view"</span><span class="p">:</span><span class="w"> </span><span class="s2">"//depot/dev/src...          //anything/src/..."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.18.3.102:1666"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"use_tickets"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"view"</span><span class="p">:</span><span class="w"> </span><span class="s2">"//depot/dev/src...          //anything/src/..."</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"lib"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"tools"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4materialName"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p4materialName"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"svn"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://svn"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"check_externals"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"svn"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://svn"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"check_externals"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"tools"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"lib"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destDir1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"svnMaterial1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional location for errors"</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destDir1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"svnMaterial1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional location for errors"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tfs"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url3"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user4"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"project"</span><span class="p">:</span><span class="w"> </span><span class="s2">"projectDir"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tfs"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url3"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user4"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"project"</span><span class="p">:</span><span class="w"> </span><span class="s2">"projectDir"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"tools"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"externals"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tfsMaterialName"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tfsMaterialName"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"package"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"package_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"package-id-in-bigger-config-xml"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"packageMaterialName"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"package"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"package_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"package-id-in-bigger-config-xml"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"packageMaterialName"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"scm_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"someScmGitRepositoryId"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destinationDir"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"scm_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"someScmGitRepositoryId"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"destinationDir"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"dir2"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myPluggableGit"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myPluggableGit"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"plugin_configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-plugin-id"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plugin"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"plugin_configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-plugin-id"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git@github.com:gocd/plugin-api.go.cd.git"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"encrypted_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encryptedValue1"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+              </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git@github.com:gocd/plugin-api.go.cd.git"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"encrypted_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encryptedValue1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
             </span><span class="p">}</span><span class="w">
           </span><span class="p">],</span><span class="w">
-          </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scmDestinationDir"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scmDestinationDir"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"dir1"</span><span class="p">,</span><span class="w">
               </span><span class="s2">"dir2"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+            </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myNewPluggableGitDefinition"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myNewPluggableGitDefinition"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dependency"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipe2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dependency"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipeline2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"stage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pipe2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"stages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"stages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fetch_materials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"never_cleanup_artifacts"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"clean_working_directory"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"approval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manual"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"fetch_materials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"never_cleanup_artifacts"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"clean_working_directory"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"approval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"manual"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"user1"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="s2">"role1"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+            </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+              </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
             </span><span class="p">}</span><span class="w">
           </span><span class="p">],</span><span class="w">
-          </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"tabs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"tabs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tab1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/file"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tab1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/file"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="s2">"resource1"</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"artifacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"artifacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dest1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dest1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">},</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src2"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dest2"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src2"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dest2"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"target/file.xml"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"xpath"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string(//path/to/element)"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"target/file.xml"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"xpath"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string(//path/to/element)"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"elastic_profile_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticProfile1"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"run_instance_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"elastic_profile_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticProfile1"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"run_instance_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                  </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"command1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"working_directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workDir1"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                  </span><span class="s2">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"command1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"working_directory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workDir1"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                     </span><span class="s2">"arg1"</span><span class="p">,</span><span class="w">
                     </span><span class="s2">"arg2"</span><span class="w">
                   </span><span class="p">],</span><span class="w">
-                  </span><span class="nt">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
-                  </span><span class="nt">"on_cancel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"plugin_configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pluginId"</span><span class="p">,</span><span class="w">
-                      </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version1"</span><span class="p">,</span><span class="w">
-                      </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
+                  </span><span class="s2">"on_cancel"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"plugin_configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pluginId"</span><span class="p">,</span><span class="w">
+                      </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"version1"</span><span class="p">,</span><span class="w">
+                      </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                     </span><span class="p">},</span><span class="w">
-                    </span><span class="nt">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="s2">"configuration"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                       </span><span class="p">{</span><span class="w">
-                        </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
-                        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
-                        </span><span class="nt">"encrypted_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encryptedValue1"</span><span class="p">,</span><span class="w">
-                        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                        </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"key1"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value1"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"encrypted_value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"encryptedValue1"</span><span class="p">,</span><span class="w">
+                        </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                       </span><span class="p">}</span><span class="w">
                     </span><span class="p">],</span><span class="w">
-                    </span><span class="nt">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                    </span><span class="s2">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                   </span><span class="p">},</span><span class="w">
-                  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+                  </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
               </span><span class="p">],</span><span class="w">
-              </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+              </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
             </span><span class="p">}</span><span class="w">
           </span><span class="p">],</span><span class="w">
-          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+          </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
+      </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template1"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional: key to group errors by"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The plugin is expected to return a JSON object (corresponding to
 <a href="https://github.com/gocd/gocd/blob/3e1cb5a981afb05bf387e22b125c6b2a66525b05/plugin-infra/go-plugin-access/src/com/thoughtworks/go/plugin/access/configrepo/messages/ParseDirectoryResponseMessage.java">ParseDirectoryResponseMessage</a>
@@ -810,42 +810,42 @@ mandatory. Some noteworthy properties of this element are:</p>
 <p>Given this config repo XML:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;config-repos&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;config-repos&gt;</span>
    <span class="nt">&lt;config-repo</span> <span class="na">pluginId=</span><span class="s">"plugin.id"</span> <span class="na">id=</span><span class="s">"repo1"</span><span class="nt">&gt;</span>
      <span class="nt">&lt;git</span> <span class="na">url=</span><span class="s">"https://your/config/repo"</span> <span class="na">branch=</span><span class="s">"something"</span> <span class="nt">/&gt;</span>
    <span class="nt">&lt;/config-repo&gt;</span>
 <span class="nt">&lt;/config-repos&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <blockquote>
 <p>Instead of using a material like this:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://your/config/repo"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"something"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mygit"</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://your/config/repo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"something"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mygit"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <blockquote>
 <p>&hellip; you can use this:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configrepo"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mygit"</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"configrepo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mygit"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>If the type of a material is <code class="prettyprint">configrepo</code>, then the corresponding config repository&rsquo;s information will be used as that
 material. This allows the pipeline definition to not have to repeat the config repository&rsquo;s material information. This
@@ -868,32 +868,32 @@ destination and filters (whitelist/blacklist)</strong>. Then, it uses the modifi
 <p>Given this yaml content -</p>
 </blockquote>
 
-<pre class="highlight yaml"><code><span class="s">pipelines</span><span class="pi">:</span>
-  <span class="s">mypipeline</span><span class="pi">:</span>
-    <span class="s">group</span><span class="pi">:</span> <span class="s">simple</span>
-    <span class="s">materials</span><span class="pi">:</span>
-      <span class="s">mygit</span><span class="pi">:</span>
-        <span class="s">git</span><span class="pi">:</span> <span class="s">http://my.example.org/mygit.git</span>
-    <span class="s">stages</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">mystage</span><span class="pi">:</span>
-          <span class="s">jobs</span><span class="pi">:</span>
-            <span class="s">myjob</span><span class="pi">:</span>
-              <span class="s">tasks</span><span class="pi">:</span>
-               <span class="pi">-</span> <span class="s">exec</span><span class="pi">:</span>
-                   <span class="s">command</span><span class="pi">:</span> <span class="s">make</span>
-</code></pre>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">pipelines</span><span class="pi">:</span>
+  <span class="na">mypipeline</span><span class="pi">:</span>
+    <span class="na">group</span><span class="pi">:</span> <span class="s">simple</span>
+    <span class="na">materials</span><span class="pi">:</span>
+      <span class="na">mygit</span><span class="pi">:</span>
+        <span class="na">git</span><span class="pi">:</span> <span class="s">http://my.example.org/mygit.git</span>
+    <span class="na">stages</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">mystage</span><span class="pi">:</span>
+          <span class="na">jobs</span><span class="pi">:</span>
+            <span class="na">myjob</span><span class="pi">:</span>
+              <span class="na">tasks</span><span class="pi">:</span>
+               <span class="pi">-</span> <span class="na">exec</span><span class="pi">:</span>
+                   <span class="na">command</span><span class="pi">:</span> <span class="s">make</span>
+</code></pre></div>
 
 <blockquote>
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"build.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of build.gocd.yml"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"deploy.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of deploy.gocd.yml"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"contents"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"build.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of build.gocd.yml"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"deploy.gocd.yml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contents of deploy.gocd.yml"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The request body will contain a JSON object with an attribute <code class="prettyprint">contents</code>, which contains a map of filenames and the content of each file.</p>
 
@@ -921,7 +921,7 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>Given the following config XML snippet (assume this pipeline is in a group named <code class="prettyprint">my-group</code>) —</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"my-pipeline"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;pipeline</span> <span class="na">name=</span><span class="s">"my-pipeline"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;materials&gt;</span>
     <span class="nt">&lt;git</span> <span class="na">url=</span><span class="s">"https://my.repo/path/to.git"</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;/materials&gt;</span>
@@ -938,7 +938,7 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
     <span class="nt">&lt;/jobs&gt;</span>
   <span class="nt">&lt;/stage&gt;</span>
 <span class="nt">&lt;/pipeline&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>The request body will contain a JSON object with an attribute <code class="prettyprint">pipeline</code>, which contains a JSON representation of a full pipeline configuration. For a more detailed example showing, see the <a href="#parse-directory"><code class="prettyprint">parse-directory</code> request body</a>.</p>
 
@@ -946,60 +946,60 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>The plugin will receive the following JSON body —</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-group"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-pipeline"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${COUNT}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"mingle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"mql_grouping_conditions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"\"\""</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"pipeline"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-group"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-pipeline"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"label_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${COUNT}"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lock_behavior"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"mingle"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"mql_grouping_conditions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\"\"</span><span class="s2">"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="nt">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="nt">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"materials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://my.repo/path/to.git"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"shallow_clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-          </span><span class="nt">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+        </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://my.repo/path/to.git"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"shallow_clone"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"ignore"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+          </span><span class="s2">"whitelist"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
+        </span><span class="s2">"auto_update"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"stages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"stages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-stage"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"fetch_materials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"never_cleanup_artifacts"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"clean_working_directory"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"approval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-          </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-stage"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fetch_materials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"never_cleanup_artifacts"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"clean_working_directory"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"approval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+          </span><span class="s2">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="nt">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="s2">"jobs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
           </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-job"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"tabs"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"artifacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"run_instance_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first-job"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"environment_variables"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"tabs"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"resources"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"artifacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"run_instance_count"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
               </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/bin/echo"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/bin/echo"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"arguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                   </span><span class="s2">"hello"</span><span class="w">
                 </span><span class="p">],</span><span class="w">
-                </span><span class="nt">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"exec"</span><span class="w">
+                </span><span class="s2">"run_if"</span><span class="p">:</span><span class="w"> </span><span class="s2">"passed"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"exec"</span><span class="w">
               </span><span class="p">}</span><span class="w">
             </span><span class="p">]</span><span class="w">
           </span><span class="p">}</span><span class="w">
@@ -1008,7 +1008,7 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <h3><!-- Force a break/clear --></h3>
 
@@ -1016,14 +1016,14 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 
 <p>Here is an example response from the GoCD YAML Configuration Plugin:</p>
 
-<pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<div class="highlight"><pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-yaml; charset=utf-8</span>
 <span class="na">X-Export-Filename</span><span class="p">:</span> <span class="s">my-pipeline.gocd.yaml</span>
 
 {
   "pipeline": "\"format_version: 3\\npipelines:\\n  my-pipeline:\\n    group: my-group\\n    label_template: ${COUNT}\\n    lock_behavior: none\\n    materials:\\n      git:\\n        git: https://my.repo/path/to.git\\n        shallow_clone: false\\n        auto_update: true\\n        branch: master\\n    stages:\\n    - first-stage:\\n        fetch_materials: true\\n        keep_artifacts: false\\n        clean_workspace: false\\n        approval:\\n          type: success\\n        jobs:\\n          first-job:\\n            tasks:\\n            - exec:\\n                arguments:\\n                - hello\\n                command: /bin/echo\\n                run_if: passed\\n\""
 }
-</code></pre>
+</code></pre></div>
 
 <p class='response-code-heading'>Response code</p>
 
@@ -1080,10 +1080,10 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <h2 id="get-plugin-configuration">Get Plugin Configuration</h2>
 
@@ -1119,20 +1119,20 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example validation request body</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"plugin-settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost.com"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"plugin-settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost.com"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="w">
+      </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="w">
       </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+      </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
       </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The request body will contain a JSON with an attribute <code class="prettyprint">plugin-settings</code>, which contains an object with the configuration keys and values that the plugin is expected to validate.</p>
 
@@ -1146,13 +1146,13 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>The plugin should respond with JSON array response for each configuration key that has a validation error</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_url"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL cannot be localhost"</span><span class="w">
+   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"server_url"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL cannot be localhost"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>If any of the input keys have a validation error on them, the plugin is expected to return a list of <a href="#the-validation-error-object">validation error objects</a>. If the configuration is valid, the plugin should return an empty JSON array.</p>
 
@@ -1178,11 +1178,11 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example plugin response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The plugin is expected to return an <a href="#the-image-object">image object</a>.</p>
 
@@ -1213,11 +1213,11 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"supports_pipeline_export"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"supports_parse_content"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"supports_pipeline_export"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"supports_parse_content"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The response body will contain the following JSON attributes:</p>
 
@@ -1254,7 +1254,7 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 
 <h2 id="get-plugin-settings">Get Plugin Settings</h2>
 
-<pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
+<div class="highlight"><pre class="highlight java"><code><span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.*</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.annotation.Extension</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.logging.Logger</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">com.thoughtworks.go.plugin.api.request.*</span><span class="o">;</span>
@@ -1263,45 +1263,45 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
 
 <span class="nd">@Extension</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleConfigRepositoryPlugin</span> <span class="kd">implements</span> <span class="n">GoPlugin</span> <span class="o">{</span>
-  <span class="kd">private</span> <span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
-  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOG</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="n">SimpleConfigRepositoryPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleConfigRepositoryPlugin</span> <span class="kd">implements</span> <span class="nc">GoPlugin</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="no">LOG</span> <span class="o">=</span> <span class="nc">Logger</span><span class="o">.</span><span class="na">getLoggerFor</span><span class="o">(</span><span class="nc">SimpleConfigRepositoryPlugin</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
-  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="n">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initializeGoApplicationAccessor</span><span class="o">(</span><span class="nc">GoApplicationAccessor</span> <span class="n">accessor</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">accessor</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">;</span>
   <span class="o">}</span>
 
-  <span class="kd">public</span> <span class="n">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"configrepo"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
+  <span class="kd">public</span> <span class="nc">GoPluginIdentifier</span> <span class="nf">pluginIdentifier</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">GoPluginIdentifier</span><span class="o">(</span><span class="s">"configrepo"</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">))</span>
   <span class="o">}</span>
 
-  <span class="kd">private</span> <span class="n">PluginSettings</span> <span class="nf">getSettings</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+  <span class="kd">private</span> <span class="nc">PluginSettings</span> <span class="nf">getSettings</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Gson</span><span class="o">();</span>
     <span class="c1">// create a request</span>
-    <span class="n">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultGoApiRequest</span><span class="o">(</span>
+    <span class="nc">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultGoApiRequest</span><span class="o">(</span>
       <span class="s">"go.processor.plugin-settings.get"</span><span class="o">,</span>
       <span class="s">"1.0"</span><span class="o">,</span>
       <span class="n">pluginIdentifier</span><span class="o">()</span>
     <span class="o">);</span>
 
     <span class="c1">// set the request body</span>
-    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
     <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"plugin-id"</span><span class="o">,</span> <span class="s">"com.example.rocket.launcher"</span><span class="o">);</span>
     <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="n">gson</span><span class="o">.</span><span class="na">toJson</span><span class="o">(</span><span class="n">map</span><span class="o">));</span>
 
     <span class="c1">// submit the request</span>
-    <span class="n">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+    <span class="nc">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
 
     <span class="c1">// check status</span>
     <span class="k">if</span> <span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="o">)</span> <span class="o">{</span>
-      <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
+      <span class="no">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"The server sent an unexpected status code "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseCode</span><span class="o">()</span> <span class="o">+</span> <span class="s">" with the response body "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">());</span>
     <span class="o">}</span>
 
     <span class="c1">// parse the response, using a json parser of your choice</span>
-    <span class="k">return</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">(),</span> <span class="n">PluginSettings</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">responseBody</span><span class="o">(),</span> <span class="nc">PluginSettings</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
+</code></pre></div>
 
 <p>This messages allows a plugin to query the server to get the user configured settings for this plugin.</p>
 
@@ -1319,10 +1319,10 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example request body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"plugin-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sample-plugin-id"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"plugin-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sample-plugin-id"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>Must be a JSON object with a key <code class="prettyprint">plugin-id</code> with the value being the ID of your plugin.</p>
 
@@ -1336,12 +1336,12 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>An example response body:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://build.go.cd"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://build.go.cd"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p>The server will send a map of settings.</p>
 
@@ -1355,10 +1355,10 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>Here&rsquo;s an example of the settings view object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=\"form_item_block\"&gt;...&lt;/div&gt;"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=</span><span class="se">\"</span><span class="s2">form_item_block</span><span class="se">\"</span><span class="s2">&gt;...&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1392,32 +1392,32 @@ essentially the reverse of the <a href="#parse-directory"><code class="prettypri
 <p>Given a configuration:</p>
 </blockquote>
 
-<pre class="highlight xml"><code><span class="nt">&lt;configuration&gt;</span>
+<div class="highlight"><pre class="highlight xml"><code><span class="nt">&lt;configuration&gt;</span>
   <span class="nt">&lt;property&gt;</span>
     <span class="nt">&lt;key&gt;</span>username<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;value&gt;</span>alice<span class="nt">&lt;/username&gt;</span>
   <span class="nt">&lt;/property&gt;</span>
 <span class="nt">&lt;/configuration&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <blockquote>
 <p>This gets converted into the following JSON representation in the browser:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <blockquote>
 <p>The AngularJS template is expected to bind to the JSON object shown above:</p>
 </blockquote>
 
-<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'asterix'</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">ng-model=</span><span class="s">"username"</span> <span class="nt">/&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>When an Angular template is used in a Go plugin, to define the configuration UI, the configuration key which is stored in the configuration XML is used everywhere and is expected to be consistent. Since Angular works off of JSON, GoCD will make sure that the key in the JSON provided to the Angular template is the same as the key in the configuration XML.</p>
 
@@ -1434,14 +1434,14 @@ for your plugin in order to render<br/>
 any server side errors</p>
 </blockquote>
 
-<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form_item_block"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">'asterix'</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">ng-model=</span><span class="s">"username"</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"form_error"</span> <span class="na">ng-show=</span><span class="s">"GOINPUTNAME[username].$error.server"</span><span class="nt">&gt;</span>
     {{ GOINPUTNAME[username].$error.server}}
   <span class="nt">&lt;/span&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
-</code></pre>
+</code></pre></div>
 
 <p>In case of validation errors returned by <code class="prettyprint">go.plugin-settings.validate-configuration</code>, the error messages needs to be populated on the UI, use the snippet here to show the validation errors.</p>
 
@@ -1453,24 +1453,24 @@ any server side errors</p>
 <p>Here&rsquo;s an example of the plugin settings configuration object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
@@ -1516,17 +1516,17 @@ any server side errors</p>
 <p>Here&rsquo;s an example of the validation error object:</p>
 </blockquote>
 
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 
 <p class='attributes-table-follows'></p>
 
