@@ -251,29 +251,29 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"environment_variables"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"GO_PIPELINE_NAME"</span><span class="p">:</span><span class="s2">"build"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"GO_TRIGGER_USER"</span><span class="p">:</span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"FOO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bar"</span><span class="w">
+  </span><span class="nl">"environment_variables"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"GO_PIPELINE_NAME"</span><span class="p">:</span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"GO_TRIGGER_USER"</span><span class="p">:</span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"FOO"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bar"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"artifact_plan"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"configuration"</span><span class="p">:{</span><span class="w">
-      </span><span class="s2">"BuildFile"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Tag"</span><span class="p">:</span><span class="s2">"v${GO_PIPELINE_COUNTER}"</span><span class="w">
+  </span><span class="nl">"artifact_plan"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"configuration"</span><span class="p">:{</span><span class="w">
+      </span><span class="nl">"BuildFile"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Tag"</span><span class="p">:</span><span class="s2">"v${GO_PIPELINE_COUNTER}"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"app-image"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"storeId"</span><span class="p">:</span><span class="s2">"dockerhub"</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"app-image"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"storeId"</span><span class="p">:</span><span class="s2">"dockerhub"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"artifact_store"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"configuration"</span><span class="p">:{</span><span class="w">
-      </span><span class="s2">"RegistryURL"</span><span class="p">:</span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Username"</span><span class="p">:</span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"Password"</span><span class="p">:</span><span class="s2">"password"</span><span class="w">
+  </span><span class="nl">"artifact_store"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"configuration"</span><span class="p">:{</span><span class="w">
+      </span><span class="nl">"RegistryURL"</span><span class="p">:</span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Username"</span><span class="p">:</span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Password"</span><span class="p">:</span><span class="s2">"password"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"dockerhub"</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"dockerhub"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"agent_working_directory"</span><span class="p">:</span><span class="s2">"/Users/varshavs/gocd/agent/pipelines/build"</span><span class="p">}</span><span class="w">
+  </span><span class="nl">"agent_working_directory"</span><span class="p">:</span><span class="s2">"/Users/varshavs/gocd/agent/pipelines/build"</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
 <p>The request body will contain the following JSON elements:</p>
@@ -322,9 +322,9 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"metadata"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
+  </span><span class="nl">"metadata"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -334,9 +334,9 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"app-image"</span><span class="p">:{</span><span class="w">
-  </span><span class="s2">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
+  </span><span class="nl">"app-image"</span><span class="p">:{</span><span class="w">
+  </span><span class="nl">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -415,19 +415,19 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"fetch_artifact_configuration"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"image_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"release-candidate"</span><span class="w">
+  </span><span class="nl">"fetch_artifact_configuration"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"image_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"release-candidate"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"artifact_metadata"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
+  </span><span class="nl">"artifact_metadata"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"image"</span><span class="p">:</span><span class="s2">"gocd/gocd-demo:v23"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"digest"</span><span class="p">:</span><span class="s2">"sha256:f7840887b6f09f531935329a4ad1f6176866675873a8b3eed6a5894573da8247"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"store_configuration"</span><span class="p">:{</span><span class="w">
-    </span><span class="s2">"RegistryURL"</span><span class="p">:</span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Username"</span><span class="p">:</span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"Password"</span><span class="p">:</span><span class="s2">"password"</span><span class="w">
+  </span><span class="nl">"store_configuration"</span><span class="p">:{</span><span class="w">
+    </span><span class="nl">"RegistryURL"</span><span class="p">:</span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Username"</span><span class="p">:</span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Password"</span><span class="p">:</span><span class="s2">"password"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"agent_working_directory"</span><span class="p">:</span><span class="s2">"/Users/varshavs/gocd/agent/pipelines/build"</span><span class="w">
+  </span><span class="nl">"agent_working_directory"</span><span class="p">:</span><span class="s2">"/Users/varshavs/gocd/agent/pipelines/build"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -486,14 +486,14 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IMAGE_ID"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image1/v23"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IMAGE_ID"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image1/v23"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MY_SECRET_ENV_VAR"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-password"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MY_SECRET_ENV_VAR"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some-password"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
@@ -565,8 +565,8 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
+  </span><span class="nl">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHN2ZyB2ZXJzaW9u..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -605,17 +605,17 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RegistryURL"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RegistryURL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -648,7 +648,7 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id="validate-store-config">Validate Store Config</h2>
 
@@ -666,8 +666,8 @@
 <p>An example validation request body</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"RegistryURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boohoo"</span><span class="w">
+  </span><span class="nl">"RegistryURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://index.docker.io/v1/"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boohoo"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -683,8 +683,8 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RegistryURL"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"'RegistryURL is invalid'"</span><span class="w">
+   </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RegistryURL"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"'RegistryURL is invalid'"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
@@ -715,17 +715,17 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tag"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tag"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -758,7 +758,7 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id="validate-publish-artifact-config">Validate Publish Artifact Config</h2>
 
@@ -776,9 +776,9 @@
 <p>An example validation request body</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"Image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gocd/gocd-demo"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"Tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"BuildFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo.json"</span><span class="w">
+  </span><span class="nl">"Image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gocd/gocd-demo"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boohoo"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"BuildFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo.json"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -794,12 +794,12 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Either `BuildFile` or `Image` must be specified"</span><span class="w">
+   </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Image"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Either `BuildFile` or `Image` must be specified"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BuildFile"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Either `BuildFile` or `Image` must be specified"</span><span class="w">
+   </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BuildFile"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Either `BuildFile` or `Image` must be specified"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
@@ -836,10 +836,10 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DestOnAgent"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DestOnAgent"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -872,7 +872,7 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div&gt;some html&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h2 id="validate-fetch-artifact-config">Validate Fetch Artifact Config</h2>
 
@@ -890,7 +890,7 @@
 <p>An example validation request body</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"Dest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="w">
+  </span><span class="nl">"Dest"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -906,8 +906,8 @@
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-   </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dest"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid"</span><span class="w">
+   </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dest"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
@@ -949,8 +949,8 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"logLevel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INFO"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"message"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an info message."</span><span class="w">
+  </span><span class="nl">"logLevel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INFO"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an info message."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -1047,7 +1047,7 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=</span><span class="se">\"</span><span class="s2">form_item_block</span><span class="se">\"</span><span class="s2">&gt;...&lt;/div&gt;"</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div class=</span><span class="se">\"</span><span class="s2">form_item_block</span><span class="se">\"</span><span class="s2">&gt;...&lt;/div&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -1096,7 +1096,7 @@
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -1145,20 +1145,20 @@ any server side errors</p>
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
+  </span><span class="nl">"server_url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Server URL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
+  </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"display-name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"display-order"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -1209,12 +1209,12 @@ any server side errors</p>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email_address"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email address is invalid"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
+    </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password must be provided"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
@@ -1249,8 +1249,8 @@ any server side errors</p>
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
+  </span><span class="nl">"content_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/svg+xml"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
@@ -1284,9 +1284,9 @@ any server side errors</p>
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
+  </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"secure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -1321,9 +1321,9 @@ any server side errors</p>
 </blockquote>
 
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
+  </span><span class="nl">"server_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"df0cb9be-2696-4689-8d46-1ef3c4e4447c"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com:8153/go"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"secure_site_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com:8154/go"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 
