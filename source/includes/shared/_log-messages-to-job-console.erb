@@ -24,14 +24,14 @@ public class <%= plugin_class %> implements GoPlugin {
 
   private void appendToConsoleLog(String text) throws ServerRequestFailedException {
     Map<String, String> requestMap = new HashMap<>();
-    requestMap.put("pipelineName", "my_pipeline_1");
-    requestMap.put("pipelineCounter", "123");
-    requestMap.put("stageName", "stage1");
-    requestMap.put("stageCounter", "1");
-    requestMap.put("jobName", "job1");
+    requestMap.put("pipeline_name", "my_pipeline_1");
+    requestMap.put("pipeline_counter", "123");
+    requestMap.put("stage_name", "stage1");
+    requestMap.put("stage_counter", "1");
+    requestMap.put("job_name", "job1");
     requestMap.put("text", text);
 
-    DefaultGoApiRequest request = new DefaultGoApiRequest("go.processor.console-log.append", "1.0", pluginIdentifier());
+    DefaultGoApiRequest request = new DefaultGoApiRequest("go.processor.console-log.append", "2.0", pluginIdentifier());
     request.setRequestBody(new GsonBuilder().create().toJson(requestMap));
 
     GoApiResponse response = accessor.submit(request);
@@ -45,7 +45,7 @@ public class <%= plugin_class %> implements GoPlugin {
 
 This message allows a plugin to add messages to be shown in the GoCD job console.
 
-<%= available_since('19.5.0') %>
+<%= available_since('19.9.0') %>
 
 <p class='request-name-heading'>Request name</p>
 
@@ -53,7 +53,7 @@ This message allows a plugin to add messages to be shown in the GoCD job console
 
 <p class='request-body-heading'>Request version</p>
 
-The request version must be set to `1.0`.
+The request version must be set to `2.0`.
 
 <p class='request-body-heading'>Request body</p>
 
@@ -61,11 +61,11 @@ The request version must be set to `1.0`.
 
 ```json
 {
-  "pipelineName": "my_pipeline_1",
-  "pipelineCounter": "123",
-  "stageName": "stage1",
-  "stageCounter": "1",
-  "jobName": "job1",
+  "pipeline_name": "my_pipeline_1",
+  "pipeline_counter": "123",
+  "stage_name": "stage1",
+  "stage_counter": "1",
+  "job_name": "job1",
   "text": "Message to show in console log."
 }
 ```
@@ -76,11 +76,11 @@ Must be a JSON object made up of JSON elements as described below:
 
 | Key               | Type     | Description                                            |
 | ----------------- | -------- | ------------------------------------------------------ |
-| `pipelineName`    | `String` | Name of the pipeline in which the job is.              |
-| `pipelineCounter` | `String` | The pipeline counter (run counter of the pipeline).    |
-| `stageName`       | `String` | Name of the stage the job is in.                       |
-| `stageCounter`    | `String` | The run counter of the stage.                          |
-| `jobName`         | `String` | The name of the job.                                   |
+| `pipeline_name`   | `String` | Name of the pipeline in which the job is.              |
+| `pipeline_counter`| `String` | The pipeline counter (run counter of the pipeline).    |
+| `stage_name`      | `String` | Name of the stage the job is in.                       |
+| `stage_counter`   | `String` | The run counter of the stage.                          |
+| `job_name`        | `String` | The name of the job.                                   |
 | `text`            | `String` | The message to be shows in the console log of the job. |
 
 
