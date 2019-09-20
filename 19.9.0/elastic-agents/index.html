@@ -111,7 +111,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="../images/logo.png" alt="Logo" />
+      <a href="../"><img src="../images/logo.png" alt="Logo" /></a>
         <div class="lang-selector">
         </div>
       <div class="version-switcher">
@@ -2214,14 +2214,14 @@ successful, the response body will be empty.</p>
 
   <span class="kd">private</span> <span class="kt">void</span> <span class="nf">appendToConsoleLog</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServerRequestFailedException</span> <span class="o">{</span>
     <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">requestMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
-    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pipelineName"</span><span class="o">,</span> <span class="s">"my_pipeline_1"</span><span class="o">);</span>
-    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pipelineCounter"</span><span class="o">,</span> <span class="s">"123"</span><span class="o">);</span>
-    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"stageName"</span><span class="o">,</span> <span class="s">"stage1"</span><span class="o">);</span>
-    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"stageCounter"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">);</span>
-    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"jobName"</span><span class="o">,</span> <span class="s">"job1"</span><span class="o">);</span>
+    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pipeline_name"</span><span class="o">,</span> <span class="s">"my_pipeline_1"</span><span class="o">);</span>
+    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pipeline_counter"</span><span class="o">,</span> <span class="s">"123"</span><span class="o">);</span>
+    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"stage_name"</span><span class="o">,</span> <span class="s">"stage1"</span><span class="o">);</span>
+    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"stage_counter"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">);</span>
+    <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"job_name"</span><span class="o">,</span> <span class="s">"job1"</span><span class="o">);</span>
     <span class="n">requestMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="n">text</span><span class="o">);</span>
 
-    <span class="nc">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultGoApiRequest</span><span class="o">(</span><span class="s">"go.processor.console-log.append"</span><span class="o">,</span> <span class="s">"1.0"</span><span class="o">,</span> <span class="n">pluginIdentifier</span><span class="o">());</span>
+    <span class="nc">DefaultGoApiRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultGoApiRequest</span><span class="o">(</span><span class="s">"go.processor.console-log.append"</span><span class="o">,</span> <span class="s">"2.0"</span><span class="o">,</span> <span class="n">pluginIdentifier</span><span class="o">());</span>
     <span class="n">request</span><span class="o">.</span><span class="na">setRequestBody</span><span class="o">(</span><span class="k">new</span> <span class="nc">GsonBuilder</span><span class="o">().</span><span class="na">create</span><span class="o">().</span><span class="na">toJson</span><span class="o">(</span><span class="n">requestMap</span><span class="o">));</span>
 
     <span class="nc">GoApiResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
@@ -2235,7 +2235,7 @@ successful, the response body will be empty.</p>
 <p>This message allows a plugin to add messages to be shown in the GoCD job console.</p>
 
 <p class='available-since'>
-  Available since v19.5.0.
+  Available since v19.9.0.
 </p>
 
 <p class='request-name-heading'>Request name</p>
@@ -2244,7 +2244,7 @@ successful, the response body will be empty.</p>
 
 <p class='request-body-heading'>Request version</p>
 
-<p>The request version must be set to <code class="prettyprint">1.0</code>.</p>
+<p>The request version must be set to <code class="prettyprint">2.0</code>.</p>
 
 <p class='request-body-heading'>Request body</p>
 
@@ -2252,11 +2252,11 @@ successful, the response body will be empty.</p>
 <p>An example request body:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"pipelineName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_pipeline_1"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"pipelineCounter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"stageName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage1"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"stageCounter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"jobName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pipeline_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_pipeline_1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pipeline_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stage_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stage1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stage_counter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"job_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job1"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Message to show in console log."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -2272,27 +2272,27 @@ successful, the response body will be empty.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code class="prettyprint">pipelineName</code></td>
+<td><code class="prettyprint">pipeline_name</code></td>
 <td><code class="prettyprint">String</code></td>
 <td>Name of the pipeline in which the job is.</td>
 </tr>
 <tr>
-<td><code class="prettyprint">pipelineCounter</code></td>
+<td><code class="prettyprint">pipeline_counter</code></td>
 <td><code class="prettyprint">String</code></td>
 <td>The pipeline counter (run counter of the pipeline).</td>
 </tr>
 <tr>
-<td><code class="prettyprint">stageName</code></td>
+<td><code class="prettyprint">stage_name</code></td>
 <td><code class="prettyprint">String</code></td>
 <td>Name of the stage the job is in.</td>
 </tr>
 <tr>
-<td><code class="prettyprint">stageCounter</code></td>
+<td><code class="prettyprint">stage_counter</code></td>
 <td><code class="prettyprint">String</code></td>
 <td>The run counter of the stage.</td>
 </tr>
 <tr>
-<td><code class="prettyprint">jobName</code></td>
+<td><code class="prettyprint">job_name</code></td>
 <td><code class="prettyprint">String</code></td>
 <td>The name of the job.</td>
 </tr>

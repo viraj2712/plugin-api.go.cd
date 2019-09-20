@@ -111,7 +111,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <img src="images/logo.png" alt="Logo" />
+      <a href="../"><img src="images/logo.png" alt="Logo" /></a>
         <div class="lang-selector">
         </div>
       <div class="version-switcher">
@@ -159,6 +159,20 @@ interface is simple enough for anyone to build plugins in other languages using 
           <h1 id="api-changelog">API Changelog</h1>
 
 <p>The changelog is maintained starting from version 19.2.0 of GoCD. For changes from previous versions, see the release notes at <a href="https://gocd.org/releases">https://gocd.org/releases</a>.</p>
+
+<h2 id="changes-in-gocd-19-9-0">Changes in GoCD 19.9.0</h2>
+
+<h3 id="elastic-agents-changes">Elastic Agents (Changes)</h3>
+
+<ul>
+<li>A new version, version 2, of <a href="elastic-agents#log-messages-to-job-console">Log Message to Job Console</a> is available. The difference from the earlier version, version 1, available till GoCD 19.8.0 is that the format of the message has been changed to remove the use of camel-case.</li>
+</ul>
+
+<h3 id="deprecations-across-extensions">Deprecations (across extensions)</h3>
+
+<ul>
+<li>Version 1 of &ldquo;Log Message to Job Console&rdquo; has been deprecated. This version will be removed in an upcoming release. Plugin developers should use version 2 of &ldquo;Log Message to Job Console&rdquo;.</li>
+</ul>
 
 <h2 id="changes-in-gocd-19-8-0">Changes in GoCD 19.8.0</h2>
 
