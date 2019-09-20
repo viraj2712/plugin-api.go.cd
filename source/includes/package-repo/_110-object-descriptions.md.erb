@@ -1,0 +1,66 @@
+# Request/Response JSON Objects
+
+<%
+json = {
+    'REPO_URL' =>  {
+        'display-name' =>  'Repository URL',
+        'display-order' =>  '0'
+    },
+    'USERNAME' =>  {
+        'part-of-identity' =>  false,
+        'required' =>  false,
+        'display-name' =>  'User',
+        'display-order' =>  '1'
+    },
+    'PASSWORD' =>  {
+        'secure' =>  true,
+        'part-of-identity' =>  false,
+        'required' =>  false,
+        'display-name' =>  'Password',
+        'display-order' =>  '2'
+    }
+}
+%>
+
+<%=
+describe_sub_object 'The Repository Configuration Response Object', json: json, html_id: 'the-repository-configuration-response-object' do
+  __add_property('display-name',  'String', 'This option is used in the configuration UI, as a label of the input element.')
+  __add_property('display-order',  'Integer', 'This option is used in the configuration UI, to decide on the order in which the fields specified here need to be displayed.')
+  __add_property('default-value', 'String', 'A value to be used as the default if the user provides no value.')
+  __add_property('secure', 'Boolean', 'If the value should be stored in an encrypted form in the `cruise-config.xml` file.')
+  __add_property('part-of-identity', 'Boolean', 'Should the data for this field (provided by the user) be considered part of the identity of this material? Another way to think about this is: "If the user changes the value of this property, should GoCD consider this a new material?". A good example for a property to be considered a part-of-identity is the URL (if the URL changes, it\'s probably a different material). An example of a property which should not be considered part-of-identity is "password" (if the password or username changes, then it\'s probably not a completely different material).')
+  __add_property('required', 'Boolean', 'Whether the field is required.')
+end
+%>
+
+<%
+json = {
+    'Field_1' =>  {
+        'display-name' =>  'Package Spec',
+        'display-order' =>  '0',
+        'default-value' =>  'DEF',
+        'secure' =>  false,
+        'part-of-identity' =>  true,
+        'required' =>  true
+    },
+    'Field_2' =>  {
+        'display-name' =>  'Field 2',
+        'display-order' =>  '1',
+        'default-value' =>  'ABC',
+        'secure' =>  true,
+        'part-of-identity' =>  true,
+        'required' =>  false
+    }
+}
+%>
+
+<%=
+describe_sub_object 'The Package Configuration Response Object', json: json, html_id: 'the-package-configuration-response-object' do
+  __add_property('display-name',  'String', 'This option is used in the configuration UI, as a label of the input element.')
+  __add_property('display-order',  'Integer', 'This option is used in the configuration UI, to decide on the order in which the fields specified here need to be displayed.')
+  __add_property('default-value', 'String', 'A value to be used as the default if the user provides no value.')
+  __add_property('secure', 'Boolean', 'If the value should be stored in an encrypted form in the `cruise-config.xml` file.')
+  __add_property('part-of-identity', 'Boolean', 'Should the data for this field (provided by the user) be considered part of the identity of this material? Another way to think about this is: "If the user changes the value of this property, should GoCD consider this a new material?". A good example for a property to be considered a part-of-identity is the URL (if the URL changes, it\'s probably a different material). An example of a property which should not be considered part-of-identity is "password" (if the password or username changes, then it\'s probably not a completely different material).')
+  __add_property('required', 'Boolean', 'Whether the field is required.')
+end
+%>
